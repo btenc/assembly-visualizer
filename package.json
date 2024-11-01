@@ -1,0 +1,20 @@
+{
+  "name": "assembly-visualizer",
+  "version": "0.0.1",
+  "description": "AsmVis... CS546 Final project",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/btenc/assembly-visualizer.git"
+  },
+  "author": "CS546-A Group 25",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/btenc/assembly-visualizer/issues"
+  },
+  "homepage": "https://github.com/btenc/assembly-visualizer#readme"
+}
