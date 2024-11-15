@@ -5,7 +5,8 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "seed": "node ./src/tasks/seed.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/btenc/assembly-visualizer/issues"
   },
-  "homepage": "https://github.com/btenc/assembly-visualizer#readme"
+  "homepage": "https://github.com/btenc/assembly-visualizer#readme",
+  "dependencies": {
+    "express": "^4.21.1",
+    "express-handlebars": "^8.0.1",
+    "mongodb": "^6.10.0"
+  }
 }
