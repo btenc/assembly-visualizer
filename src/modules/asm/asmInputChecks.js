@@ -23,6 +23,14 @@ function validateStrToNum(strNum) {
   return convertedToNum;
 }
 
+function trimArgs(registers, args) {
+  argsCheck(registers, args);
+  args[0] = args[0].trim();
+  args[1] = args[1].trim();
+
+  return args;
+}
+
 function isValidNumberHelper(value) {
   try {
     validateStrToNum(value);
@@ -33,6 +41,7 @@ function isValidNumberHelper(value) {
 }
 
 function argsCheck(registers, args) {
+  args = trimArgs(registers, args);
   if (args.length !== 2) {
     throw "Error: there must only be two arguments";
   }
@@ -42,6 +51,8 @@ function argsCheck(registers, args) {
   if (!isValidNumberHelper(args[1]) && !(args[1] in registers)) {
     throw "Error: " + args[1] + " is not a valid register or a valid number";
   }
+
+  return args;
 }
 
 function isSecondArgNumber(registers, arg) {
@@ -55,10 +66,10 @@ function isSecondArgNumber(registers, arg) {
   }
 }
 
-const asmHelpers = {
+const asmInputChecks = {
   validateStrToNum,
   argsCheck,
   isSecondArgNumber,
 };
 
-export default asmHelpers;
+export default asmInputChecks;

@@ -11,14 +11,15 @@ first argument is register name,
 second is the argument value (can be number or register depending on the instruction).
 */
 
-import asmHelpers from "./asmHelpers";
+// IMPORT INPUT VALIDATORS
+import asmCheck from "./asmInputChecks";
 
-//____ARITHMETIC FUNCTIONS____
+//____ARITHMETIC INSTRUCTIONS____
 
 function ADD(registers, args) {
-  asmHelpers.argsCheck(args);
+  args = asmCheck.argsCheck(args);
 
-  const secondArgNum = asmHelpers.isSecondArgNumber(args[1]);
+  const secondArgNum = asmCheck.isSecondArgNumber(args[1]);
   if (secondArgNum === true) {
     return; //todo
   }
@@ -39,8 +40,8 @@ function INC(registers, args) {}
 
 function DEC(registers, args) {}
 
-// ____BITWISE FUNCTIONS____
+// ____BITWISE INSTRUCTIONS____
 
-// ____MOVEMENT FUNCTIONS____
+// ____MOVEMENT INSTRUCTIONS____
 
-// ____CONTROL FUNCTIONS____
+// ____CONTROL INSTRUCTIONS____
