@@ -1,16 +1,22 @@
-function validateStrToNum(strNum) {
-  if (strNum === undefined || strNum === null) {
+function checkStr(string) {
+  if (string === undefined || string === null) {
     throw "Error: parameter must be supplied";
   }
 
-  if (typeof strNum !== "string") {
+  if (typeof string !== "string") {
     throw "Error: Must be of type string to be converted to Number.";
   }
 
-  strNum = strNum.trim();
-  if (strNum === "") {
+  string = string.trim();
+  if (string === "") {
     throw "Error: string cannot be empty or only spaces";
   }
+
+  return string;
+}
+
+function validateStrToNum(strNum) {
+  strNum = checkStr(strNum);
 
   const convertedToNum = Number(strNum);
   if (isNaN(convertedToNum)) {
@@ -55,6 +61,14 @@ function argsCheck(registers, args) {
   return args;
 }
 
+function registerCheck(registers, register) {
+  register = checkStr(register);
+  if (!(register in registers)) {
+    throw "Error: " + register + " is not a valid register";
+  }
+  return register;
+}
+
 function isSecondArgNumber(registers, arg) {
   if (isValidNumberHelper(arg)) {
     return true;
@@ -70,6 +84,7 @@ const asmInputChecks = {
   validateStrToNum,
   argsCheck,
   isSecondArgNumber,
+  registerCheck,
 };
 
 export default asmInputChecks;
