@@ -17,21 +17,24 @@ function ADD(registersObj, args) {
   const destination = args[0];
   const source = args[1];
 
-  function addOperandNumber() {
+  function addSrcOperandNumber() {
     return registersObj.get(destination) + asmValidate.validateStrToNum(source);
   }
 
-  function addOperandRegister() {
+  function addSrcOperandRegister() {
     return registersObj.get(destination) + registersObj.get(source);
   }
 
-  const operandIsNumber = asmValidate.isStrOperandNumber(registersObj, source);
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
   let result;
 
-  if (operandIsNumber === true) {
-    result = addOperandNumber();
-  } else if (operandIsNumber === false) {
-    result = addOperandRegister();
+  if (sourceOperandIsNumber === true) {
+    result = addSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = addSrcOperandRegister();
   } else {
     throw "Error: Something went really wrong in the ADD function!";
   }

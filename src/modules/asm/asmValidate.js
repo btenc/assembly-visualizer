@@ -18,15 +18,6 @@ function trimArgs(args) {
   return args;
 }
 
-function isStrValidNumberHelper(value) {
-  try {
-    validateStrToNum(value);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 function argsCheck(registersObj, args) {
   args = trimArgs(args);
   const registers = registersObj.getAllRegisters();
@@ -37,7 +28,7 @@ function argsCheck(registersObj, args) {
   if (!(args[0] in registers)) {
     throw "Error: " + args[0] + " is not a valid register";
   }
-  if (!isStrValidNumberHelper(args[1]) && !(args[1] in registers)) {
+  if (!isStrValidINT(args[1]) && !(args[1] in registers)) {
     throw "Error: " + args[1] + " is not a valid register or a valid number";
   }
 
@@ -54,12 +45,21 @@ function registerCheck(registersObj, register) {
   return register;
 }
 
-function isStrOperandNumber(registersObj, operand) {
+function isStrValidINT(value) {
+  try {
+    validateStrToNum(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function isSrcOperandNumber(registersObj, sourceOperand) {
   const registers = registersObj.getAllRegisters();
-  if (isStrValidNumberHelper(operand)) {
+  if (isStrValidINT(sourceOperand)) {
     return true;
   }
-  if (operand in registers) {
+  if (sourceOperand in registers) {
     return false;
   } else {
     throw "Error: " + operand + " is not a number or register";
@@ -69,7 +69,7 @@ function isStrOperandNumber(registersObj, operand) {
 const asmValidators = {
   validateStrToNum,
   argsCheck,
-  isStrOperandNumber,
+  isSrcOperandNumber,
   registerCheck,
 };
 
