@@ -21,6 +21,7 @@
   "dependencies": {
     "express": "^4.21.1",
     "express-handlebars": "^8.0.1",
-    "mongodb": "^6.10.0"
+    "mongodb": "^6.10.0",
+    "xss": "^1.0.15"
   }
 }
