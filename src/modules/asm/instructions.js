@@ -42,7 +42,35 @@ function ADD(registersObj, args) {
   registersObj.set(destination, result);
 }
 
-function SUB(registers, args) {}
+function SUB(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function subSrcOperandNumber() {
+    return registersObj.get(destination) - asmValidate.strToINT(source);
+  }
+
+  function subSrcOperandRegister() {
+    return registersObj.get(destination) - registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+  let result;
+
+  if (sourceOperandIsNumber === true) {
+    result = subSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = subSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the SUB function!";
+  }
+
+  registersObj.set(destination, result);
+}
 
 function MUL(registers, args) {}
 
