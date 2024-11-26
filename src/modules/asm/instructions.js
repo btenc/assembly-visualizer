@@ -18,7 +18,7 @@ function ADD(registersObj, args) {
   const source = args[1];
 
   function addSrcOperandNumber() {
-    return registersObj.get(destination) + asmValidate.validateStrToNum(source);
+    return registersObj.get(destination) + asmValidate.strToINT(source);
   }
 
   function addSrcOperandRegister() {

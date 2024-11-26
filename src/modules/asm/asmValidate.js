@@ -1,6 +1,6 @@
 import validations from "../utils/validations.js";
 
-function validateStrToNum(strNum) {
+function strToINT(strNum) {
   strNum = validations.checkStr(strNum);
 
   const convertedToNum = Number(strNum);
@@ -47,7 +47,7 @@ function registerCheck(registersObj, register) {
 
 function isStrValidINT(value) {
   try {
-    validateStrToNum(value);
+    strToINT(value);
     return true;
   } catch {
     return false;
@@ -67,7 +67,7 @@ function isSrcOperandNumber(registersObj, sourceOperand) {
 }
 
 const asmValidators = {
-  validateStrToNum,
+  strToINT,
   argsCheck,
   isSrcOperandNumber,
   registerCheck,
