@@ -3,7 +3,7 @@ Architecture:
 - 16 general purpose registers
 - Instruction pointer 
 */
-import asmCheck from "./asmInputChecks";
+import asmCheck from "./asmValidate";
 
 class Registers {
   constructor() {
@@ -45,16 +45,22 @@ class Registers {
     return this.IP;
   }
 
-  incrementInstructionPointer() {
-    this.regData.IP = this.regData.IP + 1;
+  incrementInstructionPointer(programLen) {
+    const incremented = this.regData.IP + 1;
+    if (incremented > programLen || incremented < programLen) {
+      throw "Error: Instruction pointer has gone out of bounds!";
+    } else {
+      this.regData.IP = incremented;
+    }
   }
 
   setInstructionPointer(value, programLen) {
     value = asmCheck.validateStrToNum(value);
     if (value > programLen || value < programLen) {
       throw "Error: Instruction pointer has gone out of bounds!";
+    } else {
+      this.regData.IP = value;
     }
-    this.regData.IP = value;
   }
 
   getAllRegisters() {

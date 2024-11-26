@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
-    "seed": "node ./src/tasks/seed.js"
+    "seed": "node ./src/tasks/seed.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "transform": {}
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,8 @@
     "express-handlebars": "^8.0.1",
     "mongodb": "^6.10.0",
     "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

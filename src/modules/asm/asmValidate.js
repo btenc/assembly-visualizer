@@ -29,8 +29,9 @@ function validateStrToNum(strNum) {
   return convertedToNum;
 }
 
-function trimArgs(registers, args) {
-  argsCheck(registers, args);
+function trimArgs(args) {
+  checkStr(args[0]);
+  checkStr(args[1]);
   args[0] = args[0].trim();
   args[1] = args[1].trim();
 
@@ -47,7 +48,7 @@ function isValidNumberHelper(value) {
 }
 
 function argsCheck(registers, args) {
-  args = trimArgs(registers, args);
+  args = trimArgs(args);
   if (args.length !== 2) {
     throw "Error: there must only be two arguments";
   }
@@ -69,7 +70,7 @@ function registerCheck(registers, register) {
   return register;
 }
 
-function isSecondArgNumber(registers, arg) {
+function isOperandNumber(registers, arg) {
   if (isValidNumberHelper(arg)) {
     return true;
   }
@@ -80,11 +81,11 @@ function isSecondArgNumber(registers, arg) {
   }
 }
 
-const asmInputChecks = {
+const asmValidators = {
   validateStrToNum,
   argsCheck,
-  isSecondArgNumber,
+  isOperandNumber,
   registerCheck,
 };
 
-export default asmInputChecks;
+export default asmValidators;

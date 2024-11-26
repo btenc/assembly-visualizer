@@ -23,3 +23,8 @@
 - Bitwise operations
 
 - Jump operations
+
+#### REFERENCES:
+
+- https://stackoverflow.com/questions/49656706/test-es6-modules-with-jest#49656707
+- http://www.6502.org/users/obelisk/6502/reference.html
