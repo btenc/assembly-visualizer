@@ -11,27 +11,31 @@ import asmValidate from "./asmValidate.js";
 
 //____ARITHMETIC INSTRUCTIONS____
 
+//args is array of length 2 that will hold the operands, the first being the destination and the second being the source.
 function ADD(registers, args) {
-  function addOperandNumber(registers, args) {
-    return registers[args[0]] + asmValidate.validateStrToNum(args[1]);
+  const destination = args[0];
+  const source = args[1];
+
+  function addOperandNumber() {
+    return registers[destination] + asmValidate.validateStrToNum(source);
   }
-  function addOperandRegister(registers, args) {
-    return registers[args[0]] + registers[args[1]];
+  function addOperandRegister() {
+    return registers[destination] + registers[source];
   }
 
   args = asmValidate.argsCheck(registers, args);
-  let carry;
+  let result;
 
-  const operandIsNumber = asmValidate.isOperandNumber(registers, args[1]);
+  const operandIsNumber = asmValidate.isOperandNumber(registers, source);
   if (operandIsNumber === true) {
-    carry = addOperandNumber(registers, args);
+    result = addOperandNumber();
   } else if (operandIsNumber === false) {
-    carry = addOperandRegister(registers, args);
+    result = addOperandRegister();
   } else {
     throw "Error: Something went really wrong in the ADD function!";
   }
 
-  registers[args[0]] = carry;
+  registers[destination] = result;
 }
 
 function SUB(registers, args) {}

@@ -61,8 +61,15 @@ describe("ADD Instruction Tests", () => {
     }).toThrow();
   });
 
-  test("Throw an error if you try to add with an integer not wrapped in a string", () => {
-    const args = ["R1", 3];
+  test("Throw an error if you supply too few args", () => {
+    const args = ["R1"];
+    expect(() => {
+      asmInstructions.ADD(registers, args);
+    }).toThrow();
+  });
+
+  test("Throw an error if you supply too many args", () => {
+    const args = ["R1", "R2", "3"];
     expect(() => {
       asmInstructions.ADD(registers, args);
     }).toThrow();
