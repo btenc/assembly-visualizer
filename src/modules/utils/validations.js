@@ -19,6 +19,33 @@ const exportedMethods = {
     return strVal;
   },
 
+  checkINT(num) {
+    if (num === undefined || num === null) {
+      throw `Error: You must supply a number!`;
+    }
+
+    if (typeof num !== "number" || isNaN(num)) {
+      throw "Error: must be a number!";
+    }
+
+    if (!Number.isInteger(num)) {
+      throw "Error: Not an integer!";
+    }
+    return num;
+  },
+
+  checkNum(num) {
+    if (num === undefined || num === null) {
+      throw `Error: You must supply a number!`;
+    }
+
+    if (typeof num !== "number" || isNaN(num)) {
+      throw "Error: must be a number!";
+    }
+
+    return num;
+  },
+
   checkId(id) {
     if (!id) {
       throw `Error: You must provide an id`;

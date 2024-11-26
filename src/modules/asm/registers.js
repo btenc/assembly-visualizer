@@ -3,7 +3,8 @@ Architecture:
 - 16 general purpose registers
 - Instruction pointer 
 */
-import asmCheck from "./asmValidate";
+import asmValidate from "./asmValidate.js";
+import validations from "../utils/validations.js";
 
 class Registers {
   constructor() {
@@ -31,13 +32,13 @@ class Registers {
 
   //Register Methods
   get(register) {
-    register = asmCheck.registerCheck(this.regData, register);
+    register = asmValidate.registerCheck(this, register);
     return this.regData[register];
   }
 
   set(register, value) {
-    register = asmCheck.registerCheck(register);
-    value = asmCheck.validateStrToNum(value);
+    register = asmValidate.registerCheck(this, register);
+    validations.checkINT(value);
     this.regData[register] = value;
   }
 
@@ -46,20 +47,21 @@ class Registers {
   }
 
   incrementInstructionPointer(programLen) {
-    const incremented = this.regData.IP + 1;
-    if (incremented > programLen || incremented < programLen) {
+    const incremented = this.IP + 1;
+    validations.checkINT(programLen);
+    if (incremented >= programLen) {
       throw "Error: Instruction pointer has gone out of bounds!";
     } else {
-      this.regData.IP = incremented;
+      this.IP = incremented;
     }
   }
 
   setInstructionPointer(value, programLen) {
-    value = asmCheck.validateStrToNum(value);
-    if (value > programLen || value < programLen) {
+    validations.checkINT(value);
+    if (value >= programLen) {
       throw "Error: Instruction pointer has gone out of bounds!";
     } else {
-      this.regData.IP = value;
+      this.IP = value;
     }
   }
 

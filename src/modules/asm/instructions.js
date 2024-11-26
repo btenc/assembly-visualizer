@@ -11,22 +11,23 @@ import asmValidate from "./asmValidate.js";
 
 //____ARITHMETIC INSTRUCTIONS____
 
-//args is array of length 2 that will hold the operands, the first being the destination and the second being the source.
-function ADD(registers, args) {
-  function addOperandNumber() {
-    return registers[destination] + asmValidate.validateStrToNum(source);
-  }
-  function addOperandRegister() {
-    return registers[destination] + registers[source];
-  }
-
-  args = asmValidate.argsCheck(registers, args);
-
+//args is array of length 2 of strings that will hold the operands, the first being the destination and the second being the source.
+function ADD(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
+
+  function addOperandNumber() {
+    return registersObj.get(destination) + asmValidate.validateStrToNum(source);
+  }
+
+  function addOperandRegister() {
+    return registersObj.get(destination) + registersObj.get(source);
+  }
+
+  const operandIsNumber = asmValidate.isStrOperandNumber(registersObj, source);
   let result;
 
-  const operandIsNumber = asmValidate.isOperandNumber(registers, source);
   if (operandIsNumber === true) {
     result = addOperandNumber();
   } else if (operandIsNumber === false) {
@@ -35,7 +36,7 @@ function ADD(registers, args) {
     throw "Error: Something went really wrong in the ADD function!";
   }
 
-  registers[destination] = result;
+  registersObj.set(destination, result);
 }
 
 function SUB(registers, args) {}
