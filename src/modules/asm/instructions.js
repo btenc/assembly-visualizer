@@ -13,9 +13,6 @@ import asmValidate from "./asmValidate.js";
 
 //args is array of length 2 that will hold the operands, the first being the destination and the second being the source.
 function ADD(registers, args) {
-  const destination = args[0];
-  const source = args[1];
-
   function addOperandNumber() {
     return registers[destination] + asmValidate.validateStrToNum(source);
   }
@@ -24,6 +21,9 @@ function ADD(registers, args) {
   }
 
   args = asmValidate.argsCheck(registers, args);
+
+  const destination = args[0];
+  const source = args[1];
   let result;
 
   const operandIsNumber = asmValidate.isOperandNumber(registers, source);
