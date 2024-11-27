@@ -2,6 +2,7 @@
 Architecture: 
 - 16 general purpose registers
 - Instruction pointer 
+- Remainder
 */
 import asmValidate from "./asmValidate.js";
 import validations from "../utils/validations.js";
@@ -28,6 +29,7 @@ class Registers {
     };
 
     this.IP = 0;
+    this.REM = 0;
   }
 
   //Register Methods
@@ -64,6 +66,15 @@ class Registers {
     } else {
       this.IP = value;
     }
+  }
+
+  getRemainder() {
+    return this.REM;
+  }
+
+  setRemainder(remainder) {
+    validations.checkINT(remainder);
+    this.REM = remainder;
   }
 
   getAllRegisters() {
