@@ -26,8 +26,8 @@ describe("parseASM Function Tests", () => {
     `;
     const expectedOutput = [
       { instruction: "ADD", arguments: ["R1", "R2"] },
-      {},
-      {},
+      null,
+      null,
       { instruction: "SUB", arguments: ["R3", "4"] },
       { instruction: "MUL", arguments: ["R5", "R6"] },
     ];

@@ -31,7 +31,7 @@ function parseASM(snippet) {
     currentStatement = currentStatement.trim();
 
     if (currentStatement === "") {
-      program.push({});
+      program.push(null);
       continue;
     }
 
