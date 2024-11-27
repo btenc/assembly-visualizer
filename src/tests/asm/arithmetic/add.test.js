@@ -1,6 +1,5 @@
-// Test arithmetic functions
-import asmInstructions from "../../modules/asm/instructions.js";
-import Registers from "../../modules/asm/registers.js";
+import asmInstructions from "../../../modules/asm/instructions.js";
+import Registers from "../../../modules/asm/registers.js";
 
 // ADD INSTRUCTION
 describe("ADD Instruction Tests", () => {

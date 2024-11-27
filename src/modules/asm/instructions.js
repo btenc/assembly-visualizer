@@ -72,13 +72,41 @@ function SUB(registersObj, args) {
   registersObj.set(destination, result);
 }
 
-function MUL(registers, args) {}
+function MUL(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
 
-function DIV(registers, args) {}
+  function mulSrcOperandNumber() {
+    return registersObj.get(destination) * asmValidate.strToINT(source);
+  }
 
-function INC(registers, args) {}
+  function mulSrcOperandRegister() {
+    return registersObj.get(destination) * registersObj.get(source);
+  }
 
-function DEC(registers, args) {}
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+  let result;
+
+  if (sourceOperandIsNumber === true) {
+    result = mulSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = mulSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the SUB function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function DIV(registersObj, args) {}
+
+function INC(registersObj, args) {}
+
+function DEC(registersObj, args) {}
 
 // ____BITWISE INSTRUCTIONS____
 

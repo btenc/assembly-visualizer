@@ -22,6 +22,12 @@ describe("Registers Class Tests", () => {
     }).toThrow();
   });
 
+  test("Throw error setting str", () => {
+    expect(() => {
+      registersObj.set("R1", "3");
+    }).toThrow();
+  });
+
   test("Throw error accessing invalid reg", () => {
     expect(() => {
       registersObj.get("R99");

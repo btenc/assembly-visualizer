@@ -1,5 +1,9 @@
 # AsmVis - Assembly Visualizer
 
+## Issues:
+
+- Do we want a MAX_INT for the interpreter? -32,768 to +32,767 for 16 bit? (William)
+
 ## PROJECT DESCRIPTION:
 
 - “AsmVis”, an assembly interpreter used to simulate assembly instructions into processes that manipulate CPU registers stored as Javascript objects. Users can login, save and share snippets of assembly-like code, and interpret the snippets on the website using client-side Javascript. Includes visualizations as instructions are parsed, such as viewing register values as the user steps through.
