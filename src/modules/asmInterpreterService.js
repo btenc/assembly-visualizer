@@ -5,6 +5,7 @@ import Registers from "./asm/registers.js";
 import asmInstructions from "./asm/instructions.js";
 import parseASM from "./asm/parseASM.js";
 
+//make this a class?
 function asmInterpretStep(snippet, registersObj) {
   //todo
 }
