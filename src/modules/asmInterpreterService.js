@@ -6,6 +6,16 @@ import asmInstructions from "./asm/instructions.js";
 import parseASM from "./asm/parseASM.js";
 
 //make this a class?
+/* todo: 
+- have code formatter callable from here
+- ability to clear registers from here
+- interpret one step, increment IP, update registers
+- interpret all steps, increment IP, update registers 
+- get status function -> return registers, formatted snippet, everything as JSON
+
+- ok yeah this should prob be a class - me
+*/
+
 function asmInterpretStep(snippet, registersObj) {
   //todo
 }
