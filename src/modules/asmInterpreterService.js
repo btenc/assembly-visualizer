@@ -21,6 +21,7 @@ class AsmInterpreterService {
   constructor() {
     this.registers = new Registers();
     this.loadedProgram = [];
+    this.programFinished = true;
   }
 
   //General State Getters
@@ -30,6 +31,7 @@ class AsmInterpreterService {
       remainder: this.registers.getRemainder(),
       instructionPointer: this.registers.getInstructionPointer(),
       loadedProgram: this.loadedProgram,
+      programFinished: this.programFinished,
     };
   }
 
@@ -48,6 +50,7 @@ class AsmInterpreterService {
 
   resetIP() {
     this.registers.setInstructionPointer(0, this.getLoadedProgramLength());
+    this.programFinished = false;
   }
 
   resetRemainder() {
@@ -56,6 +59,7 @@ class AsmInterpreterService {
 
   clearProgram() {
     this.loadedProgram = [];
+    this.programFinished = false;
   }
 
   //General Setters
@@ -66,14 +70,45 @@ class AsmInterpreterService {
   }
 
   //Interpreting Methods
-  interpretStep() {
-    //todo
 
-    //if IP < programlen
-    instructionRouter.route(this.registers, this.loadedProgram[ip]);
-    //increment ip UNLESS IP is equal to PL
-    //DO NOT INCREMENT IP IF IT CHANGES, SUCH AS BECAUSE OF JUMP!
+  shouldIncrement(oldIP, currentIP) {
+    if (oldIP !== currentIP) {
+      return false;
+    } else {
+      return true;
+    }
   }
+
+  checkProgramFinished() {
+    if (
+      this.registers.getInstructionPointer() >= this.getLoadedProgramLength()
+    ) {
+      this.programFinished = true;
+      return true;
+    } else {
+      this.programFinished = false;
+      return false;
+    }
+  }
+
+  interpretStep() {
+    if (this.checkProgramFinished()) {
+      const oldIP = this.registers.getInstructionPointer();
+
+      if (
+        this.registers.getInstructionPointer() < this.getLoadedProgramLength()
+      ) {
+        instructionRouter.route(this.registers, this.loadedProgram[oldIP]);
+      }
+
+      if (this.shouldIncrement(oldIP, this.registers.getInstructionPointer())) {
+        this.registers.incrementInstructionPointer(
+          this.getLoadedProgramLength()
+        );
+      }
+    }
+  }
+
   interpretAll() {
     //todo
     //while IP <= programlen
