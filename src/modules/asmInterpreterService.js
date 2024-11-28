@@ -37,13 +37,17 @@ class AsmInterpreterService {
     return parse.programToString(this.loadedProgram);
   }
 
+  getLoadedProgramLength() {
+    return this.loadedProgram.length;
+  }
+
   //Clear & Resetting Methods
   clearAllRegisters() {
     this.registers = new Registers();
   }
 
   resetIP() {
-    this.registers.setInstructionPointer(0, this.loadedProgram.length);
+    this.registers.setInstructionPointer(0, this.getLoadedProgramLength());
   }
 
   resetRemainder() {
@@ -67,11 +71,13 @@ class AsmInterpreterService {
 
     //if IP < programlen
     instructionRouter.route(this.registers, this.loadedProgram[ip]);
+    //increment ip
   }
   interpretAll() {
     //todo
     //while IP < programlen
     //route next instruction
+    //incrementip
   }
 }
 
