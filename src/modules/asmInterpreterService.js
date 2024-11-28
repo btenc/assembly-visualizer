@@ -2,8 +2,9 @@
 // changes to the registers (switch statements probs)
 // this will prob be the main hub to interact with the ASM modules.
 import Registers from "./asm/registers.js";
-import asmInstructions from "./asm/instructions.js";
-import parseASM from "./asm/parseASM.js";
+import parse from "./asm/parseASM.js";
+import validations from "./utils/validations.js";
+import instructionRouter from "./asm/instructionRouter.js";
 
 //make this a class?
 /* todo: 
@@ -16,11 +17,62 @@ import parseASM from "./asm/parseASM.js";
 - ok yeah this should prob be a class - me
 */
 
-function asmInterpretStep(snippet, registersObj) {
-  //todo
+class AsmInterpreterService {
+  constructor() {
+    this.registers = new Registers();
+    this.loadedProgram = [];
+  }
+
+  //General State Getters
+  getState() {
+    return {
+      registers: this.registers.getAllRegisters(),
+      remainder: this.registers.getRemainder(),
+      instructionPointer: this.registers.getInstructionPointer(),
+      loadedProgram: this.loadedProgram,
+    };
+  }
+
+  getLoadedProgramAsStr() {
+    return parse.programToString(this.loadedProgram);
+  }
+
+  //Clear & Resetting Methods
+  clearAllRegisters() {
+    this.registers = new Registers();
+  }
+
+  resetIP() {
+    this.registers.setInstructionPointer(0, this.loadedProgram.length);
+  }
+
+  resetRemainder() {
+    this.registers.setRemainder(0);
+  }
+
+  clearProgram() {
+    this.loadedProgram = [];
+  }
+
+  //General Setters
+  loadProgram(snippet) {
+    snippet = validations.checkStr(snippet);
+    const program = parse.parseASM(snippet);
+    this.loadedProgram = program;
+  }
+
+  //Interpreting Methods
+  interpretStep() {
+    //todo
+
+    //if IP < programlen
+    instructionRouter.route(this.registers, this.loadedProgram[ip]);
+  }
+  interpretAll() {
+    //todo
+    //while IP < programlen
+    //route next instruction
+  }
 }
 
-function asmInterpretAll(snippet, registersObj) {
-  //todo
-  //put interpret step in a loop for program length.
-}
+export default AsmInterpreterService;

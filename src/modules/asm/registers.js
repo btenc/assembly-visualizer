@@ -51,7 +51,7 @@ class Registers {
   incrementInstructionPointer(programLen) {
     validations.checkINT(programLen);
     const incremented = this.IP + 1;
-    if (incremented >= programLen) {
+    if (incremented > programLen) {
       throw "Error: Instruction pointer has gone out of bounds!";
     } else {
       this.IP = incremented;
@@ -61,7 +61,7 @@ class Registers {
   setInstructionPointer(value, programLen) {
     validations.checkINT(value);
     validations.checkINT(programLen);
-    if (value >= programLen) {
+    if (value > programLen) {
       throw "Error: Instruction pointer has gone out of bounds!";
     } else {
       this.IP = value;
