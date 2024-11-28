@@ -71,13 +71,15 @@ class AsmInterpreterService {
 
     //if IP < programlen
     instructionRouter.route(this.registers, this.loadedProgram[ip]);
-    //increment ip UNLESS IP is equal to program length already
+    //increment ip UNLESS IP is equal to PL
+    //DO NOT INCREMENT IP IF IT CHANGES, SUCH AS BECAUSE OF JUMP!
   }
   interpretAll() {
     //todo
     //while IP <= programlen
     //route next instruction
     //increment ip UNLESS IP is equal to program length already
+    //DO NOT INCREMENT IP IF IT CHANGES, SUCH AS BECAUSE OF JUMP!
   }
 }
 

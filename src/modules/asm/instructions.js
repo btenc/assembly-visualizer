@@ -164,6 +164,8 @@ function DEC(registersObj, args) {}
 
 // ____MOVEMENT INSTRUCTIONS____
 
+//when i implement jumps, only do conditional jumps JZ, JNZ, JLT, JGT, JET
+
 // ____CONTROL INSTRUCTIONS____
 
 const arithmeticInstructions = {
