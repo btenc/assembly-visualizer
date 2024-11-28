@@ -16,7 +16,7 @@ describe("parseASM Function Tests", () => {
     expect(result).toEqual(expectedOutput);
   });
 
-  test("Parse snippet with empty lines should add empty object to save formatting and line length", () => {
+  test("Parse snippet with empty lines should add null to save formatting and line length", () => {
     const snippet = `
       ADD R1, R2
       
