@@ -37,6 +37,7 @@ function argsCheck(registersObj, args) {
 
 function registerCheck(registersObj, register) {
   const registers = registersObj.getAllRegisters();
+
   register = validations.checkStr(register);
 
   if (!(register in registers)) {

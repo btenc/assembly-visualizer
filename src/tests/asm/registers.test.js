@@ -41,7 +41,7 @@ describe("Registers Class Tests", () => {
   });
 
   test("Return value of instruction ptr", () => {
-    expect(registersObj.getInstructionPointer()).toBe(0);
+    expect(registersObj.getInstructionPointer()).toBe(1);
   });
 
   test("Set instruction pointer", () => {
@@ -62,7 +62,7 @@ describe("Registers Class Tests", () => {
   });
 
   test("Throw error incrementing IP OOB", () => {
-    registersObj.setInstructionPointer(9, 10);
+    registersObj.setInstructionPointer(11, 10);
     expect(() => {
       registersObj.incrementInstructionPointer(10);
     }).toThrow();

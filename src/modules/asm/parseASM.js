@@ -46,7 +46,7 @@ function parseASM(snippet) {
       if (j === 0) {
         statementObj.instruction = filteredCurrentStatement[j].toUpperCase();
       } else {
-        argsArr.push(filteredCurrentStatement[j.toUpperCase()]);
+        argsArr.push(filteredCurrentStatement[j].toUpperCase());
       }
     }
     statementObj.arguments = argsArr;
@@ -61,4 +61,6 @@ function programToString(snippet) {
   //snippet -> object -> formatted snippet
 }
 
-export default parseASM;
+const exportedMethods = { parseASM, programToString };
+
+export default exportedMethods;

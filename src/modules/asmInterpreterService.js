@@ -7,7 +7,7 @@ class AsmInterpreterService {
   constructor() {
     this.registers = new Registers();
     this.loadedProgram = [];
-    this.programFinished = true;
+    this.programFinished = false;
   }
 
   //General State Getters
@@ -35,7 +35,7 @@ class AsmInterpreterService {
   }
 
   resetIP() {
-    this.registers.setInstructionPointer(0, this.getLoadedProgramLength());
+    this.registers.setInstructionPointer(1, this.getLoadedProgramLength());
     this.programFinished = false;
   }
 
@@ -60,6 +60,11 @@ class AsmInterpreterService {
   shouldIncrement(oldIP, currentIP) {
     if (oldIP !== currentIP) {
       return false;
+    }
+    if (
+      this.registers.getInstructionPointer() > this.getLoadedProgramLength()
+    ) {
+      return false;
     } else {
       return true;
     }
@@ -67,7 +72,7 @@ class AsmInterpreterService {
 
   checkProgramFinished() {
     if (
-      this.registers.getInstructionPointer() >= this.getLoadedProgramLength()
+      this.registers.getInstructionPointer() > this.getLoadedProgramLength()
     ) {
       this.programFinished = true;
       return true;
@@ -81,11 +86,11 @@ class AsmInterpreterService {
     const initialIP = this.registers.getInstructionPointer();
 
     if (
-      this.registers.getInstructionPointer() < this.getLoadedProgramLength()
+      this.registers.getInstructionPointer() <= this.getLoadedProgramLength()
     ) {
-      instructionRouter.routeInstruction(
-        this.registers,
-        this.loadedProgram[initialIP],
+      instructionRouter(
+        this,
+        this.loadedProgram[initialIP - 1],
         this.getLoadedProgramLength()
       );
     }

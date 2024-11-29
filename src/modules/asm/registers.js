@@ -29,7 +29,7 @@ class Registers {
       R15: 0,
     };
 
-    this.IP = 0;
+    this.IP = 1;
     this.REM = 0;
   }
 
@@ -52,8 +52,8 @@ class Registers {
   incrementInstructionPointer(programLen) {
     validations.checkINT(programLen);
     const incremented = this.IP + 1;
-    if (incremented >= programLen) {
-      throw "Error: Instruction pointer has gone out of bounds!";
+    if (incremented > programLen + 1) {
+      throw "Error: Instruction pointer has gone out of bounds when incrementing!";
     } else {
       this.IP = incremented;
     }
@@ -62,8 +62,10 @@ class Registers {
   setInstructionPointer(value, programLen) {
     validations.checkINT(value);
     validations.checkINT(programLen);
-    if (value >= programLen) {
-      throw "Error: Instruction pointer has gone out of bounds!";
+    if (programLen === 0) {
+      this.IP = 1;
+    } else if (value > programLen + 1) {
+      throw "Error: Instruction pointer has gone out of bounds when setting!";
     } else {
       this.IP = value;
     }

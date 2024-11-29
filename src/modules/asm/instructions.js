@@ -164,6 +164,25 @@ function DEC(registersObj, args) {}
 
 // ____MOVEMENT INSTRUCTIONS____
 
+function MOV(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber) {
+    const num = asmValidate.strToINT(source);
+    registersObj.set(destination, num);
+  } else {
+    const num = registersObj.get(source);
+    registersObj.set(destination, num);
+  }
+}
+
 //when i implement jumps, only do conditional jumps JZ, JNZ, JLT, JGT, JET
 
 // ____CONTROL INSTRUCTIONS____
@@ -177,8 +196,13 @@ const arithmeticInstructions = {
   DEC,
 };
 
+const movementInstructions = {
+  MOV,
+};
+
 const asmInstructions = {
   ...arithmeticInstructions,
+  ...movementInstructions,
 };
 
 export default asmInstructions;

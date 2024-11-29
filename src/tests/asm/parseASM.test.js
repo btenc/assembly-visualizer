@@ -12,7 +12,7 @@ describe("parseASM Function Tests", () => {
       { instruction: "SUB", arguments: ["R3", "4"] },
       { instruction: "MUL", arguments: ["R5", "R6"] },
     ];
-    const result = parseASM(snippet);
+    const result = parseASM.parseASM(snippet);
     expect(result).toEqual(expectedOutput);
   });
 
@@ -31,14 +31,14 @@ describe("parseASM Function Tests", () => {
       { instruction: "SUB", arguments: ["R3", "4"] },
       { instruction: "MUL", arguments: ["R5", "R6"] },
     ];
-    const result = parseASM(snippet);
+    const result = parseASM.parseASM(snippet);
     expect(result).toEqual(expectedOutput);
   });
 
   test("Throw error for empty input", () => {
     const snippet = "";
     expect(() => {
-      parseASM(snippet);
+      parseASM.parseASM(snippet);
     }).toThrow();
   });
 
@@ -47,7 +47,7 @@ describe("parseASM Function Tests", () => {
       ADD R1, R2, R3, R4, R5
     `;
     expect(() => {
-      parseASM(snippet);
+      parseASM.parseASM(snippet);
     }).toThrow();
   });
 
@@ -56,7 +56,7 @@ describe("parseASM Function Tests", () => {
       NOP
     `;
     const expectedOutput = [{ instruction: "NOP", arguments: [] }];
-    const result = parseASM(snippet);
+    const result = parseASM.parseASM(snippet);
     expect(result).toEqual(expectedOutput);
   });
 });
