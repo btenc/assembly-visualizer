@@ -1,21 +1,7 @@
-//this will be stuff that actually makes
-// changes to the registers (switch statements probs)
-// this will prob be the main hub to interact with the ASM modules.
 import Registers from "./asm/registers.js";
 import parse from "./asm/parseASM.js";
 import validations from "./utils/validations.js";
 import instructionRouter from "./asm/instructionRouter.js";
-
-//make this a class?
-/* todo: 
-- have code formatter callable from here
-- ability to clear registers from here
-- interpret one step, increment IP, update registers
-- interpret all steps, increment IP, update registers 
-- get status function -> return registers, formatted snippet, everything as JSON
-
-- ok yeah this should prob be a class - me
-*/
 
 class AsmInterpreterService {
   constructor() {
@@ -91,30 +77,38 @@ class AsmInterpreterService {
     }
   }
 
+  interpretHelper() {
+    const initialIP = this.registers.getInstructionPointer();
+
+    if (
+      this.registers.getInstructionPointer() < this.getLoadedProgramLength()
+    ) {
+      instructionRouter.routeInstruction(
+        this.registers,
+        this.loadedProgram[initialIP],
+        this.getLoadedProgramLength()
+      );
+    }
+
+    if (
+      this.shouldIncrement(initialIP, this.registers.getInstructionPointer())
+    ) {
+      this.registers.incrementInstructionPointer(this.getLoadedProgramLength());
+    }
+
+    this.checkProgramFinished();
+  }
+
   interpretStep() {
-    if (this.checkProgramFinished()) {
-      const oldIP = this.registers.getInstructionPointer();
-
-      if (
-        this.registers.getInstructionPointer() < this.getLoadedProgramLength()
-      ) {
-        instructionRouter.route(this.registers, this.loadedProgram[oldIP]);
-      }
-
-      if (this.shouldIncrement(oldIP, this.registers.getInstructionPointer())) {
-        this.registers.incrementInstructionPointer(
-          this.getLoadedProgramLength()
-        );
-      }
+    if (this.checkProgramFinished() === false) {
+      this.interpretHelper();
     }
   }
 
   interpretAll() {
-    //todo
-    //while IP <= programlen
-    //route next instruction
-    //increment ip UNLESS IP is equal to program length already
-    //DO NOT INCREMENT IP IF IT CHANGES, SUCH AS BECAUSE OF JUMP!
+    while (this.checkProgramFinished() === false) {
+      this.interpretHelper();
+    }
   }
 }
 
