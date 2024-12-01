@@ -31,7 +31,7 @@ ADD R0, 10`;
    const asmInterpreter = new AsmInterpreterService();
    ```
 
-2. **Load a Program:**
+2. **Load a Program:** - You can utilize the general purpose registers R0 - R15. There are two special registers that are set automatically through interpreting. These are the instruction pointer (IP) and the remainder register (REM)
 
    ```javascript
    const snippet = `MOV R0, 5
