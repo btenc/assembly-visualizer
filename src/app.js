@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 const app = express();
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
+app.set('views', path.join(path.resolve(), 'src/views'));
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 

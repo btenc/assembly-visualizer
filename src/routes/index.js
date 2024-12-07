@@ -3,6 +3,16 @@ import snippetRoutes from "./snippets.js";
 import userRoutes from "./users.js";
 
 const constructorMethod = (app) => {
+  // hompage <3
+  // Impliment logic for different views if the user is signed in or not.
+  app.use('/homepage', (req, res) => {
+    try {
+        res.render('pages/home')
+    } catch (e) {
+        return res.status(500).json(e)
+    }
+  });
+
   // User management stuff
   app.use("/users", userRoutes);
 
@@ -13,7 +23,7 @@ const constructorMethod = (app) => {
   app.use("/private", privateRoutes);
 
   app.use("*", (req, res) => {
-    res.status(404).json({ error: "Route Not Found" });
+    res.redirect("/homepage");
   });
 };
 

@@ -1,1 +1,15 @@
 {{!-- user login page --}}
+<h2> SIGN IN </h2>
+<form action="/users/signup" method="POST">
+    <p>
+        <label for="username"> Username: </label>
+        <input type="text" id="username" name="user_name" placeholder="Enter a username">
+    </p>
+    
+    <p>
+        <label for="password"> Password: </label>
+        <input type="text" id="password" name="user_password" placeholder="Enter a password">
+    </p>
+
+    <input type="submit" value="submit_credentials">
+</form>
