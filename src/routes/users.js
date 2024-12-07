@@ -90,11 +90,42 @@ router.route("/login").get((req, res) => {
 
 // Creating a new user account
 // assumes a form with a username and a password.
-router.route("/login").post((req, res) => {
+router.route("/login").post(async (req, res) => {
   const pass = req.body.user_password;
   const user = req.body.user_name;
 
-  return res.status(200).json({ username: user, password: pass });
+  // validate the username exists: 
+  let searchUser = {}
+  try {
+    searchUser = await userMethods.getUserByUsername(user)
+  } catch (e) {
+    res.render("/pages/login", {errorMessage: "Username/Password do not match."});
+    return res.status(401)
+  }
+  
+  // validate that the passwords are the same:
+  try {
+    let passMatch = false
+    bcrypt.compare(pass, searchUser.password, (err, isMatch) => { 
+        if ( err ) { 
+            throw err; 
+        } 
+
+        passMatch = isMatch; 
+    });
+  } catch (e) {
+    res.render("/pages/login", {errorMessage: "Error comparing passwords, please try again"});
+    return res.status(500)
+  }
+
+  if (!passMatch) {
+    res.render("/pages/login", {errorMessage: "Username/Password do not match."});
+    return res.status(401)
+  }
+  
+  // Create the login token
+
+  return res.status(200);
 });
 
 router.route("/:id").get((req, res) => {
