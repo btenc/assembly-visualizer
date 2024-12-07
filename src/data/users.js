@@ -19,12 +19,8 @@ let exportedMethods = {
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     // Need Validation for Date
-    for (let id of snippetId) {
-      id = validation.checkId(id);
-    }
-    for (let id of friendId) {
-      id = validation.checkId(id);
-    }
+    snippetId.forEach((sub_id) => validation.checkId(sub_id));
+    friendId.forEach((sub_id) => validation.checkId(sub_id));
 
     let newUser = {
       username: username,
@@ -60,12 +56,8 @@ let exportedMethods = {
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     // Need Validation for Date
-    for (let sub_id of snippetId) {
-      sub_id = validation.checkId(sub_id);
-    }
-    for (let sub_id of friendId) {
-      sub_id = validation.checkId(sub_id);
-    }
+    snippetId.forEach((sub_id) => validation.checkId(sub_id));
+    friendId.forEach((sub_id) => validation.checkId(sub_id));
 
     const userUpdateInfo = {
       username: username,
