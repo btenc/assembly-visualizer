@@ -86,6 +86,13 @@ const exportedMethods = {
 
     return dateStr;
   },
+
+  checkArray(arr) {
+    if (!Array.isArray(arr)) {
+      throw `Error: Input must be an array!`;
+    }
+    return arr;
+  },
 };
 
 export default exportedMethods;

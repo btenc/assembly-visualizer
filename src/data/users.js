@@ -56,7 +56,9 @@ let exportedMethods = {
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     dateRegistered = validation.checkDate(dateRegistered);
+    snippetId = validation.checkArray(snippetId);
     snippetId.forEach((sub_id) => validation.checkId(sub_id));
+    friendId = validation.checkArray(friendId);
     friendId.forEach((sub_id) => validation.checkId(sub_id));
 
     const userUpdateInfo = {
