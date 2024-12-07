@@ -20,6 +20,16 @@ router.route("/signup").post(async (req, res) => {
   const email = req.body.email;
   const confirmPass = req.body.confirmPassword;
 
+  // check if the username is in use:
+  try {
+    userMethods.getUserById(user);
+  } catch (e) {
+    if (e !== 'Error: User not found') {
+        res.render("pages/signup", { errorMessage: e });
+        return res.status(200);
+    } 
+  }
+
   // get the current add.
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -112,6 +122,7 @@ router.route("/login").post(async (req, res) => {
   }
   
   // Create the login token
+  req.session.userId = username;
 
   return res.status(200);
 });
