@@ -1,2 +1,11 @@
 /* This will be the main css file. I am thinking we should
 use normalize.css reset */
+
+.error {
+color: red;
+}
+
+body {
+  background-color: darkgrey;
+}
+

@@ -108,7 +108,9 @@ if (loginForm) {
 
 
 //TODO: Append snippets to snippet lists
-
+  //get passed username of user
+  //check user entry in database to check if snippets in snippets array
+  //if yes, append articles of snippets name and date
 
 
 })();
