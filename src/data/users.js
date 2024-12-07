@@ -18,7 +18,7 @@ let exportedMethods = {
   async addUser(username, password, dateRegistered, snippetId, friendId) {
     username = validation.checkStr(username);
     password = validation.checkStr(password);
-    // Need Validation for Date
+    dateRegistered = validation.checkDate(dateRegistered);
     snippetId.forEach((sub_id) => validation.checkId(sub_id));
     friendId.forEach((sub_id) => validation.checkId(sub_id));
 
@@ -55,7 +55,7 @@ let exportedMethods = {
     id = validation.checkId(id);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
-    // Need Validation for Date
+    dateRegistered = validation.checkDate(dateRegistered);
     snippetId.forEach((sub_id) => validation.checkId(sub_id));
     friendId.forEach((sub_id) => validation.checkId(sub_id));
 
