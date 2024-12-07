@@ -1,7 +1,7 @@
 {{!-- user login page --}}
 {{header}}
 <h1>Log In to AsmVis</h1>
-<form action="/login" method="POST" class="login-form">
+<form action="/users/login" method="POST" class="login-form">
   {{#if errorMessage}}
     <div class="error-message">{{errorMessage}}</div>
   {{/if}}
