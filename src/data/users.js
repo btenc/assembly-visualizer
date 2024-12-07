@@ -15,11 +15,23 @@ let exportedMethods = {
     if (!user) throw "Error: User not found";
     return user;
   },
-  async addUser(username) {
+  async addUser(username, password, dateRegistered, snippetId, friendId) {
     username = validation.checkStr(username);
+    password = validation.checkStr(password);
+    // Need Validation for Date
+    for (let id of snippetId) {
+      id = validation.checkId(id);
+    }
+    for (let id of friendId) {
+      id = validation.checkId(id);
+    }
 
     let newUser = {
       username: username,
+      password: password,
+      dateRegistered: dateRegistered,
+      snippetId: snippetId,
+      friendId: friendId,
     };
     const userCollection = await users();
     const newInsertInformation = await userCollection.insertOne(newUser);
@@ -36,12 +48,31 @@ let exportedMethods = {
 
     return { ...deletionInfo, deleted: true };
   },
-  async updateUserPut(id, username) {
+  async updateUserPut(
+    id,
+    username,
+    password,
+    dateRegistered,
+    snippetId,
+    friendId
+  ) {
     id = validation.checkId(id);
     username = validation.checkStr(username);
+    password = validation.checkStr(password);
+    // Need Validation for Date
+    for (let sub_id of snippetId) {
+      sub_id = validation.checkId(sub_id);
+    }
+    for (let sub_id of friendId) {
+      sub_id = validation.checkId(sub_id);
+    }
 
     const userUpdateInfo = {
       username: username,
+      password: password,
+      dateRegistered: dateRegistered,
+      snippetId: snippetId,
+      friendId: friendId,
     };
     const userCollection = await users();
     const updateInfo = await userCollection.findOneAndReplace(
