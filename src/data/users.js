@@ -88,6 +88,38 @@ let exportedMethods = {
 
     return updateInfo;
   },
+
+  async updateUsername(id, username) {
+    id = validation.checkId(id);
+    username = validation.checkStr(username);
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { username: username } },
+      { returnDocument: "after" }
+    );
+
+    if (!updateInfo.value) throw "Error: Could not update username";
+
+    return updateInfo.value;
+  },
+
+  async updatePassword(id, password) {
+    id = validation.checkId(id);
+    password = validation.checkStr(password);
+
+    const userCollection = await users();
+    const updateInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { password: password } },
+      { returnDocument: "after" }
+    );
+
+    if (!updateInfo.value) throw "Error: Could not update password";
+
+    return updateInfo.value;
+  },
 };
 
 export default exportedMethods;
