@@ -32,7 +32,7 @@ router.route('/signup').post(async (req, res) => {
     const date = mm + '/' + dd + '/' + yyyy;
 
     if (pass !== confirmPass){
-        res.render('login', {errorMessage: "Passwords must match!"});
+        res.render('pages/signup', {errorMessage: "Passwords must match!"});
         return res.status(200)
     }
 
@@ -51,14 +51,14 @@ router.route('/signup').post(async (req, res) => {
             })
         });
     } catch (e) {
-        res.render('login', {errorMessage: "Error generating hash. Please try again."});
+        res.render('pages/signup', {errorMessage: "Error generating hash. Please try again."});
         return res.status(200)
     }
     
     try {
         await userMethods.addUser(email, user, hashedPass, date, [], [])
     } catch (e) {
-        res.render('login', {errorMessage: e});
+        res.render('pages/signup', {errorMessage: e});
         return res.status(200);
     }
 
