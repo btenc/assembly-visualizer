@@ -93,6 +93,28 @@ const exportedMethods = {
     }
     return arr;
   },
+
+  checkEmail(email) {
+    if (!email) {
+      throw "Error: You must provide an email";
+    }
+
+    if (typeof email !== "string") {
+      throw "Error: Email must be a string";
+    }
+
+    email = email.trim();
+    if (email.length === 0) {
+      throw "Error: Email cannot be an empty string or just spaces";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      throw "Error: Invalid email address";
+    }
+
+    return email;
+  },
 };
 
 export default exportedMethods;

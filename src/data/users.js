@@ -15,7 +15,14 @@ let exportedMethods = {
     if (!user) throw "Error: User not found";
     return user;
   },
-  async addUser(username, password, dateRegistered, snippetId, friendId) {
+  async addUser(
+    email,
+    username,
+    password,
+    dateRegistered,
+    snippetId,
+    friendId
+  ) {
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     dateRegistered = validation.checkDate(dateRegistered);
@@ -46,6 +53,7 @@ let exportedMethods = {
   },
   async updateUserPut(
     id,
+    email,
     username,
     password,
     dateRegistered,
