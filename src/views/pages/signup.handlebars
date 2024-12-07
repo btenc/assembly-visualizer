@@ -1,1 +1,33 @@
 {{!-- user sign up page --}}
+<h1>Sign Up for AsmVis</h1>
+<form action="/signup" method="POST" class="signup-form">
+  {{#if errorMessage}}
+    <div class="error-message">{{errorMessage}}</div>
+  {{/if}}
+
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Create a password" required>
+  </div>
+
+  <div class="form-group">
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
+
+<div class="extra-links">
+  <p>Already have an account? <a href="/login">Log in here</a>.</p>
+</div>
