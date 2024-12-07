@@ -64,6 +64,35 @@ const exportedMethods = {
     }
     return id;
   },
+
+  checkDate(dateStr) {
+    if (!dateStr) {
+      throw "Error: You must provide a date";
+    }
+
+    if (typeof dateStr !== "string") {
+      throw "Error: Date should be a string";
+    }
+
+    dateStr = dateStr.trim();
+    if (dateStr.length === 0) {
+      throw "Error: Date cannot be an empty string or string with just spaces";
+    }
+
+    const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+    if (!dateRegex.test(dateStr)) {
+      throw "Error: Date must be in the format MM/DD/YYYY";
+    }
+
+    return dateStr;
+  },
+
+  checkArray(arr) {
+    if (!Array.isArray(arr)) {
+      throw `Error: Input must be an array!`;
+    }
+    return arr;
+  },
 };
 
 export default exportedMethods;

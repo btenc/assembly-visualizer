@@ -1,15 +1,24 @@
 {{!-- user login page --}}
-<h2> SIGN IN </h2>
-<form action="/users/signup" method="POST">
-    <p>
-        <label for="username"> Username: </label>
-        <input type="text" id="username" name="user_name" placeholder="Enter a username">
-    </p>
-    
-    <p>
-        <label for="password"> Password: </label>
-        <input type="text" id="password" name="user_password" placeholder="Enter a password">
-    </p>
+<h1>Log In to AsmVis</h1>
+<form action="/login" method="POST" class="login-form">
+  {{#if errorMessage}}
+    <div class="error-message">{{errorMessage}}</div>
+  {{/if}}
 
-    <input type="submit" value="submit_credentials">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Log In</button>
 </form>
+
+<div class="extra-links">
+  <p>Don't have an account? <a href="/signup">Sign up here</a>.</p>
+  <p><a href="/forgot-password">Forgot your password?</a></p>
+</div>
