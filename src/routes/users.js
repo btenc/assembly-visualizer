@@ -32,7 +32,11 @@ router.route("/signup").post(async (req, res) => {
   const date = mm + "/" + dd + "/" + yyyy;
 
   if (pass !== confirmPass) {
+<<<<<<< HEAD
     res.render("login", { errorMessage: "Passwords must match!" });
+=======
+    res.render("pages/signup", { errorMessage: "Passwords must match!" });
+>>>>>>> eb05f13fc90ca1c4aeacfd72a53cadad985d3e54
     return res.status(200);
   }
 
@@ -51,7 +55,11 @@ router.route("/signup").post(async (req, res) => {
       });
     });
   } catch (e) {
+<<<<<<< HEAD
     res.render("login", {
+=======
+    res.render("pages/signup", {
+>>>>>>> eb05f13fc90ca1c4aeacfd72a53cadad985d3e54
       errorMessage: "Error generating hash. Please try again.",
     });
     return res.status(200);
@@ -60,7 +68,11 @@ router.route("/signup").post(async (req, res) => {
   try {
     await userMethods.addUser(email, user, hashedPass, date, [], []);
   } catch (e) {
+<<<<<<< HEAD
     res.render("login", { errorMessage: e });
+=======
+    res.render("pages/signup", { errorMessage: e });
+>>>>>>> eb05f13fc90ca1c4aeacfd72a53cadad985d3e54
     return res.status(200);
   }
 
