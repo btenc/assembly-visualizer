@@ -38,11 +38,18 @@ let exportedMethods = {
       snippetId: snippetId,
       friendId: friendId,
     };
-    
+
     const userCollection = await users();
     const newInsertInformation = await userCollection.insertOne(newUser);
     if (!newInsertInformation.insertedId) throw "Insert failed!";
     return await this.getUserById(newInsertInformation.insertedId.toString());
+  },
+  async getUserByUsername(username) {
+    username = validation.checkStr(username);
+    const userCollection = await users();
+    const user = await userCollection.findOne({ username: username });
+    if (!user) throw "Error: User not found";
+    return user;
   },
   async removeUser(id) {
     id = validation.checkId(id);
