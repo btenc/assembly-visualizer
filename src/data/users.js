@@ -36,6 +36,7 @@ let exportedMethods = {
       snippetId: snippetId,
       friendId: friendId,
     };
+    
     const userCollection = await users();
     const newInsertInformation = await userCollection.insertOne(newUser);
     if (!newInsertInformation.insertedId) throw "Insert failed!";
