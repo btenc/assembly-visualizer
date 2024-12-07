@@ -23,6 +23,7 @@ let exportedMethods = {
     snippetId,
     friendId
   ) {
+    email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     dateRegistered = validation.checkDate(dateRegistered);
@@ -30,6 +31,7 @@ let exportedMethods = {
     friendId.forEach((sub_id) => validation.checkId(sub_id));
 
     let newUser = {
+      email: email,
       username: username,
       password: password,
       dateRegistered: dateRegistered,
@@ -61,6 +63,7 @@ let exportedMethods = {
     friendId
   ) {
     id = validation.checkId(id);
+    email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     dateRegistered = validation.checkDate(dateRegistered);
@@ -70,6 +73,7 @@ let exportedMethods = {
     friendId.forEach((sub_id) => validation.checkId(sub_id));
 
     const userUpdateInfo = {
+      email: email,
       username: username,
       password: password,
       dateRegistered: dateRegistered,
