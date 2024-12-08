@@ -1,5 +1,6 @@
 import e, { Router } from "express";
 import userMethods from "../data/users.js";
+import validations from "../modules/utils/validations.js"
 import bcrypt from "bcryptjs";
 import xss from 'xss';
 const router = Router();
@@ -16,10 +17,21 @@ router.route("/signup").get((req, res) => {
 // Creating a new user account
 // assumes a form with a username and a password.
 router.route("/signup").post(async (req, res) => {
-  const pass = xss(req.body.password);
-  const user = xss(req.body.username);
-  const email = xss(req.body.email);
-  const confirmPass = xss(req.body.confirmPassword);
+  let pass = xss(req.body.password);
+  let user = xss(req.body.username);
+  let email = xss(req.body.email);
+  let confirmPass = xss(req.body.confirmPassword);
+
+  // validate the length + type of each
+  try {
+    pass = validations.checkStr(pass);
+    user = validations.checkStr(user);
+    email = validations.checkStr(email);
+    confirmPass = validations.checkStr(confirmPass);
+  } catch (e) {
+    res.render("/pages/login", {errorMessage: "Must provide input all fields"});
+    return res.status(401);
+  }
 
   // check if the username is in use:
   try {
@@ -31,7 +43,7 @@ router.route("/signup").post(async (req, res) => {
     } 
   }
 
-  // get the current add.
+  // get the current date.
   const today = new Date();
   const yyyy = today.getFullYear();
   let mm = today.getMonth() + 1;
@@ -42,10 +54,14 @@ router.route("/signup").post(async (req, res) => {
 
   const date = mm + "/" + dd + "/" + yyyy;
 
+  // check that the passwords match
   if (pass !== confirmPass) {
     res.render("pages/signup", { errorMessage: "Passwords must match!" });
     return res.status(200);
   }
+
+  // check that the email is valid: 
+  email = validations.checkEmail(email)
 
   // hash the password
   let hashedPass = "";
@@ -90,8 +106,17 @@ router.route("/login").get((req, res) => {
 // Creating a new user account
 // assumes a form with a username and a password.
 router.route("/login").post(async (req, res) => {
-  const pass = xss(req.body.user_password);
-  const user = xss(req.body.user_name);
+  let pass = xss(req.body.user_password);
+  let user = xss(req.body.user_name);
+
+  // validate the length + type 
+  try {
+    pass = validations.checkStr(pass);
+    user = validations.checkStr(user)
+  } catch (e) {
+    res.render("/pages/login", {errorMessage: "Must provide input for username/password"});
+    return res.status(401)
+  }
 
   // validate the username exists: 
   let searchUser = {}
