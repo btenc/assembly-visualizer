@@ -229,6 +229,11 @@ function NEG(registersObj, arg) {
   const register = arg[0];
   let val = registersObj.get(register);
   let neg = -val;
+
+  if (neg === -0) {
+    neg = 0;
+  }
+
   registersObj.set(arg[0], neg);
 }
 
