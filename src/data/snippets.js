@@ -17,13 +17,13 @@ let exportedMethods = {
     return snippet;
   },
 
-  async addSnippet(snipName, snipBody, userId, dateCreation, dateLastEdit) {
+  async addSnippet(snipName, snipBody, userId, dateCreation) {
     snipName = validation.checkStr(snipName);
     snipBody = validation.checkArray(snipBody);
     snipBody.forEach((line) => validation.checkStr(line));
     userId = validation.checkId(userId);
     dateCreation = validation.checkDate(dateCreation);
-    dateLastEdit = validation.checkDate(dateLastEdit);
+    dateLastEdit = dateCreation;
 
     const newSnippet = {
       snipName,
