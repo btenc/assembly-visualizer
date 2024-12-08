@@ -264,11 +264,72 @@ function AND(registersObj, args) {
   registersObj.set(destination, result);
 }
 
-function OR(registersObj, args) {}
+function OR(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
 
-function XOR(registersObj, args) {}
+  function orSrcOperandNumber() {
+    return registersObj.get(destination) | asmValidate.strToINT(source);
+  }
 
-function NOT(registersObj, args) {}
+  function orSrcOperandRegister() {
+    return registersObj.get(destination) | registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber === true) {
+    result = orSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = orSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the OR function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function XOR(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function xorSrcOperandNumber() {
+    return registersObj.get(destination) ^ asmValidate.strToINT(source);
+  }
+
+  function xorSrcOperandRegister() {
+    return registersObj.get(destination) ^ registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber === true) {
+    result = xorSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = xorSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the XOR function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function NOT(registersObj, arg) {
+  arg = asmValidate.argCheck(registersObj, arg);
+  const register = arg[0];
+  let val = registersObj.get(register);
+  let notVal = ~val;
+  registersObj.set(arg[0], notVal);
+}
+
 // ____MOVEMENT INSTRUCTIONS____
 
 function MOV(registersObj, args) {
@@ -305,12 +366,20 @@ const arithmeticInstructions = {
   NEG,
 };
 
+const bitwiseInstructions = {
+  AND,
+  OR,
+  XOR,
+  NOT,
+};
+
 const movementInstructions = {
   MOV,
 };
 
 const asmInstructions = {
   ...arithmeticInstructions,
+  ...bitwiseInstructions,
   ...movementInstructions,
 };
 
