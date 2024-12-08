@@ -1,6 +1,7 @@
 import e, { Router } from "express";
 import userMethods from "../data/users.js";
 import bcrypt from "bcryptjs";
+import xss from 'xss';
 const router = Router();
 
 // get the new acct page
@@ -15,10 +16,10 @@ router.route("/signup").get((req, res) => {
 // Creating a new user account
 // assumes a form with a username and a password.
 router.route("/signup").post(async (req, res) => {
-  const pass = req.body.password;
-  const user = req.body.username;
-  const email = req.body.email;
-  const confirmPass = req.body.confirmPassword;
+  const pass = xss(req.body.password);
+  const user = xss(req.body.username);
+  const email = xss(req.body.email);
+  const confirmPass = xss(req.body.confirmPassword);
 
   // check if the username is in use:
   try {
@@ -89,8 +90,8 @@ router.route("/login").get((req, res) => {
 // Creating a new user account
 // assumes a form with a username and a password.
 router.route("/login").post(async (req, res) => {
-  const pass = req.body.user_password;
-  const user = req.body.user_name;
+  const pass = xss(req.body.user_password);
+  const user = xss(req.body.user_name);
 
   // validate the username exists: 
   let searchUser = {}
@@ -125,12 +126,6 @@ router.route("/login").post(async (req, res) => {
   req.session.userId = username;
 
   return res.status(200);
-});
-
-router.route("/:id").get((req, res) => {
-  const userID = req.params.id;
-
-  return res.status(200).json({ id: userID });
 });
 
 export default router;
