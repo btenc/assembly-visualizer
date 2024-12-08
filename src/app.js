@@ -1,7 +1,16 @@
 import express from "express";
+import path from "path";
 const app = express();
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
+import session from 'express-session';
+
+app.use(session({
+  secret: 'Secrets are my favorite',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -21,6 +30,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
+app.set('views', path.join(path.resolve(), 'src/views'));
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
