@@ -29,6 +29,23 @@ function instructionRouter(
     case "DEC":
       asmInstructions.DEC(AsmInterpreterService.registers, args);
       break;
+    case "MOD":
+      asmInstructions.MOD(AsmInterpreterService.registers, args);
+      break;
+    case "NEG":
+      asmInstructions.NEG(AsmInterpreterService.registers, args);
+      break;
+    case "AND":
+      asmInstructions.AND(AsmInterpreterService.registers, args);
+      break;
+    case "OR":
+      asmInstructions.OR(AsmInterpreterService.registers, args);
+      break;
+    case "XOR":
+      asmInstructions.XOR(AsmInterpreterService.registers, args);
+      break;
+    case "NOT":
+      asmInstructions.NOT(AsmInterpreterService.registers, args);
     default:
       throw "Error: " + instruction + " is not a supported instruction!";
   }

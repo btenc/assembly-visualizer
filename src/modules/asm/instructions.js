@@ -172,7 +172,163 @@ function DEC(registersObj, arg) {
   registersObj.set(arg[0], dec);
 }
 
+function MOD(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function divSrcOperandNumber() {
+    const dividend = registersObj.get(destination);
+    const divisor = asmValidate.strToINT(source);
+
+    if (divisor === 0) {
+      throw "Error: Division by zero!";
+    }
+
+    const quotient = Math.floor(dividend / divisor);
+    const remainder = dividend % divisor;
+    return [quotient, remainder];
+  }
+
+  function divSrcOperandRegister() {
+    const dividend = registersObj.get(destination);
+    const divisor = registersObj.get(source);
+
+    if (divisor === 0) {
+      throw "Error: Division by zero!";
+    }
+
+    const quotient = Math.floor(dividend / divisor);
+    const remainder = dividend % divisor;
+    return [quotient, remainder];
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  let result;
+
+  if (sourceOperandIsNumber === true) {
+    result = divSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = divSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the MOD function!";
+  }
+
+  const quotient = result[0];
+  const remainder = result[1];
+
+  registersObj.set(destination, remainder);
+}
+
+function NEG(registersObj, arg) {
+  arg = asmValidate.argCheck(registersObj, arg);
+  const register = arg[0];
+  let val = registersObj.get(register);
+  let neg = -val;
+  registersObj.set(arg[0], neg);
+}
+
 // ____BITWISE INSTRUCTIONS____
+// www.w3schools.com/js/js_bitwise.asp
+
+function AND(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function andSrcOperandNumber() {
+    return registersObj.get(destination) & asmValidate.strToINT(source);
+  }
+
+  function andSrcOperandRegister() {
+    return registersObj.get(destination) & registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber === true) {
+    result = andSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = andSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the AND function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function OR(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function orSrcOperandNumber() {
+    return registersObj.get(destination) | asmValidate.strToINT(source);
+  }
+
+  function orSrcOperandRegister() {
+    return registersObj.get(destination) | registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber === true) {
+    result = orSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = orSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the OR function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function XOR(registersObj, args) {
+  args = asmValidate.argsCheck(registersObj, args);
+  const destination = args[0];
+  const source = args[1];
+
+  function xorSrcOperandNumber() {
+    return registersObj.get(destination) ^ asmValidate.strToINT(source);
+  }
+
+  function xorSrcOperandRegister() {
+    return registersObj.get(destination) ^ registersObj.get(source);
+  }
+
+  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
+    registersObj,
+    source
+  );
+
+  if (sourceOperandIsNumber === true) {
+    result = xorSrcOperandNumber();
+  } else if (sourceOperandIsNumber === false) {
+    result = xorSrcOperandRegister();
+  } else {
+    throw "Error: Something went really wrong in the XOR function!";
+  }
+
+  registersObj.set(destination, result);
+}
+
+function NOT(registersObj, arg) {
+  arg = asmValidate.argCheck(registersObj, arg);
+  const register = arg[0];
+  let val = registersObj.get(register);
+  let notVal = ~val;
+  registersObj.set(arg[0], notVal);
+}
 
 // ____MOVEMENT INSTRUCTIONS____
 
@@ -206,6 +362,15 @@ const arithmeticInstructions = {
   DIV,
   INC,
   DEC,
+  MOD,
+  NEG,
+};
+
+const bitwiseInstructions = {
+  AND,
+  OR,
+  XOR,
+  NOT,
 };
 
 const movementInstructions = {
@@ -214,6 +379,7 @@ const movementInstructions = {
 
 const asmInstructions = {
   ...arithmeticInstructions,
+  ...bitwiseInstructions,
   ...movementInstructions,
 };
 
