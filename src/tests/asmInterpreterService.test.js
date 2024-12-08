@@ -133,4 +133,45 @@ describe("AsmInterpreterService Tests", () => {
     expect(state.loadedProgram).toEqual([]);
     expect(state.programFinished).toBe(false);
   });
+
+  test("Mess around with DEC and INC (INTERPRET ALL)", () => {
+    const programSnippet = `
+      MOV R0, 5
+      MOV R1, 7
+
+      DEC R1
+      INC R0
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(6);
+    expect(state.registers.R1).toBe(6);
+    expect(state.instructionPointer).toBe(6);
+    expect(state.programFinished).toBe(true);
+  });
+
+  test("Mess around with DEC and INC (INTERPRET STEP)", () => {
+    const programSnippet = `
+      MOV R0, 5
+      MOV R1, 7
+
+      DEC R1
+      INC R0
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(5);
+    expect(state.registers.R1).toBe(6);
+    expect(state.instructionPointer).toBe(5);
+    expect(state.programFinished).toBe(false);
+  });
 });

@@ -156,9 +156,21 @@ function DIV(registersObj, args) {
   registersObj.setRemainder(remainder);
 }
 
-function INC(registersObj, args) {}
+function INC(registersObj, arg) {
+  arg = asmValidate.argCheck(registersObj, arg);
+  const register = arg[0];
+  let val = registersObj.get(register);
+  let inc = val + 1;
+  registersObj.set(arg[0], inc);
+}
 
-function DEC(registersObj, args) {}
+function DEC(registersObj, arg) {
+  arg = asmValidate.argCheck(registersObj, arg);
+  const register = arg[0];
+  let val = registersObj.get(register);
+  let dec = val - 1;
+  registersObj.set(arg[0], dec);
+}
 
 // ____BITWISE INSTRUCTIONS____
 

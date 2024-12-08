@@ -17,6 +17,18 @@ function instructionRouter(
     case "ADD":
       asmInstructions.ADD(AsmInterpreterService.registers, args);
       break;
+    case "MUL":
+      asmInstructions.MUL(AsmInterpreterService.registers, args);
+      break;
+    case "DIV":
+      asmInstructions.DIV(AsmInterpreterService.registers, args);
+      break;
+    case "INC":
+      asmInstructions.INC(AsmInterpreterService.registers, args);
+      break;
+    case "DEC":
+      asmInstructions.DEC(AsmInterpreterService.registers, args);
+      break;
     default:
       throw "Error: " + instruction + " is not a supported instruction!";
   }

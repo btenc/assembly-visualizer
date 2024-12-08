@@ -6,11 +6,13 @@ describe("parseASM Function Tests", () => {
       ADD R1, R2
       SUB R3, 4
       MUL R5, R6
+      INC R1
     `;
     const expectedOutput = [
       { instruction: "ADD", arguments: ["R1", "R2"] },
       { instruction: "SUB", arguments: ["R3", "4"] },
       { instruction: "MUL", arguments: ["R5", "R6"] },
+      { instruction: "INC", arguments: ["R1"] },
     ];
     const result = parseASM.parseASM(snippet);
     expect(result).toEqual(expectedOutput);

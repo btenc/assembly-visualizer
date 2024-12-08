@@ -4,6 +4,10 @@
 
 - MOV
 - ADD
+- MUL
+- DIV
+- INC
+- DEC
 
 ## What is it?
 

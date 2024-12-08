@@ -35,6 +35,22 @@ function argsCheck(registersObj, args) {
   return args;
 }
 
+function argCheck(registersObj, arg) {
+  validations.checkStr(arg[0]);
+  arg[0] = arg[0].trim();
+  const registers = registersObj.getAllRegisters();
+
+  if (arg.length > 1) {
+    throw "Error: there must only be one argument";
+  }
+
+  if (!(arg[0] in registers)) {
+    throw "Error: " + arg[0] + " is not a valid register";
+  }
+
+  return arg;
+}
+
 function registerCheck(registersObj, register) {
   const registers = registersObj.getAllRegisters();
 
@@ -72,6 +88,7 @@ const asmValidators = {
   argsCheck,
   isSrcOperandNumber,
   registerCheck,
+  argCheck,
 };
 
 export default asmValidators;
