@@ -1,1 +1,9 @@
 {{!-- reusable navbar element --}}
+<ul id="nav-ul">
+  <li id="nav-li"><a id="nav-a" href="/homepage">ASM Vis</a></li>
+  <!-- if user logged in-->
+  <li id="nav-li">Hello, <a id="nav-a" href="/user">{{username}}</a></li>
+  <!-- if user not logged in-->
+  <li id="nav-li"><a id="nav-a" href="/signup">Sign Up</a></li>
+  <li id="nav-li"><a id="nav-a" href="/login">Log In</a></li>
+</ul>

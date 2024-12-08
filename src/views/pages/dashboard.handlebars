@@ -1,6 +1,17 @@
 {{!-- User dashboard after login page, listing snippets or making new ones --}}
 <title>Dashboard</title>
-{{header}}
+{{> (header)}}
 <body>
-  <div id="snippet-list"></div>
+  <h1><a href="/">{{username}}</a>'s Dashboard</h1>
+  {{#if snippets}}
+  <div id="snippet-list">
+    {{#each snippets.length}}
+    <article>
+      <h2><a href="/snippets">{{snipName}}</a></h2>
+      <p>Date Last Edited: {{dateLastEdit}}</p>
+      <p>Date Created: {{dateCreated}}</p>
+    </article>
+    {{/each}}
+  </div>
+  {{/if}}
 </body>

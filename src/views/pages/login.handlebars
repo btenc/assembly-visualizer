@@ -1,5 +1,5 @@
 {{!-- user login page --}}
-{{header}}
+{{#> navbar }}{{/navbar}}
 <h1>Log In to AsmVis</h1>
 <form action="/users/login" method="POST" class="login-form">
   {{#if errorMessage}}
