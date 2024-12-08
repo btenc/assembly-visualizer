@@ -1,5 +1,7 @@
 # What is `asmInterpreterService.js`, how do I use it, and how does it work?
 
+## todo: add more instructions, add small readmes for each instruction
+
 # CURRENTLY IMPLEMENTED INSTRUCTIONS
 
 - MOV
@@ -8,6 +10,8 @@
 - DIV
 - INC
 - DEC
+- MOD
+- NEG
 
 ## What is it?
 
