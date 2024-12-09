@@ -258,6 +258,7 @@ function AND(registersObj, args) {
     source
   );
 
+  let result;
   if (sourceOperandIsNumber === true) {
     result = andSrcOperandNumber();
   } else if (sourceOperandIsNumber === false) {
@@ -287,6 +288,7 @@ function OR(registersObj, args) {
     source
   );
 
+  let result;
   if (sourceOperandIsNumber === true) {
     result = orSrcOperandNumber();
   } else if (sourceOperandIsNumber === false) {
@@ -316,6 +318,7 @@ function XOR(registersObj, args) {
     source
   );
 
+  let result;
   if (sourceOperandIsNumber === true) {
     result = xorSrcOperandNumber();
   } else if (sourceOperandIsNumber === false) {
