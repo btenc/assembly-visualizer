@@ -12,6 +12,10 @@
 - DEC
 - MOD
 - NEG
+- AND
+- OR
+- XOR
+- NOT
 
 ## What is it?
 
