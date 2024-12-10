@@ -360,8 +360,25 @@ function MOV(registersObj, args) {
 }
 
 //when i implement jumps, only do conditional jumps JZ, JNZ, JLT, JGT, JET
+function JZ() {
+  return;
+}
+function JNZ() {
+  return;
+}
+function JLT() {
+  return;
+}
+function JGT() {
+  return;
+}
+function JET() {
+  return;
+}
 
 // ____CONTROL INSTRUCTIONS____
+
+//instructions organized by type
 
 const arithmeticInstructions = {
   ADD,
@@ -385,6 +402,35 @@ const movementInstructions = {
   MOV,
 };
 
+//Instructions by argument count
+
+const oneArgInstructions = {
+  INC,
+  DEC,
+  NEG,
+  NOT,
+};
+
+const twoArgInstructions = {
+  ADD,
+  SUB,
+  MUL,
+  DIV,
+  MOD,
+  MOV,
+  AND,
+  OR,
+  XOR,
+};
+
+const jumpInstructions = {
+  JZ,
+  JNZ,
+  JLT,
+  JGT,
+  JET,
+};
+
 const asmInstructions = {
   ...arithmeticInstructions,
   ...bitwiseInstructions,
@@ -392,3 +438,9 @@ const asmInstructions = {
 };
 
 export default asmInstructions;
+
+export const instructionCategories = {
+  oneArgs: Object.keys(oneArgInstructions),
+  twoArgs: Object.keys(twoArgInstructions),
+  jumpArgs: Object.keys(jumpInstructions),
+};

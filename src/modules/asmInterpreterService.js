@@ -8,6 +8,7 @@ class AsmInterpreterService {
     this.registers = new Registers();
     this.loadedProgram = [];
     this.programFinished = false;
+    this.errors = [];
   }
 
   //General State Getters
@@ -51,7 +52,11 @@ class AsmInterpreterService {
   //General Setters
   loadProgram(snippet) {
     snippet = validations.checkStr(snippet);
-    const program = parse.parseASM(snippet);
+    const program = parse.parseASM(
+      snippet,
+      this.registers,
+      this.getLoadedProgramLength()
+    );
     this.loadedProgram = program;
   }
 

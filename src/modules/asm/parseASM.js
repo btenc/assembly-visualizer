@@ -1,6 +1,10 @@
 import validations from "../utils/validations.js";
+import asmInstructions, { instructionCategories } from "./instructions.js";
+import asmValidators from "./asmValidate.js";
 
-function parseASM(snippet) {
+const INSTRUCTION_LIST = Object.keys(asmInstructions);
+
+function parseASM(snippet, registers, programLength) {
   snippet = validations.checkStr(snippet);
   let program = [];
 
@@ -27,19 +31,6 @@ function parseASM(snippet) {
       }
     }
 
-    if (
-      filteredCurrentStatement.length < 1 ||
-      filteredCurrentStatement.length > 4
-    ) {
-      throw (
-        "Error: " +
-        statementsByLine[i] +
-        " on line " +
-        i +
-        " is not a valid instruction!"
-      );
-    }
-
     let statementObj = {};
     let argsArr = [];
     for (let j = 0; j < filteredCurrentStatement.length; j++) {
@@ -49,11 +40,83 @@ function parseASM(snippet) {
         argsArr.push(filteredCurrentStatement[j].toUpperCase());
       }
     }
+
     statementObj.arguments = argsArr;
+
+    checkLineSyntax(statementObj, registers, programLength, i + 1);
     program.push(statementObj);
   }
 
   return program;
+}
+
+function checkLineSyntax(currentStatementObj, registers, programLength, line) {
+  const instruction = currentStatementObj.instruction;
+  const args = currentStatementObj.arguments;
+
+  if (!INSTRUCTION_LIST.includes(instruction)) {
+    throw (
+      "Error: " +
+      instruction +
+      " on line " +
+      line +
+      " is not a supported instruction!"
+    );
+  }
+
+  if (instructionCategories.oneArgs.includes(instruction)) {
+    if (args.length !== 1) {
+      throw (
+        "Error: " +
+        instruction +
+        " on line " +
+        line +
+        " expected one argument but received " +
+        args.length
+      );
+    }
+    try {
+      asmValidators.argCheck(registers, args);
+    } catch (e) {
+      throw "On line " + line + ": " + e;
+    }
+  } else if (instructionCategories.twoArgs.includes(instruction)) {
+    if (args.length !== 2) {
+      throw (
+        "Error: " +
+        instruction +
+        " on line " +
+        line +
+        " expected two arguments but received " +
+        args.length
+      );
+    }
+    try {
+      asmValidators.argsCheck(registers, args);
+    } catch (e) {
+      throw "On line " + line + ": " + e;
+    }
+  } else if (instructionCategories.jumpArgs.includes(instruction)) {
+    if (args.length !== 2) {
+      throw (
+        "Error: " +
+        instruction +
+        " on line " +
+        line +
+        " expected two arguments but received " +
+        args.length
+      );
+    }
+    //TODO
+  } else {
+    throw (
+      "Error: " +
+      instruction +
+      " on line " +
+      line +
+      " is not a supported instruction!"
+    );
+  }
 }
 
 function programToString(snippet) {
