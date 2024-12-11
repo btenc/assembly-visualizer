@@ -19,6 +19,7 @@ class AsmInterpreterService {
       instructionPointer: this.registers.getInstructionPointer(),
       loadedProgram: this.loadedProgram,
       programFinished: this.programFinished,
+      errors: this.errors,
     };
   }
 
@@ -47,16 +48,14 @@ class AsmInterpreterService {
   clearProgram() {
     this.loadedProgram = [];
     this.programFinished = false;
+    this.errors = [];
   }
 
   //General Setters
   loadProgram(snippet) {
     snippet = validations.checkStr(snippet);
-    const program = parse.parseASM(
-      snippet,
-      this.registers,
-      this.getLoadedProgramLength()
-    );
+    const program = parse.parseASM(snippet, this, this.registers);
+
     this.loadedProgram = program;
   }
 
@@ -110,13 +109,13 @@ class AsmInterpreterService {
   }
 
   interpretStep() {
-    if (this.checkProgramFinished() === false) {
+    if (this.checkProgramFinished() === false && this.errors.length === 0) {
       this.interpretHelper();
     }
   }
 
   interpretAll() {
-    while (this.checkProgramFinished() === false) {
+    while (this.checkProgramFinished() === false && this.errors.length === 0) {
       this.interpretHelper();
     }
   }
