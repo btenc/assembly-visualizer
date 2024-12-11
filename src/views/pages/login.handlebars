@@ -1,11 +1,17 @@
 {{!-- user login page --}}
 {{#> navbar }}{{/navbar}}
 <h1>Log In to AsmVis</h1>
-<form action="/users/login" method="POST" class="login-form">
-  {{#if errorMessage}}
-    <div class="error-message">{{errorMessage}}</div>
+<ul class="error" id="errUl" hidden></ul>
+  {{#if errors}}
+  <ul class="error" id="errorUl">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
   {{/if}}
-
+<form action="/users/login" method="POST" class="login-form">
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Enter your username" required>

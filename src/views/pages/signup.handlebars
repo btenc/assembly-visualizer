@@ -1,12 +1,18 @@
 {{!-- user sign up page --}}
 {{#> navbar }}{{/navbar}}
 <h1>Sign Up for AsmVis</h1>
-<form action="/users/signup" method="POST" class="signup-form">
-  {{#if errorMessage}}
-    <div class="error-message">{{errorMessage}}</div>
+<ul class="error" id="errUl" hidden></ul>
+  {{#if errors}}
+  <ul class="error" id="errorUl">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
   {{/if}}
-
-  <div class="form-group">
+<form action="/users/signup" method="POST" class="signup-form">
+    <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Choose a username" required>
   </div>

@@ -1,12 +1,20 @@
 {{!-- snippet editor page --}}
 {{#> navbar }}{{/navbar}}
 <body>
-  <form id="snippetEditor">
-  <input type="text" id="snippetName" name="snippetName" placeholder="Snippet Name" required>
-  <button type="submit" class="btn btn-primary">Save Changes</button>
-
-  
-  <!--Insert snippet window here, already populated with snippet code-->
-  
+  <ul class="error" id="errUl" hidden></ul>
+  {{#if errors}}
+  <ul class="error" id="errorUl">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+  <form id="snippetEditor" action='/snippets/:snippetId' method="POST">
+  <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name" required>
+  <button type="submit" class="btn btn-primary">Save Changes</button><br>
+  <!--Snippet should be populated with snippet code-->
+  <input type="text" id="snippetBody" name="snippetBody" placeholder="Snippet Body" required>
   </form>
 </body>

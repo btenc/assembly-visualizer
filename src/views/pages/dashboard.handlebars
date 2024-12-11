@@ -1,8 +1,8 @@
 {{!-- User dashboard after login page, listing snippets or making new ones --}}
-<title>Dashboard</title>
-{{> (header)}}
+<title>{{username}}'s Profile</title>
+{{> (navbar)}}
 <body>
-  <h1><a href="/">{{username}}</a>'s Dashboard</h1>
+  <h1><a href="/">{{username}}</a>'s Profile</h1>
   {{#if snippets}}
   <div id="snippet-list">
     {{#each snippets.length}}
