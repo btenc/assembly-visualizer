@@ -66,6 +66,7 @@ ADD R0, 10`;
      - `instructionPointer`: Current value of the instruction pointer.
      - `loadedProgram`: The current loaded snippet in object form.
      - `programFinished`: A boolean used as a flag to determine if the program ran its final instruction or not.
+     - `errors`: If the program that was loaded has errors, they will be here.
 
 5. **Other Stuff:**
 
