@@ -2,9 +2,20 @@
 <ul id="nav-ul">
   <li class="nav-li"><a id="nav-a" href="/homepage">ASM Vis</a></li>
   <!-- if user logged in-->
+  {{#if username}}
   <li class="nav-li">Hello, <a id="nav-a" href="/users/">{{username}}</a></li>
-  <li class="nav-li"><a>Create New Snippet</a></li>
+  <li class="nav-li">
+    <form action="/snippets" method="POST" class="newSnip-form">
+      <button type="submit" class="newSnip-btn">Create New Snippet</button>
+      <input hidden type="text" id="snipName" name="snipName">
+      <input hidden type="text" id="snipBody" name="snipBody">
+      <input hidden type="text" id="userId" name="userId">
+    </form>
+  </li>
+  <li><a id="nav-a" href="/users/login">Log Out</a></li>
+  {{else}}
   <!-- if user not logged in-->
   <li class="nav-li"><a id="nav-a" href="/users/signup">Sign Up</a></li>
   <li class="nav-li"><a id="nav-a" href="/users/login">Log In</a></li>
+  {{/if}}
 </ul>
