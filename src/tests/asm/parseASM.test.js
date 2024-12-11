@@ -17,7 +17,7 @@ describe("parseASM Function Tests", () => {
       { instruction: "MUL", arguments: ["R5", "R6"] },
       { instruction: "INC", arguments: ["R1"] },
     ];
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 4);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(result).toEqual(expectedOutput);
   });
 
@@ -37,7 +37,7 @@ describe("parseASM Function Tests", () => {
       { instruction: "SUB", arguments: ["R3", "4"] },
       { instruction: "MUL", arguments: ["R5", "R6"] },
     ];
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 5);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(result).toEqual(expectedOutput);
   });
 
@@ -45,7 +45,7 @@ describe("parseASM Function Tests", () => {
     const snippet = "";
     let asm = new AsmInterpreterService();
     expect(() => {
-      parseASM.parseASM(snippet, asm, asm.registers, 0);
+      parseASM.parseASM(snippet, asm, asm.registers);
     }).toThrow();
   });
 
@@ -54,7 +54,7 @@ describe("parseASM Function Tests", () => {
       ADD R1, R2, R3, R4, R5
     `;
     let asm = new AsmInterpreterService();
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 1);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(asm.errors.length).toEqual(1);
   });
 
@@ -63,7 +63,7 @@ describe("parseASM Function Tests", () => {
       ADD
     `;
     let asm = new AsmInterpreterService();
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 1);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(asm.errors.length).toEqual(1);
   });
 
@@ -75,7 +75,7 @@ describe("parseASM Function Tests", () => {
       INC R2, R3
     `;
     let asm = new AsmInterpreterService();
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 1);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(asm.errors.length).toEqual(1);
   });
 
@@ -86,7 +86,7 @@ describe("parseASM Function Tests", () => {
       SUB R1, R2, R3
     `;
     let asm = new AsmInterpreterService();
-    const result = parseASM.parseASM(snippet, asm, asm.registers, 1);
+    const result = parseASM.parseASM(snippet, asm, asm.registers);
     expect(asm.errors.length).toEqual(2);
   });
 });

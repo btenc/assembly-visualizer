@@ -4,14 +4,20 @@ import asmValidators from "./asmValidate.js";
 
 const INSTRUCTION_LIST = Object.keys(asmInstructions);
 
-function parseASM(snippet, AsmInterpreterService, registers, programLength) {
+function parseASM(snippet, AsmInterpreterService, registers) {
   AsmInterpreterService.errors = [];
   snippet = validations.checkStr(snippet);
   let program = [];
 
   const statementsByLine = snippet.split("\n");
+  const snippetLength = statementsByLine.length;
 
-  for (let i = 0; i < statementsByLine.length; i++) {
+  // if (snippetLength === 0) {
+  //   AsmInterpreterService.errors.push("Program length is zero!");
+  //   return;
+  // }
+
+  for (let i = 0; i < snippetLength; i++) {
     let currentStatement = statementsByLine[i];
     currentStatement = currentStatement.trim();
 
@@ -45,7 +51,7 @@ function parseASM(snippet, AsmInterpreterService, registers, programLength) {
     statementObj.arguments = argsArr;
 
     try {
-      checkLineSyntax(statementObj, registers, programLength, i + 1);
+      checkLineSyntax(statementObj, registers, snippetLength, i + 1);
     } catch (e) {
       AsmInterpreterService.errors.push(e);
       //for debug: console.log(AsmInterpreterService.errors);

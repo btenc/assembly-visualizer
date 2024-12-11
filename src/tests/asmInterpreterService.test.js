@@ -248,4 +248,25 @@ describe("AsmInterpreterService Tests", () => {
     // console.log(state.loadedProgram);
     expect(state.errors.length).toBe(3);
   });
+
+  test("Load a program with only null", () => {
+    const programSnippet = `
+    
+    
+    e
+    
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(0);
+    expect(state.registers.R1).toBe(0);
+    expect(state.instructionPointer).toBe(1);
+    expect(state.programFinished).toBe(false);
+    // console.log(state.errors);
+    // console.log(state.loadedProgram);
+    expect(state.errors.length).toBe(1);
+  });
 });

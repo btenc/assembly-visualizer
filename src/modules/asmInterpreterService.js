@@ -54,12 +54,7 @@ class AsmInterpreterService {
   //General Setters
   loadProgram(snippet) {
     snippet = validations.checkStr(snippet);
-    const program = parse.parseASM(
-      snippet,
-      this,
-      this.registers,
-      this.getLoadedProgramLength()
-    );
+    const program = parse.parseASM(snippet, this, this.registers);
 
     this.loadedProgram = program;
   }
