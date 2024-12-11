@@ -2,21 +2,21 @@
 use normalize.css reset */
 
 .error {
-color: red;
+  color: red;
 }
 
 body {
   background-color: darkgrey;
 }
 
-input{
+input {
   margin: 20px;
 }
 
-.snippetBody{
-  width: 90px; 
-  height: 390px; 
-  border: 1px solid #999999; 
+.snippetBody {
+  width: 90px;
+  height: 390px;
+  border: 1px solid #999999;
   padding: 5px;
 }
 
@@ -27,11 +27,15 @@ input{
 }
 
 .nav-li {
-  display: inline; 
+  display: inline;
 }
 
 .nav-a {
   display: block;
   padding: 8px;
   background-color: #dddddd;
+}
+
+h1 {
+  font-size: 50px;
 }
