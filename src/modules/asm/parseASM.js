@@ -4,7 +4,8 @@ import asmValidators from "./asmValidate.js";
 
 const INSTRUCTION_LIST = Object.keys(asmInstructions);
 
-function parseASM(snippet, registers, programLength) {
+function parseASM(snippet, registers, programLength, AsmInterpreterService) {
+  AsmInterpreterService.errors = [];
   snippet = validations.checkStr(snippet);
   let program = [];
 
@@ -43,7 +44,13 @@ function parseASM(snippet, registers, programLength) {
 
     statementObj.arguments = argsArr;
 
-    checkLineSyntax(statementObj, registers, programLength, i + 1);
+    try {
+      checkLineSyntax(statementObj, registers, programLength, i + 1);
+    } catch (e) {
+      AsmInterpreterService.errors.push(e);
+      console.log(AsmInterpreterService.errors);
+    }
+
     program.push(statementObj);
   }
 
