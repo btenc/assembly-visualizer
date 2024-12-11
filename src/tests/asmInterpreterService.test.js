@@ -249,11 +249,11 @@ describe("AsmInterpreterService Tests", () => {
     expect(state.errors.length).toBe(3);
   });
 
-  test("Load a program with only null", () => {
+  test("Load a wonky program", () => {
     const programSnippet = `
     
-    
     e
+
     
     `;
     asmInterpreter.loadProgram(programSnippet);
