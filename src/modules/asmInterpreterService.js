@@ -114,13 +114,13 @@ class AsmInterpreterService {
   }
 
   interpretStep() {
-    if (this.checkProgramFinished() === false || this.errors.length > 0) {
+    if (this.checkProgramFinished() === false && this.errors.length === 0) {
       this.interpretHelper();
     }
   }
 
   interpretAll() {
-    while (this.checkProgramFinished() === false || this.errors.length > 0) {
+    while (this.checkProgramFinished() === false && this.errors.length === 0) {
       this.interpretHelper();
     }
   }
