@@ -56,9 +56,9 @@ class AsmInterpreterService {
     snippet = validations.checkStr(snippet);
     const program = parse.parseASM(
       snippet,
+      this,
       this.registers,
-      this.getLoadedProgramLength(),
-      this
+      this.getLoadedProgramLength()
     );
 
     this.loadedProgram = program;

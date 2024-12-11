@@ -31,6 +31,7 @@ describe("AsmInterpreterService Tests", () => {
     expect(state.remainder).toBe(0);
     expect(state.loadedProgram).toEqual([]);
     expect(state.programFinished).toBe(false);
+    expect(state.errors).toEqual([]);
   });
 
   test("Load a program and verify loadedProgram", () => {
@@ -173,5 +174,78 @@ describe("AsmInterpreterService Tests", () => {
     expect(state.registers.R1).toBe(6);
     expect(state.instructionPointer).toBe(5);
     expect(state.programFinished).toBe(false);
+  });
+
+  test("Load a program with a syntax error -> shjould not progress at all", () => {
+    const programSnippet = `
+      MOV R0, 5
+      MOV R1, 7
+
+      DEC R1
+      IN R0
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(0);
+    expect(state.registers.R1).toBe(0);
+    expect(state.instructionPointer).toBe(1);
+    expect(state.programFinished).toBe(false);
+    expect(state.errors.length).toBe(1);
+  });
+
+  test("Load a program with a syntax error (too many args) -> shjould not progress at all", () => {
+    const programSnippet = `
+      MOV R0, 5
+      MOV R1, 7
+
+      DEC R1
+      INC R0, R1
+
+      ADD R1
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    asmInterpreter.interpretStep();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(0);
+    expect(state.registers.R1).toBe(0);
+    expect(state.instructionPointer).toBe(1);
+    expect(state.programFinished).toBe(false);
+    expect(state.errors.length).toBe(2);
+  });
+
+  test("Load a program with a syntax error (too many args) -> shjould not progress at all", () => {
+    const programSnippet = `
+      MOV R0, 5
+      MOV R1, 7
+
+      DEC R1
+      INC R0, R1
+
+      ADD R1
+      e
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(0);
+    expect(state.registers.R1).toBe(0);
+    expect(state.instructionPointer).toBe(1);
+    expect(state.programFinished).toBe(false);
+    // console.log(state.errors);
+    // console.log(state.loadedProgram);
+    expect(state.errors.length).toBe(3);
   });
 });
