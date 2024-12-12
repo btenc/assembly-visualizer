@@ -67,6 +67,7 @@ ADD R0, 10`;
      - `loadedProgram`: The current loaded snippet in object form.
      - `programFinished`: A boolean used as a flag to determine if the program ran its final instruction or not.
      - `errors`: If the program that was loaded has errors, they will be here.
+     - `loadedProgramAsSnippet`: this is the current loaded snippet in string form (like what the user enters)
 
 5. **Other Stuff:**
 
@@ -74,7 +75,6 @@ ADD R0, 10`;
    - **Reset remainder** with `.resetRemainder()`.
    - **Clear all registers** with `.clearAllRegisters()`.
    - **Clear the loaded program** with `.clearProgram()`.
-   - **Get loaded program** in snippet form with `.getLoadedProgramAsStr()`.
 
 ## How does it work? (TLDR)
 
