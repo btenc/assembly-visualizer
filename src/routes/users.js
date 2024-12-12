@@ -64,19 +64,10 @@ router.route("/signup").post(async (req, res) => {
   email = validations.checkEmail(email)
 
   // hash the password
-  let hashedPass = "";
+  let hashedPass = ''
   try {
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        throw "error in genning salt";
-      }
-      bcrypt.hash(pass, salt, (err, hash) => {
-        if (err) {
-          throw "error in genning hash";
-        }
-        hashedPass = hash;
-      });
-    });
+    const saltRounds = 16;
+    hashedPass = await bcrypt.hash(password, saltRounds);
   } catch (e) {
     res.render("pages/signup", {
       errorMessage: "Error generating hash. Please try again.",
@@ -148,7 +139,8 @@ router.route("/login").post(async (req, res) => {
   }
   
   // Create the login token
-  req.session.userId = username;
+  req.session.userId = searchUser.userId;
+  req.session.username = username;
 
   return res.status(200);
 });
