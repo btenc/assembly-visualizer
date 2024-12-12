@@ -87,7 +87,9 @@ router.route("/signup").post(async (req, res) => {
     return res.status(200);
   }
 
-  return res.redirect('login')
+  // Don't really know the best way to do this, but its just gonna render this page ig.
+  // TODO: Fix this garbage.
+  return res.render('pages/login', {signedUp: true})
 });
 
 // get the new acct page
@@ -110,7 +112,7 @@ router.route("/login").post(async (req, res) => {
     pass = validations.checkStr(pass);
     user = validations.checkStr(user)
   } catch (e) {
-    res.render("/pages/login", {errorMessage: "Must provide input for username/password"});
+    res.render("pages/login", {errors: ["Must provide input for username/password"]});
     return res.status(401)
   }
 
@@ -119,7 +121,7 @@ router.route("/login").post(async (req, res) => {
   try {
     searchUser = await userMethods.getUserByUsername(user)
   } catch (e) {
-    res.render("/pages/login", {errorMessage: "Username/Password do not match."});
+    res.render("pages/login", {erros: ["Username/Password do not match."]});
     return res.status(401)
   }
   
@@ -134,12 +136,12 @@ router.route("/login").post(async (req, res) => {
         passMatch = isMatch; 
     });
   } catch (e) {
-    res.render("/pages/login", {errorMessage: "Error comparing passwords, please try again"});
+    res.render("pages/login", {errors: ["Error comparing passwords, please try again"]});
     return res.status(500)
   }
 
   if (!passMatch) {
-    res.render("/pages/login", {errorMessage: "Username/Password do not match."});
+    res.render("pages/login", {errors: ["Username/Password do not match."]});
     return res.status(401)
   }
   
