@@ -10,15 +10,15 @@ function strToINT(strNum) {
 }
 
 function trimArgs(args) {
-  validations.checkStr(args[0]);
-  validations.checkStr(args[1]);
-  args[0] = args[0].trim();
-  args[1] = args[1].trim();
+  for (let i = 0; i < args.length; i++) {
+    validations.checkStr(args[i]);
+    args[i] = args[i].trim();
+  }
 
   return args;
 }
 
-function argsCheck(registersObj, args) {
+function twoArgsCheck(registersObj, args) {
   args = trimArgs(args);
   const registers = registersObj.getAllRegisters();
 
@@ -36,11 +36,10 @@ function argsCheck(registersObj, args) {
 }
 
 function argCheck(registersObj, arg) {
-  validations.checkStr(arg[0]);
-  arg[0] = arg[0].trim();
+  arg = trimArgs(arg);
   const registers = registersObj.getAllRegisters();
 
-  if (arg.length > 1) {
+  if (arg.length !== 1) {
     throw "Error: there must only be one argument";
   }
 
@@ -49,6 +48,28 @@ function argCheck(registersObj, arg) {
   }
 
   return arg;
+}
+
+function threeArgsCheck(registersObj, args) {
+  args = trimArgs(args);
+  const registers = registersObj.getAllRegisters();
+
+  if (args.length !== 3) {
+    throw "Error: there must only be three arguments";
+  }
+
+  if (!(args[0] in registers)) {
+    throw "Error: " + args[0] + " is not a valid register";
+  }
+
+  if (!(args[1] in registers)) {
+    throw "Error: " + args[1] + " is not a valid register or a valid number";
+  }
+  if (!isStrValidINT(args[2])) {
+    throw "Error: " + args[2] + " is not a valid number";
+  }
+
+  return args;
 }
 
 function registerCheck(registersObj, register) {
@@ -71,7 +92,7 @@ function isStrValidINT(value) {
   }
 }
 
-function isSrcOperandNumber(registersObj, sourceOperand) {
+function isArgNumber(registersObj, sourceOperand) {
   const registers = registersObj.getAllRegisters();
   if (isStrValidINT(sourceOperand)) {
     return true;
@@ -85,8 +106,9 @@ function isSrcOperandNumber(registersObj, sourceOperand) {
 
 const asmValidators = {
   strToINT,
-  argsCheck,
-  isSrcOperandNumber,
+  twoArgsCheck,
+  threeArgsCheck,
+  isArgNumber,
   registerCheck,
   argCheck,
 };

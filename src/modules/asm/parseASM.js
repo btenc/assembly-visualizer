@@ -105,21 +105,108 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
       );
     }
     try {
-      asmValidators.argsCheck(registers, args);
+      asmValidators.twoArgsCheck(registers, args);
     } catch (e) {
       throw "On line " + line + ": " + e;
     }
   } else if (instructionCategories.jumpArgs.includes(instruction)) {
-    if (args.length !== 2) {
-      throw (
-        "Error: " +
-        instruction +
-        " on line " +
-        line +
-        " expected two arguments but received " +
-        args.length
+    if (instruction === "JZ" || instruction === "JNZ") {
+      if (args.length !== 2) {
+        throw (
+          "Error: " +
+          instruction +
+          " on line " +
+          line +
+          " expected two arguments but received " +
+          args.length
+        );
+      }
+      try {
+        asmValidators.twoArgsCheck(registers, args);
+      } catch (e) {
+        throw "On line " + line + ": " + e;
+      }
+
+      const jumpTarget = args[1];
+      const jumpTargetIsNumber = asmValidators.isArgNumber(
+        registers,
+        jumpTarget
       );
+      const jumpTargetNum = asmValidators.strToINT(jumpTarget);
+
+      if (jumpTargetIsNumber) {
+        if (programLength < jumpTargetNum || jumpTargetNum < 1) {
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+        }
+      } else {
+        throw `On line ${line}: Error: Jump target must be a line number!`;
+      }
     }
+    if (
+      instruction === "JLT" ||
+      instruction === "JGT" ||
+      instruction === "JET"
+    ) {
+      if (args.length !== 3) {
+        throw (
+          "Error: " +
+          instruction +
+          " on line " +
+          line +
+          " expected two arguments but received " +
+          args.length
+        );
+      }
+
+      try {
+        asmValidators.threeArgsCheck(registers, args);
+      } catch (e) {
+        throw "On line " + line + ": " + e;
+      }
+
+      const jumpTarget = args[2];
+      const jumpTargetIsNumber = asmValidators.isArgNumber(
+        registers,
+        jumpTarget
+      );
+      const jumpTargetNum = asmValidators.strToINT(jumpTarget);
+
+      if (jumpTargetIsNumber) {
+        if (programLength < jumpTargetNum || jumpTargetNum < 1) {
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+        }
+      } else {
+        throw `On line ${line}: Error: Jump target must be a line number!`;
+      }
+    }
+    if (instruction === "JMP") {
+      if (args.length !== 1) {
+        throw (
+          "Error: " +
+          instruction +
+          " on line " +
+          line +
+          " expected one arguments but received " +
+          args.length
+        );
+      }
+
+      const jumpTarget = args[0];
+      const jumpTargetIsNumber = asmValidators.isArgNumber(
+        registers,
+        jumpTarget
+      );
+      const jumpTargetNum = asmValidators.strToINT(jumpTarget);
+
+      if (jumpTargetIsNumber) {
+        if (programLength < jumpTargetNum || jumpTargetNum < 1) {
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+        }
+      } else {
+        throw `On line ${line}: Error: Jump target must be a line number!`;
+      }
+    }
+
     //TODO
   } else {
     throw (

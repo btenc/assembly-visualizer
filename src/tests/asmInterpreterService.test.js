@@ -283,4 +283,30 @@ E`);
     // console.log(state.loadedProgram);
     expect(state.errors.length).toBe(1);
   });
+
+  test("Calculate factorial of 5", () => {
+    const programSnippet = `MOV R0, 5
+    MOV R1, 1
+    MOV R2, 1
+    JNZ R0, 6
+    JMP 9
+    MUL R1, R0
+    DEC R0
+    JMP 4
+    MOV R3, R1`;
+
+    asmInterpreter.loadProgram(programSnippet);
+    let state = asmInterpreter.getState();
+    console.log(state.loadedProgram);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+
+    state = asmInterpreter.getState();
+    console.log(state);
+
+    expect(state.registers.R3).toBe(120); // 5! = 120
+    expect(state.instructionPointer).toBe(10);
+    expect(state.programFinished).toBe(true);
+  });
 });

@@ -14,7 +14,7 @@ import asmValidate from "./asmValidate.js";
 
 //args is array of length 2 of strings that will hold the operands, the first being the destination and the second being the source.
 function ADD(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -26,10 +26,7 @@ function ADD(registersObj, args) {
     return registersObj.get(destination) + registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
   let result;
 
   if (sourceOperandIsNumber === true) {
@@ -44,7 +41,7 @@ function ADD(registersObj, args) {
 }
 
 function SUB(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -56,10 +53,7 @@ function SUB(registersObj, args) {
     return registersObj.get(destination) - registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
   let result;
 
   if (sourceOperandIsNumber === true) {
@@ -74,7 +68,7 @@ function SUB(registersObj, args) {
 }
 
 function MUL(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -86,10 +80,7 @@ function MUL(registersObj, args) {
     return registersObj.get(destination) * registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
   let result;
 
   if (sourceOperandIsNumber === true) {
@@ -104,7 +95,7 @@ function MUL(registersObj, args) {
 }
 
 function DIV(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -134,10 +125,7 @@ function DIV(registersObj, args) {
     return [quotient, remainder];
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   let result;
 
@@ -173,7 +161,7 @@ function DEC(registersObj, arg) {
 }
 
 function MOD(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -203,10 +191,7 @@ function MOD(registersObj, args) {
     return [quotient, remainder];
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   let result;
 
@@ -241,7 +226,7 @@ function NEG(registersObj, arg) {
 // www.w3schools.com/js/js_bitwise.asp
 
 function AND(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -253,10 +238,7 @@ function AND(registersObj, args) {
     return registersObj.get(destination) & registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   let result;
   if (sourceOperandIsNumber === true) {
@@ -271,7 +253,7 @@ function AND(registersObj, args) {
 }
 
 function OR(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -283,10 +265,7 @@ function OR(registersObj, args) {
     return registersObj.get(destination) | registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   let result;
   if (sourceOperandIsNumber === true) {
@@ -301,7 +280,7 @@ function OR(registersObj, args) {
 }
 
 function XOR(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
@@ -313,10 +292,7 @@ function XOR(registersObj, args) {
     return registersObj.get(destination) ^ registersObj.get(source);
   }
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   let result;
   if (sourceOperandIsNumber === true) {
@@ -341,14 +317,11 @@ function NOT(registersObj, arg) {
 // ____MOVEMENT INSTRUCTIONS____
 
 function MOV(registersObj, args) {
-  args = asmValidate.argsCheck(registersObj, args);
+  args = asmValidate.twoArgsCheck(registersObj, args);
   const destination = args[0];
   const source = args[1];
 
-  const sourceOperandIsNumber = asmValidate.isSrcOperandNumber(
-    registersObj,
-    source
-  );
+  const sourceOperandIsNumber = asmValidate.isArgNumber(registersObj, source);
 
   if (sourceOperandIsNumber) {
     const num = asmValidate.strToINT(source);
@@ -359,24 +332,144 @@ function MOV(registersObj, args) {
   }
 }
 
-//when i implement jumps, only do conditional jumps JZ, JNZ, JLT, JGT, JET
-function JZ() {
-  return;
+function JZ(registersObj, args, programLen) {
+  args = asmValidate.twoArgsCheck(registersObj, args);
+  const conditionRegister = args[0];
+  let conditionRegisterVal = registersObj.get(conditionRegister);
+
+  const jumpTarget = args[1];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else if (conditionRegisterVal === 0) {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    } else {
+      return;
+    }
+  } else {
+    throw "Error: Jump target must be a line number!";
+  }
 }
-function JNZ() {
-  return;
+function JNZ(registersObj, args, programLen) {
+  args = asmValidate.twoArgsCheck(registersObj, args);
+  const conditionRegister = args[0];
+  let conditionRegisterVal = registersObj.get(conditionRegister);
+
+  const jumpTarget = args[1];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else if (conditionRegisterVal !== 0) {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    } else {
+      return;
+    }
+  }
 }
-function JLT() {
-  return;
+function JLT(registersObj, args, programLen) {
+  args = asmValidate.threeArgsCheck(registersObj, args);
+  const registerOne = args[0];
+  const registerTwo = args[1];
+  let registerOneVal = registersObj.get(registerOne);
+  let registerTwoVal = registersObj.get(registerTwo);
+
+  const jumpTarget = args[2];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else if (registerOneVal < registerTwoVal) {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    } else {
+      return;
+    }
+  } else {
+    throw "Error: Jump target must be a line number!";
+  }
 }
-function JGT() {
-  return;
+function JGT(registersObj, args, programLen) {
+  args = asmValidate.threeArgsCheck(registersObj, args);
+  const registerOne = args[0];
+  const registerTwo = args[1];
+  let registerOneVal = registersObj.get(registerOne);
+  let registerTwoVal = registersObj.get(registerTwo);
+
+  const jumpTarget = args[2];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else if (registerOneVal > registerTwoVal) {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    } else {
+      return;
+    }
+  } else {
+    throw "Error: Jump target must be a line number!";
+  }
 }
-function JET() {
-  return;
+function JET(registersObj, args, programLen) {
+  args = asmValidate.threeArgsCheck(registersObj, args);
+  const registerOne = args[0];
+  const registerTwo = args[1];
+  let registerOneVal = registersObj.get(registerOne);
+  let registerTwoVal = registersObj.get(registerTwo);
+
+  const jumpTarget = args[2];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else if (registerOneVal === registerTwoVal) {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    } else {
+      return;
+    }
+  } else {
+    throw "Error: Jump target must be a line number!";
+  }
+}
+
+function JMP(registersObj, args, programLen) {
+  if (args.length !== 1) {
+    throw "Error: no jump target supplied";
+  }
+  const jumpTarget = args[0];
+  const jumpTargetIsNumber = asmValidate.isArgNumber(registersObj, jumpTarget);
+  const jumpTargetNum = asmValidate.strToINT(jumpTarget);
+
+  if (jumpTargetIsNumber) {
+    if (programLen < jumpTargetNum || jumpTargetNum < 1) {
+      throw `Error: Jump target "${jumpTarget}" is out of bounds for program length "${programLen}`;
+    } else {
+      registersObj.setInstructionPointer(jumpTargetNum, programLen);
+    }
+  } else {
+    throw "Error: Jump target must be a line number!";
+  }
 }
 
 // ____CONTROL INSTRUCTIONS____
+
+function NOP() {
+  return;
+}
+
+function HLT() {
+  return;
+}
 
 //instructions organized by type
 
@@ -400,6 +493,12 @@ const bitwiseInstructions = {
 
 const movementInstructions = {
   MOV,
+  JZ,
+  JNZ,
+  JLT,
+  JGT,
+  JET,
+  JMP,
 };
 
 //Instructions by argument count
@@ -429,6 +528,7 @@ const jumpInstructions = {
   JLT,
   JGT,
   JET,
+  JMP,
 };
 
 const asmInstructions = {
