@@ -21,7 +21,7 @@ const requireAuth = (req, res, next) => {
 
 // will get private information abt the user
 router.get('/', requireAuth, (req, res) => {
-
+    
 });
 
 // updates user information

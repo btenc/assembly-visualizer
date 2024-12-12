@@ -46,6 +46,52 @@ function instructionRouter(
       break;
     case "NOT":
       asmInstructions.NOT(AsmInterpreterService.registers, args);
+    case "JZ":
+      asmInstructions.JZ(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "JNZ":
+      asmInstructions.JNZ(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "JLT":
+      asmInstructions.JLT(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "JGT":
+      asmInstructions.JGT(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "JET":
+      asmInstructions.JET(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "JMP":
+      asmInstructions.JMP(
+        AsmInterpreterService.registers,
+        args,
+        AsmInterpreterService.getLoadedProgramLength()
+      );
+      break;
+    case "NOP":
+      break;
+    case "HLT":
+      break; //todo
     default:
       throw "Error: " + instruction + " is not a supported instruction!";
   }

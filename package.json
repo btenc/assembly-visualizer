@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node ./src/app.js",
     "seed": "node ./src/tasks/seed.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "display": "node ./src/tasks/displayDB.js"
   },
   "jest": {
     "transform": {}

@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import bcrypt from "bcryptjs";
+import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
 
 // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },
@@ -53,6 +54,38 @@ router
   .route("/:snippetID")
   .get(async (req, res) => {
     // Gets snippet ID depending on if they are allowed to access the snippet
+    if (!req.session.userId){
+      return res.redirect('/users/login');
+    }
+
+    // check if they have access to the snippet
+    let snip = await snippetMethods.getSnippetById(req.params.snippetID);
+    const snipOwner = snip.userId;
+
+    let ownerInfo = await userMethods.getUserById(snipOwner);
+    const friends = ownerInfo.friends;
+
+    if (req.session.userId !== snipOwner || !friends.incldues(req.session.userId)) {
+      res.render('snippets', {errors: ['You do not have access to the snippet!']})
+      return res.status(401)
+    }
+
+
+    try {
+      res.render('snippets', {
+        username: req.session.username,
+        snipName: snip.snipName,
+        snipBody: snip.snipBody,
+        dateCreated: snip.dateCreated,
+        dateLastEdited: snip.dateLastEdited
+      })
+
+      return res.status(200);
+    } catch (e) {
+      res.render('snippets', {errors: [e]})
+      return res.status(400);
+    }
+
   })
   .patch(async (req, res) => {
     // Update snippet body for given ID
