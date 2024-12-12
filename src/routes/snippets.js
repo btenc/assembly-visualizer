@@ -59,10 +59,10 @@ router
     }
 
     // check if they have access to the snippet
-    let snip = snippetMethods.getSnippetById(req.params.snippetID);
+    let snip = await snippetMethods.getSnippetById(req.params.snippetID);
     const snipOwner = snip.userId;
 
-    let ownerInfo = userMethods.getUserById(snipOwner);
+    let ownerInfo = await userMethods.getUserById(snipOwner);
     const friends = ownerInfo.friends;
 
     if (req.session.userId !== snipOwner || !friends.incldues(req.session.userId)) {

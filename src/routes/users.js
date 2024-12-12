@@ -29,16 +29,16 @@ router.route("/signup").post(async (req, res) => {
     email = validations.checkStr(email);
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
-    res.render("/pages/login", {errorMessage: "Must provide input all fields"});
+    res.render("/pages/login", { errors: [e]});
     return res.status(401);
   }
 
   // check if the username is in use:
   try {
-    userMethods.getUserById(user);
+    await userMethods.getUserByUsername(user);
   } catch (e) {
     if (e !== 'Error: User not found') {
-        res.render("pages/signup", { errorMessage: e });
+        res.render("pages/signup", { errors: [e] });
         return res.status(200);
     } 
   }
@@ -56,21 +56,26 @@ router.route("/signup").post(async (req, res) => {
 
   // check that the passwords match
   if (pass !== confirmPass) {
-    res.render("pages/signup", { errorMessage: "Passwords must match!" });
-    return res.status(200);
+    res.render("pages/signup", {  errors: ['Passwords must match!'] });
+    return res.status(401);
   }
 
   // check that the email is valid: 
-  email = validations.checkEmail(email)
+  try {
+    email = validations.checkEmail(email)
+  } catch (e) {
+    res.render("pages/signup", { errors: [e] });
+    return res.status(400);
+  }
 
   // hash the password
   let hashedPass = ''
   try {
     const saltRounds = 16;
-    hashedPass = await bcrypt.hash(password, saltRounds);
+    hashedPass = await bcrypt.hash(pass, saltRounds);
   } catch (e) {
     res.render("pages/signup", {
-      errorMessage: "Error generating hash. Please try again.",
+      errors: ["Error generating hash. Please try again."]
     });
     return res.status(200);
   }
@@ -78,11 +83,11 @@ router.route("/signup").post(async (req, res) => {
   try {
     await userMethods.addUser(email, user, hashedPass, date, [], []);
   } catch (e) {
-    res.render("pages/signup", { errorMessage: e });
+    res.render("pages/signup", { errors: [e] });
     return res.status(200);
   }
 
-  return res.status(200);
+  return res.redirect('login')
 });
 
 // get the new acct page
@@ -142,7 +147,7 @@ router.route("/login").post(async (req, res) => {
   req.session.userId = searchUser.userId;
   req.session.username = username;
 
-  return res.status(200);
+  return res.redirect('private/' + searchUser.userId);
 });
 
 export default router;
