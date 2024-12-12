@@ -45,6 +45,11 @@ describe("AsmInterpreterService Tests", () => {
     const state = asmInterpreter.getState();
     expect(state.loadedProgram.length).toBe(4);
     expect(state.programFinished).toBe(false);
+
+    expect(state.loadedProgramAsSnippet).toBe(`MOV R0, 5
+
+ADD R0, 10
+MOV R1, R0`);
   });
 
   test("Interpret one step works properly", () => {
@@ -226,14 +231,14 @@ describe("AsmInterpreterService Tests", () => {
 
   test("Load a program with a syntax error (too many args) -> shjould not progress at all", () => {
     const programSnippet = `
-      MOV R0, 5
-      MOV R1, 7
+    MOV R0, 5
+    MOV R1, 7
 
-      DEC R1
-      INC R0, R1
+    DEC R1
+    INC R0, R1
 
-      ADD R1
-      e
+    ADD R1
+    e
     `;
     asmInterpreter.loadProgram(programSnippet);
     asmInterpreter.resetIP();
@@ -244,6 +249,15 @@ describe("AsmInterpreterService Tests", () => {
     expect(state.registers.R1).toBe(0);
     expect(state.instructionPointer).toBe(1);
     expect(state.programFinished).toBe(false);
+
+    expect(state.loadedProgramAsSnippet).toBe(`MOV R0, 5
+MOV R1, 7
+
+DEC R1
+INC R0, R1
+
+ADD R1
+E`);
     // console.log(state.errors);
     // console.log(state.loadedProgram);
     expect(state.errors.length).toBe(3);

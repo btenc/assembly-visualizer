@@ -11,13 +11,16 @@ class AsmInterpreterService {
     this.errors = [];
   }
 
-  //General State Getters
+  //General State Gette
   getState() {
     return {
+      //Register stuff
       registers: this.registers.getAllRegisters(),
       remainder: this.registers.getRemainder(),
       instructionPointer: this.registers.getInstructionPointer(),
+      //snippet state
       loadedProgram: this.loadedProgram,
+      loadedProgramAsSnippet: this.getLoadedProgramAsStr(),
       programFinished: this.programFinished,
       errors: this.errors,
     };

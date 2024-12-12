@@ -132,9 +132,29 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
   }
 }
 
-function programToString(snippet) {
-  //make code formatter
-  //snippet -> object -> formatted snippet
+function programToString(loadedProgram) {
+  let programAsStr = "";
+  loadedProgram = validations.checkArray(loadedProgram);
+
+  if (loadedProgram.length === 0) {
+    return "";
+  }
+
+  for (let i = 0; i < loadedProgram.length; i++) {
+    if (loadedProgram[i] === null) {
+      programAsStr = programAsStr + "\n";
+    } else {
+      programAsStr =
+        programAsStr +
+        `${loadedProgram[i].instruction} ${loadedProgram[i].arguments.join(
+          ", "
+        )}\n`;
+    }
+  }
+
+  //console.log(programAsStr);
+
+  return programAsStr.trim();
 }
 
 const exportedMethods = { parseASM, programToString };
