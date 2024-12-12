@@ -1,4 +1,5 @@
 {{!-- snippet editor page --}}
+<title>Snippet Editor</title>
 {{#> navbar }}{{/navbar}}
 <body>
   <ul class="error" id="errUl" hidden></ul>
@@ -14,12 +15,15 @@
   <p id="username" hidden>{{username}}</p>
   <p id="snipName" hidden>{{snipName}}</p>
   <p id="snipName" hidden>{{snipBody}}</p>
-
+<div class="snipDiv">
   <!--Form should be populated with snippet name and code-->
   <form id="snippetEditor" action='/snippets/:snippetId' method="POST">
   <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name" required>
   <button type="submit" class="btn btn-primary">Save Changes</button>
+  <button type="submit" class="btn btn-primary">Run Code</button> 
   <p>Created on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
-  <input type="text" id="snippetBody" name="snippetBody" placeholder="Snippet Body" required>
+  <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body" required></textarea>
   </form>
+  <div id="error_output" class="errDiv">Hey How's it going{{asmErrors}}</div><div id="asm_output" class="errDiv">Oh what's up{{asmOutput}}</div>
+</div>
 </body>
