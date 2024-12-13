@@ -128,18 +128,18 @@ const denySnippetModification = async (req, res, next) => {
     next(); 
 }
 
-const homepageRedirect = async (req, res, next) => {
+const loggedInUsersRedirect = async (req, res, next) => {
     if (req.session.userId){
         return res.redirect('/private')
     }
 
-    next(); 
+    next();
 }
 
 const middleware = {
-    homepageRedirect,
     denyPrivateAccess,
-    denySnippetModification
+    denySnippetModification,
+    loggedInUsersRedirect
 }
 
 

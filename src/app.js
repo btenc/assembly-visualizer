@@ -45,8 +45,10 @@ app.set("view engine", "handlebars");
 // app.use("/administrator", middleware.administratorRedirects);
 // app.use("/signoutuser", middleware.signOutUserRedirects);
 
-app.use('/', middleware.homepageRedirect);
-app.use('/private', middleware.denySnippetModification);
+app.use('/', middleware.loggedInUsersRedirect);
+app.use('/users/login', middleware.loggedInUsersRedirect);
+app.use('/users/signup', middleware.loggedInUsersRedirect);
+app.use('/snippets', middleware.denySnippetModification);
 app.use(middleware.denyPrivateAccess);
 
 configRoutes(app);
