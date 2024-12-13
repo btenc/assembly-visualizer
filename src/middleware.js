@@ -104,4 +104,43 @@
 //     signOutUserRedirects,
 //   };
 
+
+ const denyPrivateAccess = async (req, res, next) => {
+    if (!req.session.userId){
+        
+        if (req.originalUrl.includes('private')){
+            return res.redirect('/users/login');
+        }
+    }
+
+    next();
+}
+
+const denySnippetModification = async (req, res, next) => {
+    const method = req.method;
+
+    if (!req.session.userId){
+        if (['POST', 'PATCH', 'DELETE'].includes(method.toUpperCase())){
+            return res.redirect('/users/login')
+        }
+    }   
+
+    next(); 
+}
+
+const homepageRedirect = async (req, res, next) => {
+    if (req.session.userId){
+        return res.redirect('/private')
+    }
+
+    next(); 
+}
+
+const middleware = {
+    homepageRedirect,
+    denyPrivateAccess,
+    denySnippetModification
+}
+
+
 export default middleware;
