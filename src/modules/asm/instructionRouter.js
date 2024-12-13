@@ -5,11 +5,12 @@ function instructionRouter(
   currentProgramLength
 ) {
   if (currentStatement === null) {
+    asmInstructions.NOP();
     return;
   }
   const instruction = currentStatement.instruction;
   const args = currentStatement.arguments;
-  // TODO: for the jump cases, make sure it's a valid place to jump to before I send it over. that's why program length is passed in
+
   switch (instruction) {
     case "MOV":
       asmInstructions.MOV(AsmInterpreterService.registers, args);
