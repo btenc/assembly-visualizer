@@ -136,7 +136,7 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
 
       if (jumpTargetIsNumber) {
         if (programLength < jumpTargetNum || jumpTargetNum < 1) {
-          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}"`;
         }
       } else {
         throw `On line ${line}: Error: Jump target must be a line number!`;
@@ -173,7 +173,7 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
 
       if (jumpTargetIsNumber) {
         if (programLength < jumpTargetNum || jumpTargetNum < 1) {
-          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}"`;
         }
       } else {
         throw `On line ${line}: Error: Jump target must be a line number!`;
@@ -200,7 +200,7 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
 
       if (jumpTargetIsNumber) {
         if (programLength < jumpTargetNum || jumpTargetNum < 1) {
-          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}`;
+          throw `On line ${line}: Error: Jump target "${jumpTargetNum}" is out of bounds for program length "${programLength}"`;
         }
       } else {
         throw `On line ${line}: Error: Jump target must be a line number!`;

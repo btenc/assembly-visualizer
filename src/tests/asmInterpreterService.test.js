@@ -297,16 +297,85 @@ E`);
 
     asmInterpreter.loadProgram(programSnippet);
     let state = asmInterpreter.getState();
-    console.log(state.loadedProgram);
+    //console.log(state.loadedProgram);
     asmInterpreter.resetIP();
 
     asmInterpreter.interpretAll();
 
     state = asmInterpreter.getState();
-    console.log(state);
+    //console.log(state);
 
     expect(state.registers.R3).toBe(120); // 5! = 120
     expect(state.instructionPointer).toBe(10);
     expect(state.programFinished).toBe(true);
+  });
+
+  test("Infinite loop detection", () => {
+    const programSnippet = `MOV R0, 5
+    MOV R1, 1
+    MOV R2, 1
+    JNZ R0, 6
+    JMP 1
+    MUL R1, R0
+    DEC R0
+    JMP 4
+    MOV R3, R1`;
+
+    asmInterpreter.loadProgram(programSnippet);
+    let state = asmInterpreter.getState();
+    //console.log(state.loadedProgram);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+
+    state = asmInterpreter.getState();
+    //console.log(state);
+
+    //console.log(state);
+    expect(state.errors.length).toBe(1);
+  });
+
+  test("Load a program with invalid jump", () => {
+    const programSnippet = `
+    MOV R0, 5
+    MOV R1, 7
+
+    DEC R1
+    INC R0, R1
+
+    JMP 15
+    JMP 0
+
+    JZ R99, 0
+
+    ADD R1
+    e
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(0);
+    expect(state.registers.R1).toBe(0);
+    expect(state.instructionPointer).toBe(1);
+    expect(state.programFinished).toBe(false);
+
+    expect(state.loadedProgramAsSnippet).toBe(`MOV R0, 5
+MOV R1, 7
+
+DEC R1
+INC R0, R1
+
+JMP 15
+JMP 0
+
+JZ R99, 0
+
+ADD R1
+E`);
+    console.log(state.errors);
+    // console.log(state.loadedProgram);
+    expect(state.errors.length).toBe(6);
   });
 });

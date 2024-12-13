@@ -3,6 +3,10 @@ import parse from "./asm/parseASM.js";
 import validations from "./utils/validations.js";
 import instructionRouter from "./asm/instructionRouter.js";
 
+const MAX_INSTRUCTION = 5000;
+const MAX_NUM = 32767;
+const MIN_NUM = -32768;
+
 class AsmInterpreterService {
   constructor() {
     this.registers = new Registers();
@@ -118,8 +122,19 @@ class AsmInterpreterService {
   }
 
   interpretAll() {
-    while (this.checkProgramFinished() === false && this.errors.length === 0) {
+    let instructionsRan = 0;
+    while (
+      this.checkProgramFinished() === false &&
+      this.errors.length === 0 &&
+      instructionsRan < MAX_INSTRUCTION
+    ) {
       this.interpretHelper();
+      instructionsRan = instructionsRan + 1;
+      if (instructionsRan === MAX_INSTRUCTION) {
+        this.errors.push(
+          "Error: MAX_INSTRUCTIONS reached. Interpreting terminated to prevent system hang. Do you have an infinite loop?"
+        );
+      }
     }
   }
 }
