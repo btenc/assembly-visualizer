@@ -68,6 +68,7 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
   const args = currentStatementObj.arguments;
 
   if (!INSTRUCTION_LIST.includes(instruction)) {
+    //console.log(instruction);
     throw (
       "Error: " +
       instruction +
@@ -75,9 +76,18 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
       line +
       " is not a supported instruction!"
     );
-  }
-
-  if (instructionCategories.oneArgs.includes(instruction)) {
+  } else if (instructionCategories.noArgs.includes(instruction)) {
+    if (args.length !== 0) {
+      throw (
+        "Error: " +
+        instruction +
+        " on line " +
+        line +
+        " expected no arguments but received " +
+        args.length
+      );
+    }
+  } else if (instructionCategories.oneArgs.includes(instruction)) {
     if (args.length !== 1) {
       throw (
         "Error: " +
@@ -231,11 +241,15 @@ function programToString(loadedProgram) {
     if (loadedProgram[i] === null) {
       programAsStr = programAsStr + "\n";
     } else {
-      programAsStr =
-        programAsStr +
-        `${loadedProgram[i].instruction} ${loadedProgram[i].arguments.join(
-          ", "
-        )}\n`;
+      if (loadedProgram[i].arguments.length > 0) {
+        programAsStr =
+          programAsStr +
+          `${loadedProgram[i].instruction} ${loadedProgram[i].arguments.join(
+            ", "
+          )}\n`;
+      } else {
+        programAsStr = programAsStr + `${loadedProgram[i].instruction}\n`;
+      }
     }
   }
 

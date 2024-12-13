@@ -267,6 +267,7 @@ E`);
     const programSnippet = `
     
     e
+    NOP
 
     
     `;
@@ -348,9 +349,13 @@ E`);
 
     JZ R99, 0
 
+    NOP
+
     ADD R1
     e
-    `;
+    HLT
+    HLT R1
+    NOP R1, R2, 3`;
     asmInterpreter.loadProgram(programSnippet);
     asmInterpreter.resetIP();
 
@@ -360,6 +365,8 @@ E`);
     expect(state.registers.R1).toBe(0);
     expect(state.instructionPointer).toBe(1);
     expect(state.programFinished).toBe(false);
+
+    //console.log(state.loadedProgramAsSnippet);
 
     expect(state.loadedProgramAsSnippet).toBe(`MOV R0, 5
 MOV R1, 7
@@ -372,10 +379,15 @@ JMP 0
 
 JZ R99, 0
 
+NOP
+
 ADD R1
-E`);
+E
+HLT
+HLT R1
+NOP R1, R2, 3`);
     console.log(state.errors);
     // console.log(state.loadedProgram);
-    expect(state.errors.length).toBe(6);
+    expect(state.errors.length).toBe(7);
   });
 });

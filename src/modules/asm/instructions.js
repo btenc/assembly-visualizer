@@ -505,6 +505,7 @@ const movementInstructions = {
 const controlInstructions = { NOP, HLT };
 
 //Instructions by argument count
+const noArgInstructions = { NOP, HLT };
 
 const oneArgInstructions = {
   INC,
@@ -544,6 +545,7 @@ const asmInstructions = {
 export default asmInstructions;
 
 export const instructionCategories = {
+  noArgs: Object.keys(noArgInstructions),
   oneArgs: Object.keys(oneArgInstructions),
   twoArgs: Object.keys(twoArgInstructions),
   jumpArgs: Object.keys(jumpInstructions),
