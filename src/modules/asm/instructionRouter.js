@@ -89,9 +89,9 @@ function instructionRouter(
       );
       break;
     case "NOP":
-      break;
+      asmInstructions.NOP();
     case "HLT":
-      break; //todo
+      asmInstructions.HLT(AsmInterpreterService);
     default:
       throw "Error: " + instruction + " is not a supported instruction!";
   }

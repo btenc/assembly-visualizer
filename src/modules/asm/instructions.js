@@ -8,6 +8,7 @@ https://www.felixcloutier.com/x86/
 //NOTE: ALL INPUT WILL BE TAKEN IN AS A STRING, BUT WILL BE STORED IN THE REGISTERS AS A NUMBER!
 
 // IMPORT INPUT VALIDATORS
+import asmValidators from "./asmValidate.js";
 import asmValidate from "./asmValidate.js";
 
 //____ARITHMETIC INSTRUCTIONS____
@@ -464,11 +465,11 @@ function JMP(registersObj, args, programLen) {
 // ____CONTROL INSTRUCTIONS____
 
 function NOP() {
-  return;
+  return; //do nothing lol
 }
 
-function HLT() {
-  return;
+function HLT(AsmInterpreterService) {
+  AsmInterpreterService.programFinished = true;
 }
 
 //instructions organized by type
@@ -500,6 +501,8 @@ const movementInstructions = {
   JET,
   JMP,
 };
+
+const controlInstructions = { NOP, HLT };
 
 //Instructions by argument count
 
@@ -535,6 +538,7 @@ const asmInstructions = {
   ...arithmeticInstructions,
   ...bitwiseInstructions,
   ...movementInstructions,
+  ...controlInstructions,
 };
 
 export default asmInstructions;
