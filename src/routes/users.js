@@ -104,8 +104,8 @@ router.route("/login").get((req, res) => {
 // Creating a new user account
 // assumes a form with a username and a password.
 router.route("/login").post(async (req, res) => {
-  let pass = xss(req.body.user_password);
-  let user = xss(req.body.user_name);
+  let pass = xss(req.body.password);
+  let user = xss(req.body.username);
 
   // validate the length + type 
   try {
@@ -121,20 +121,15 @@ router.route("/login").post(async (req, res) => {
   try {
     searchUser = await userMethods.getUserByUsername(user)
   } catch (e) {
-    res.render("pages/login", {erros: ["Username/Password do not match."]});
+    res.render("pages/login", {errors: ["Username/Password do not match."]});
     return res.status(401)
   }
-  
-  // validate that the passwords are the same:
-  try {
-    let passMatch = false
-    bcrypt.compare(pass, searchUser.password, (err, isMatch) => { 
-        if ( err ) { 
-            throw err; 
-        } 
 
-        passMatch = isMatch; 
-    });
+  // validate that the passwords are the same:
+  let passMatch = false;
+  try {
+    // compare the password with the stored hash
+    passMatch = await bcrypt.compare(pass, searchUser.password);
   } catch (e) {
     res.render("pages/login", {errors: ["Error comparing passwords, please try again"]});
     return res.status(500)
@@ -147,7 +142,7 @@ router.route("/login").post(async (req, res) => {
   
   // Create the login token
   req.session.userId = searchUser.userId;
-  req.session.username = username;
+  req.session.username = user;
 
   return res.redirect('private/' + searchUser.userId);
 });
