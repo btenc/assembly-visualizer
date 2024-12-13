@@ -151,4 +151,9 @@ router.route("/login").post(async (req, res) => {
   return res.redirect('private/' + searchUser.userId);
 });
 
+router.route('/logout').post(async (req, res) => {
+  req.session.destroy();
+
+  return res.redirect('/');
+});
 export default router;

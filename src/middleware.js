@@ -104,18 +104,7 @@
 //     signOutUserRedirects,
 //   };
 
-
- const denyPrivateAccess = async (req, res, next) => {
-    if (!req.session.userId){
-        
-        if (req.originalUrl.includes('private')){
-            return res.redirect('/users/login');
-        }
-    }
-
-    next();
-}
-
+// if a non-logged in user tries to post, patch or delete a snippet, it will redirect them to the login.
 const denySnippetModification = async (req, res, next) => {
     const method = req.method;
 
@@ -136,10 +125,19 @@ const loggedInUsersRedirect = async (req, res, next) => {
     next();
 }
 
+// Redirects users that are not logged in to the loginpage.
+const loggedOutUsersRedirect = async (req, res, next) => {
+    if (!req.session.userId){
+        return res.redirect('/users/login')
+    }
+
+    next();
+}
+
 const middleware = {
-    denyPrivateAccess,
     denySnippetModification,
-    loggedInUsersRedirect
+    loggedInUsersRedirect,
+    loggedOutUsersRedirect
 }
 
 
