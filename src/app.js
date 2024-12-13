@@ -4,6 +4,7 @@ const app = express();
 import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
+import middleware from "./middleware.js";
 
 app.use(
   session({
@@ -35,6 +36,14 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.set("views", path.join(path.resolve(), "src/views"));
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+
+// EXAMPLE HOW TO APPLY MIDDLEWARE
+// app.use(middleware.requestLoggerAndDefaultRedirectMW);
+// app.use("/signinuser", middleware.signInUserRedirects);
+// app.use("/signupuser", middleware.signUpUserRedirects);
+// app.use("/user", middleware.userRedirects);
+// app.use("/administrator", middleware.administratorRedirects);
+// app.use("/signoutuser", middleware.signOutUserRedirects);
 
 configRoutes(app);
 
