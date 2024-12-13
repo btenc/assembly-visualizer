@@ -3,10 +3,13 @@ Architecture:
 - 16 general purpose registers
 - Instruction pointer 
 - Remainder
-- Program Counter
 */
 import asmValidate from "./asmValidate.js";
 import validations from "../utils/validations.js";
+
+//how can i I access errors from asm interpreter service here?
+const MAX_NUM = 32767;
+const MIN_NUM = -32768;
 
 class Registers {
   constructor() {

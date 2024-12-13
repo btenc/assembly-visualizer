@@ -4,12 +4,10 @@ import validations from "./utils/validations.js";
 import instructionRouter from "./asm/instructionRouter.js";
 
 const MAX_INSTRUCTION = 5000;
-const MAX_NUM = 32767;
-const MIN_NUM = -32768;
 
 class AsmInterpreterService {
   constructor() {
-    this.registers = new Registers();
+    this.registers = new Registers(); //can i pass this into registers?
     this.loadedProgram = [];
     this.programFinished = false;
     this.errors = [];
