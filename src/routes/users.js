@@ -25,21 +25,25 @@ router.route("/signup").post(async (req, res) => {
   // validate the length + type of each
   try {
     pass = validations.checkStr(pass);
-    user = validations.checkStr(user);
+    user = validations.checkStr(user).toLowerCase();
     email = validations.checkStr(email);
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
-    res.render("/pages/login", { errors: [e]});
+    res.render("pages/signup", { errors: [e]});
     return res.status(401);
   }
 
   // check if the username is in use:
   try {
-    await userMethods.getUserByUsername(user);
+    const usernameInUse = await userMethods.getUserByUsername(user);
+    if (usernameInUse) {
+      res.render("pages/signup", { errors: ['Username already in use!']});
+      return res.status(401);
+    }
   } catch (e) {
-    if (e !== 'Error: User not found') {
-        res.render("pages/signup", { errors: [e] });
-        return res.status(200);
+    if (e !== "Error: User not found"){
+      res.render("pages/signup", { errors: [e]});
+      return res.status(401);
     } 
   }
 
@@ -105,7 +109,7 @@ router.route("/login").get((req, res) => {
 // assumes a form with a username and a password.
 router.route("/login").post(async (req, res) => {
   let pass = xss(req.body.password);
-  let user = xss(req.body.username);
+  let user = xss(req.body.username).toLowerCase();
 
   // validate the length + type 
   try {
