@@ -38,10 +38,10 @@ router
     // Gets snippet ID depending on if they are allowed to access the snippet
     // get the owner of the snippet
 
-    const snip = await snippetMethods.getSnippetById(req.params.snippetID);
-    const snipOwnerId = snip.userId;
-    const snipOwnerUsername = await userMethods.getUserById(snipOwnerId).username;
     try {
+      const snip = await snippetMethods.getSnippetById(req.params.snippetID);
+      const snipOwnerId = snip.userId;
+      const snipOwnerUsername = await userMethods.getUserById(snipOwnerId).username;
 
       if (req.session.userId === snipOwnerId){
         res.render("snippets", {
@@ -87,10 +87,6 @@ router
       }
     }
 
-    if (!req.session.userId){
-      console.log(req.session)
-      return res.redirect('/users/login');
-    } 
     snippetData.userId = req.session.userId;
 
     // now check if they are valid
