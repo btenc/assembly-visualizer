@@ -1,9 +1,5 @@
 //EXAMPLE MIDDLEWARE
 
-import e from "express";
-import req from "express/lib/request";
-import res from "express/lib/response";
-
 // async function requestLoggerAndDefaultRedirectMW(req, res, next) {
 //     let auth;
 //     if (req.session.user) {
@@ -112,7 +108,7 @@ import res from "express/lib/response";
 const tellMeMoreTellMeMore = async (req, res, next) => {
     let outStr = '';
     outStr += req.method.toUpperCase() + ' '
-    outStr += req.originalUrl + ' '
+    outStr += req.path + ' '
     
     if (req.session.userId){
         outStr += '[Authenticated]'
