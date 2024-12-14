@@ -50,6 +50,8 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 app.use("/public", express.static("src/public"));
+app.use("/modules", express.static("src/modules"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
@@ -71,6 +73,7 @@ app.use("/users/signup", middleware.loggedInUsersRedirect);
 app.use("/users/logout", middleware.loggedOutUsersRedirect);
 app.use("/private", middleware.loggedOutUsersRedirect);
 // app.use("/snippets", middleware.denySnippetModification);
+app.user(middleware.tellMeMoreTellMeMore)
 
 configRoutes(app);
 

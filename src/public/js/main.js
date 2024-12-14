@@ -1,4 +1,4 @@
-import AsmInterpreterService from "../asmInterpreterService.js";
+import AsmInterpreterService from "../../modules/asmInterpreterService.js";
 
 //public JS files will be used for DOM manipulation.
 let errors = [];
@@ -100,10 +100,20 @@ if (loginForm) {
   });
 }
 
-import AsmInterpreterService from "../../modules/asmInterpreterService.js";
-
 // Initialize the AsmInterpreterService
 const asmService = new AsmInterpreterService();
+
+const program = `
+  MOV R0, 5
+  DEC R0
+  HLT
+`;
+
+asmService.loadProgram(program);
+asmService.resetIP();
+
+asmService.interpretAll();
+console.log(asmService.getState());
 
 // DOM elements for snippet loading and interpretation
 let snippetEditor = document.getElementById("snippetEditor");
