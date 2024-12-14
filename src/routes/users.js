@@ -3,6 +3,7 @@ import userMethods from "../data/users.js";
 import validations from "../modules/utils/validations.js"
 import bcrypt from "bcryptjs";
 import xss from 'xss';
+import req from "express/lib/request.js";
 const router = Router();
 
 // get the new acct page
@@ -156,4 +157,25 @@ router.route('/logout').post(async (req, res) => {
 
   return res.redirect('/');
 });
+
+router.route('/:username').get(async (req, res) => {
+  const username = req.params.username;
+
+  // need to pass in username, array of snippets
+  try {
+    const user = await userMethods.getUserByUsername(username)
+  } catch (e) {
+    return res.redirect('pages/home');
+  }
+
+
+  // need to pass in username, array of snippets
+  try {
+    res.render('pages/dashboard', {username: username, snippets: user.snippetId});
+    return res.status(200);
+  } catch (e) {
+    res.render('error', {error: e});
+    return res.status(404)
+  }
+})
 export default router;
