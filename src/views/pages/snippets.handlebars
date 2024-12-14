@@ -20,7 +20,7 @@
   <ul id="errorUl2"></ul>
   <div class="consoles">
     <div class="snipForm">
-  <form id="snippetEditor" action='/snippets' method="POST">
+  <form id="snippetEditor" action='/snippets' method="PATCH">
     <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
     {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
