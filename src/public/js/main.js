@@ -126,6 +126,7 @@ if (nameCreatorSection) {
     createForm.appendChild(bodyField);
   });
 }
+
 // Initialize the AsmInterpreterService
 const asmService = new AsmInterpreterService();
 
@@ -155,7 +156,6 @@ function displayState() {
   asmOutputDiv.innerHTML = "";
 
   // Update registers if we have them
-  // Assuming `state` includes a `registers` object with keys like R0, R1, etc.
   if (state.registers) {
     document.getElementById("reg0").innerText = `R0: ${state.registers.R0}`;
     document.getElementById("reg1").innerText = `R1: ${state.registers.R1}`;

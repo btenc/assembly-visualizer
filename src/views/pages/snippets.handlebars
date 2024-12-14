@@ -20,8 +20,8 @@
   <ul id="errorUl2"></ul>
   <div class="consoles">
     <div class="snipForm">
+      <p id="snippetName">{{snipName}}</p>
   <form id="snippetEditor" action='/snippets' method="PATCH">
-    <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
     {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
@@ -48,9 +48,9 @@
   </table>
   </div>
   </div>
-  <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
-  <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
-  <button id="resetLine" type="submit" class="btn btn-primary">Reset</button>
+  <button id="runStepButton" type="button" class="btn btn-primary">Interpret Step</button> 
+  <button id="runAllButton" type="button" class="btn btn-primary">Interpret All</button> 
+  <button id="resetLine" type="button" class="btn btn-primary">Reset</button>
   <div class="consoles">
     <div id="error_output" class="consoleDiv">Errors: {{asmErrors}}</div>
     <div id="asm_output" class="consoleDiv">ASM output: {{asmOutput}}</div>
