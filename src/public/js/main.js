@@ -177,12 +177,12 @@ function runAll() {
 function resetInterpretation() {
   asmService.clearAllRegisters();
   asmService.clearProgram();
+  asmService.resetIP();
   loadSnippetIntoService();
 }
 
 if (runStepButton) {
   runStepButton.addEventListener("click", (event) => {
-    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -192,7 +192,6 @@ if (runStepButton) {
 
 if (runAllButton) {
   runAllButton.addEventListener("click", (event) => {
-    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -202,7 +201,6 @@ if (runAllButton) {
 
 if (resetLineButton) {
   resetLineButton.addEventListener("click", (event) => {
-    event.preventDefault();
     resetInterpretation();
   });
 }
