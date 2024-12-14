@@ -212,7 +212,7 @@ function resetInterpretation() {
 }
 
 if (runStepButton) {
-  runStepButton.addEventListener("click", (event) => {
+  runStepButton.addEventListener("click", "DOMContentLoaded", (event) => {
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -221,7 +221,7 @@ if (runStepButton) {
 }
 
 if (runAllButton) {
-  runAllButton.addEventListener("click", (event) => {
+  runAllButton.addEventListener("click", "DOMContentLoaded", (event) => {
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -230,7 +230,7 @@ if (runAllButton) {
 }
 
 if (resetLineButton) {
-  resetLineButton.addEventListener("click", (event) => {
+  resetLineButton.addEventListener("click", "DOMContentLoaded", (event) => {
     resetInterpretation();
   });
 }

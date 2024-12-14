@@ -18,9 +18,6 @@ const constructorMethod = (app) => {
   // CRUD for snippets
   app.use("/snippets", snippetRoutes);
 
-  // Private user stuff
-  app.use("/private", privateRoutes);
-
   app.use("*", (req, res) => {
     res.redirect("/homepage");
   });
