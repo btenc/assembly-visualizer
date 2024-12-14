@@ -12,7 +12,7 @@
     {{/each}}
   </ul>
   {{/if}}
-  <p id="username" hidden>{{username}}</p>
+  <p id="username" hidden>{{sessionUsername}}</p>
   <p id="snipName" hidden>{{snipName}}</p>
   <p id="snipBody" hidden>{{snipBody}}</p>
 <div class="snipDiv">
@@ -20,15 +20,20 @@
   <ul id="errorUl"></ul>
   <form id="snippetEditor" action='/snippets' method="POST">
     <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
+    {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
+    {{/if}}
     <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
     <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
-    <p>Created by {{username}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
+    {{#if ownerUsername}}
+    <p>Created by {{ownerUsername}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
+    {{/if}}
     <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
   </form>
+  </div>
   <div class="consoles">
     <div id="error_output" class="consoleDiv">Errors: {{asmErrors}}</div>
     <div id="asm_output" class="consoleDiv">ASM output: {{asmOutput}}</div>
   </div>
-</div>
+
 </body>
