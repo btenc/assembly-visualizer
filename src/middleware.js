@@ -118,10 +118,14 @@ const denySnippetModification = async (req, res, next) => {
 }
 
 const loggedInUsersRedirect = async (req, res, next) => {
-    if (req.session.userId){
-        return res.redirect('/private')
+    if (req.session.userId && req.method.toUpperCase() === 'POST'){
+        if (req.path === '/login') {
+            return next();
+        }
+        
+        return res.redirect('/users/' + req.session.username)
     }
-
+    
     next();
 }
 

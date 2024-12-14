@@ -105,8 +105,6 @@ const asmService = new AsmInterpreterService();
 
 // DOM elements for snippet loading and interpretation
 let snippetEditor = document.getElementById("snippetEditor");
-let snippetNameField = document.getElementById("snippetName");
-let snippetBodyField = document.getElementById("snippetBody");
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
@@ -161,13 +159,17 @@ function displayState() {
 }
 
 function runStep() {
-  loadSnippetIntoService();
+  if (asmService.getLoadedProgramLength() === 0) {
+    loadSnippetIntoService();
+  }
   asmService.interpretStep();
   displayState();
 }
 
 function runAll() {
-  loadSnippetIntoService();
+  if (asmService.getLoadedProgramLength() === 0) {
+    loadSnippetIntoService();
+  }
   asmService.interpretAll();
   displayState();
 }
@@ -175,12 +177,12 @@ function runAll() {
 function resetInterpretation() {
   asmService.clearAllRegisters();
   asmService.clearProgram();
+  asmService.resetIP();
   loadSnippetIntoService();
 }
 
 if (runStepButton) {
   runStepButton.addEventListener("click", (event) => {
-    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -190,7 +192,6 @@ if (runStepButton) {
 
 if (runAllButton) {
   runAllButton.addEventListener("click", (event) => {
-    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -200,7 +201,6 @@ if (runAllButton) {
 
 if (resetLineButton) {
   resetLineButton.addEventListener("click", (event) => {
-    event.preventDefault();
     resetInterpretation();
   });
 }

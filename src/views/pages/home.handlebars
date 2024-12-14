@@ -1,10 +1,16 @@
 {{!-- home page before login... maybe wont use. --}}
 <title>Homepage</title>
+{{#if res.session.user}}
+  {{#> navbar }}{{/navbar}}
+{{/if}}
 <section class="welcome">
   <h1>Welcome to AsmVis</h1>
   <div class="buttons">
+    {{#if res.session.user}}
+    {{else}}
     <a href="users/login" class="btn btn-primary">Log In</a>
     <a href="users/signup" class="btn btn-secondary">Sign Up</a>
+    {{/if}}
   </div>
   <h3>Recent Snippets:</h3>
   {{#each snippet}}

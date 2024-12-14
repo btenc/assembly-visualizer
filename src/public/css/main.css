@@ -56,8 +56,38 @@ h1 {
   padding: 5px;
 }
 
+.snipForm{
+  display: inline-block;
+  width: 85%;
+}
+
+.snipRegs{
+  border: 1px solid black;
+  background-color: rgb(57, 57, 57);
+  display: inline-block;
+  margin-left: 20px;
+  margin-top: 25px;
+  vertical-align: top;
+  width: 10%;
+  padding: 5px;
+  height: 350px;
+}
+
+td{
+  padding: 3px;
+}
+
 a{
   color:rgb(242, 49, 249);
+  text-decoration: none;
+}
+
+a:hover{
+  color:rgb(176, 37, 181);
+}
+
+p{
+  padding-top: 0px;
 }
 
 body {
