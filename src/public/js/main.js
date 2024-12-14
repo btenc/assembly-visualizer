@@ -10,16 +10,16 @@ let stringCheck = (string) => {
     errors.push("Email cannot be an empty string or just spaces");
 };
 
-//TODO: Create New Snip button
-let newSnipForm = document.getElementById('newSnip-form');
-if (newSnipForm) {
-  newSnipForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    snipName.value = 'New Assembly Snippet';
-    snipBody.value = '# This is the body of my new assembly snippet!';
-    userId.value = 'SomeGuy11';
-  })
-}
+// //TODO: Create New Snip button
+// let newSnipForm = document.getElementById('newSnip-form');
+// if (newSnipForm) {
+//   newSnipForm.addEventListener("submit", (event) => {
+//     event.preventDefault();
+//     snipName.value = 'New Assembly Snippet';
+//     snipBody.value = '# This is the body of my new assembly snippet!';
+//     userId.value = 'SomeGuy11';
+//   })
+// }
 
 //TODO: Signup Form Validation
 let signUpForm = document.getElementById("signup-form");
@@ -110,6 +110,49 @@ if (loginForm) {
     }
   });
 }
+
+let snippetEditor = document.getElementById("snippetEditor");
+let snippetNameField = document.getElementById("snippetName");
+let snippetBodyField = document.getElementById("snippetBody");
+
+//TODO: Pre-fill out the snippets page
+if (snippetEditor) {
+  let snipName = document.getElementById("snipName");
+  let snipBody = document.getElementById("snipBody");
+  
+  if (snipName.innerHTML !== '') {
+    snippetNameField.value = snipName.innerText;
+    snippetBodyField.value = snipBody.innerText;
+  }
+}
+
+//TODO: Run button
+if (snippetEditor) {
+  snippetEditor.addEventListener("submit", (event) => { })
+}
+
+//TODO: Save to database form validation
+if (snippetEditor) {
+  errors = [];
+  snippetEditor.addEventListener("submit", (event) => {
+    if (!snippetBodyField) errors.push(`Snippet Body must be provided!`);
+    if (!snippetNameField) errors.push(`Snippet Name must be provided!`);
+    if (errors.length > 0) {
+      let myUL = document.createElement("ul");
+      event.preventDefault();
+      for (let i = 0; i < errors.length; i++) {
+        let myLi = document.createElement("li");
+        myLi.classList.add("error");
+        myLi.innerHTML = errors[i];
+        myUL.appendChild(myLi);
+      }
+      snippetEditor.appendChild(myUL);
+    }
+  });
+}
+
+
+
 
 //TODO: Append snippets to snippet lists
 //get passed username of user
