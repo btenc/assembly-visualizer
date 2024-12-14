@@ -1,8 +1,8 @@
 import e, { Router } from "express";
 import userMethods from "../data/users.js";
-import validations from "../modules/utils/validations.js"
+import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
-import xss from 'xss';
+import xss from "xss";
 import req from "express/lib/request.js";
 const router = Router();
 
@@ -30,7 +30,7 @@ router.route("/signup").post(async (req, res) => {
     email = validations.checkStr(email);
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
-    res.render("pages/signup", { errors: [e]});
+    res.render("pages/signup", { errors: [e] });
     return res.status(401);
   }
 
@@ -38,14 +38,14 @@ router.route("/signup").post(async (req, res) => {
   try {
     const usernameInUse = await userMethods.getUserByUsername(user);
     if (usernameInUse) {
-      res.render("pages/signup", { errors: ['Username already in use!']});
+      res.render("pages/signup", { errors: ["Username already in use!"] });
       return res.status(401);
     }
   } catch (e) {
-    if (e !== "Error: User not found"){
-      res.render("pages/signup", { errors: [e]});
+    if (e !== "Error: User not found") {
+      res.render("pages/signup", { errors: [e] });
       return res.status(401);
-    } 
+    }
   }
 
   // get the current date.
@@ -61,26 +61,26 @@ router.route("/signup").post(async (req, res) => {
 
   // check that the passwords match
   if (pass !== confirmPass) {
-    res.render("pages/signup", {  errors: ['Passwords must match!'] });
+    res.render("pages/signup", { errors: ["Passwords must match!"] });
     return res.status(401);
   }
 
-  // check that the email is valid: 
+  // check that the email is valid:
   try {
-    email = validations.checkEmail(email)
+    email = validations.checkEmail(email);
   } catch (e) {
     res.render("pages/signup", { errors: [e] });
     return res.status(400);
   }
 
   // hash the password
-  let hashedPass = ''
+  let hashedPass = "";
   try {
-    const saltRounds = 16;
+    const saltRounds = 1; // change back to 16
     hashedPass = await bcrypt.hash(pass, saltRounds);
   } catch (e) {
     res.render("pages/signup", {
-      errors: ["Error generating hash. Please try again."]
+      errors: ["Error generating hash. Please try again."],
     });
     return res.status(200);
   }
@@ -94,7 +94,7 @@ router.route("/signup").post(async (req, res) => {
 
   // Don't really know the best way to do this, but its just gonna render this page ig.
   // TODO: Fix this garbage.
-  return res.render('pages/login', {signedUp: true})
+  return res.render("pages/login", { signedUp: true });
 });
 
 // get the new acct page
@@ -112,22 +112,24 @@ router.route("/login").post(async (req, res) => {
   let pass = xss(req.body.password);
   let user = xss(req.body.username).toLowerCase();
 
-  // validate the length + type 
+  // validate the length + type
   try {
     pass = validations.checkStr(pass);
-    user = validations.checkStr(user)
+    user = validations.checkStr(user);
   } catch (e) {
-    res.render("pages/login", {errors: ["Must provide input for username/password"]});
-    return res.status(401)
+    res.render("pages/login", {
+      errors: ["Must provide input for username/password"],
+    });
+    return res.status(401);
   }
 
-  // validate the username exists: 
-  let searchUser = {}
+  // validate the username exists:
+  let searchUser = {};
   try {
-    searchUser = await userMethods.getUserByUsername(user)
+    searchUser = await userMethods.getUserByUsername(user);
   } catch (e) {
-    res.render("pages/login", {errors: ["Username/Password do not match."]});
-    return res.status(401)
+    res.render("pages/login", { errors: ["Username/Password do not match."] });
+    return res.status(401);
   }
 
   // validate that the passwords are the same:
@@ -136,44 +138,49 @@ router.route("/login").post(async (req, res) => {
     // compare the password with the stored hash
     passMatch = await bcrypt.compare(pass, searchUser.password);
   } catch (e) {
-    res.render("pages/login", {errors: ["Error comparing passwords, please try again"]});
-    return res.status(500)
+    res.render("pages/login", {
+      errors: ["Error comparing passwords, please try again"],
+    });
+    return res.status(500);
   }
 
   if (!passMatch) {
-    res.render("pages/login", {errors: ["Username/Password do not match."]});
-    return res.status(401)
+    res.render("pages/login", { errors: ["Username/Password do not match."] });
+    return res.status(401);
   }
-  
+
   // Create the login token
   req.session.userId = searchUser._id.toString();
   req.session.username = user;
 
-  return res.redirect('/users/' + user);
+  return res.redirect("/users/" + user);
 });
 
-router.route('/logout').post(async (req, res) => {
+router.route("/logout").post(async (req, res) => {
   req.session.destroy();
 
-  return res.redirect('/');
+  return res.redirect("/");
 });
 
-router.route('/:username').get(async (req, res) => {
+router.route("/:username").get(async (req, res) => {
   const username = req.params.username;
 
-  let user = {}
+  let user = {};
   try {
-    user = await userMethods.getUserByUsername(username)
+    user = await userMethods.getUserByUsername(username);
   } catch (e) {
-    return res.redirect('pages/home');
+    return res.redirect("pages/home");
   }
 
   try {
-    res.render('pages/dashboard', {username: username, snippets: user.snippetId});
+    res.render("pages/dashboard", {
+      username: username,
+      snippets: user.snippetId,
+    });
     return res.status(200);
   } catch (e) {
-    res.render('error', {error: e});
-    return res.status(404)
+    res.render("error", { error: e });
+    return res.status(404);
   }
-})
+});
 export default router;
