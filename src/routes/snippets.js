@@ -3,8 +3,13 @@ const router = Router();
 import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
 
-// Creates a new snippet {snippetName: name, snipBod: code, userUID: id },
-router.route("/").post(async (req, res) => {
+router.route("/")
+  .get(async (req, res) => { 
+    res.render('pages/snippets');
+  })
+
+  // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },  
+  .post(async (req, res) => {
   const snippetData = req.body;
 
   // check if there is any data in req.body
