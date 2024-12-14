@@ -14,19 +14,19 @@
   {{/if}}
   <p id="username" hidden>{{username}}</p>
   <p id="snipName" hidden>{{snipName}}</p>
-  <p id="snipName" hidden>{{snipBody}}</p>
+  <p id="snipBody" hidden>{{snipBody}}</p>
 <div class="snipDiv">
   <!--Form should be populated with snippet name and code-->
   <form id="snippetEditor" action='/snippets/:snippetId' method="POST">
-    <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name" required>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <button type="submit" class="btn btn-primary">Run Code</button> 
-    <p>Created on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
-    <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body" required></textarea>
+    <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
+    <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
+    <button id="runButton" type="submit" class="btn btn-primary">Run Code</button> 
+    <p>Created by {{username}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
+    <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
   </form>
-  Errors:
-  <div id="error_output" class="errDiv">Hey How's it going{{asmErrors}}</div>
-  Output:
-  <div id="asm_output" class="errDiv">Oh what's up{{asmOutput}}</div>
+  <div class="consoles">
+    <div id="error_output" class="consoleDiv">Errors will pop up here{{asmErrors}}</div>
+    <div id="asm_output" class="consoleDiv">ASM output will pop up here{{asmOutput}}</div>
+  </div>
 </div>
 </body>
