@@ -54,14 +54,22 @@ app.use(rewriteUnsupportedBrowserMethods);
 // app.use("/user", middleware.userRedirects);
 // app.use("/administrator", middleware.administratorRedirects);
 // app.use("/signoutuser", middleware.signOutUserRedirects);
-
 app.use("/", middleware.loggedInUsersRedirect);
 app.use("/users/login", middleware.loggedInUsersRedirect);
 app.use("/users/signup", middleware.loggedInUsersRedirect);
 app.use("/users/logout", middleware.loggedOutUsersRedirect);
-app.use("/private", middleware.loggedOutUsersRedirect);
 // app.use("/snippets", middleware.denySnippetModification);
 app.use(middleware.tellMeMoreTellMeMore);
+
+/*
+
+First take / and any URL and redirect to the homepage
+Then for homepage, if logged in then redirect to /users/req.session.username
+Then for login, if logged in then redirect to /users/req.session.username
+Then for signup, if logged in then redirect to /users/req.session.username
+Then for logout, if logged in then redirect to homepage
+
+*/
 
 configRoutes(app);
 
