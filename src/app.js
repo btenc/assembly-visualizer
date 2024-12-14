@@ -50,6 +50,8 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 app.use("/public", express.static("src/public"));
+app.use("/modules", express.static("src/modules"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);

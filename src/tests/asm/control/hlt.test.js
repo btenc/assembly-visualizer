@@ -25,12 +25,12 @@ describe("HLT Instruction Tests", () => {
     asmInterpreter.interpretAll();
     const finalState = asmInterpreter.getState();
 
-    console.log(finalState.errors);
+    //console.log(finalState.errors);
 
     expect(finalState.programFinished).toBe(true);
     expect(finalState.registers.R0).toBe(5);
     expect(finalState.registers.R1).toBe(0); // MOV R1, 10 should not execute
-    expect(finalState.instructionPointer).toBe(3); // HALT stops execution
+    expect(finalState.instructionPointer).toBe(3); // HALT stops execution but points to next instruction
   });
 
   test("throw error if hlt has arguments", () => {
