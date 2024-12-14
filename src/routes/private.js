@@ -2,17 +2,17 @@ import { Router } from "express";
 const router = Router();
 
 // will get private information abt the user
-router.get('/', requireAuth, (req, res) => {
+router.get('/', (req, res) => {
     
 });
 
 // updates user information
-router.post('/', requireAuth, (req, res) => {
+router.post('/', (req, res) => {
 
 });
 
 // will load the user's dashboard
-router.get('/:userId', requireAuth, (req, res) => {
+router.get('/:userId', (req, res) => {
     
 });
 

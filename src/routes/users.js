@@ -161,8 +161,9 @@ router.route('/logout').post(async (req, res) => {
 router.route('/:username').get(async (req, res) => {
   const username = req.params.username;
 
+  let user = {}
   try {
-    const user = await userMethods.getUserByUsername(username)
+    user = await userMethods.getUserByUsername(username)
   } catch (e) {
     return res.redirect('pages/home');
   }

@@ -5,6 +5,7 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import middleware from "./middleware.js";
+import fs from 'fs';
 
 app.use(
   session({
@@ -34,8 +35,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.set("views", path.join(path.resolve(), "src/views"));
-app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+const hbs = exphbs.create({
+  defaultLayout: "main",
+  partialsDir: path.join(path.resolve(), "src/views/partials"), // Specify where partials are located
+});
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
+
 
 // EXAMPLE HOW TO APPLY MIDDLEWARE
 // app.use(middleware.requestLoggerAndDefaultRedirectMW);
