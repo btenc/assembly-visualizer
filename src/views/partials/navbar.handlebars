@@ -1,10 +1,10 @@
 {{!-- reusable navbar element --}}
 <div class="navbar">
   <ul class="nav-ul">
-  <li class="nav-li-left"><a id="nav-a" href="/homepage">ASM Vis</a></li>
+  <li class="nav-left"><a id="nav-a" href="/homepage">ASM Vis</a></li>
   <!-- if user logged in-->
   {{#if username}}
-  <li class="nav-li">Hello, <a id="nav-a" href="/users/">{{username}}</a></li>
+  <li class="nav-li"><a id="nav-a" href="/users/">Hello, {{username}}</a></li>
   <li class="nav-li"><a href="/snippets">New Snippet</a></li>
   <li class="nav-li"><a id="nav-a" href="/users/login">Log Out</a></li>
   {{else}}
