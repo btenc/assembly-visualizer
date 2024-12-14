@@ -12,9 +12,9 @@
       <h2><a href="/snippets/{{snipId}}">{{snipName}}</a></h2>
       <p>Date Last Edited: {{dateLastEdit}}</p>
       <p>Date Created: {{dateCreated}}</p>
-      <!--pass in a check with person accessing page and who's profile this is-->
+      <!--Pass in a check with person accessing page and who's profile this is-->
       {{#if owner}}
-      <p>Delete Snippet</p>
+      <a href="/snippets/{{snipId}}" method="DELETE">Delete Snippet</a>
       {{/if}}
     </article>
     {{/each}}

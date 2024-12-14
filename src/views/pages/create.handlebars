@@ -1,5 +1,5 @@
 <section id="name-creator">
-    <h1>Create a Name</h1>
+    <h1>Create a Name for the New Snippet</h1>
     <form id="create-form" action="/snippets" method="POST">
         <label for="nameInput">Enter a name:</label>
         <input type="text" id="nameInput" name="name" required />
@@ -7,7 +7,7 @@
     </form>
     <div id="result" class="result"></div>
 
-    {{#if errors}}
+  {{#if errors}}
   <ul class="error" id="errorUl">
     {{#each errors}}
     <li>
