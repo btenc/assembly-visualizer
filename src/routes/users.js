@@ -192,10 +192,16 @@ router.route("/login").post(async (req, res) => {
 });
 
 router.route("/logout").post(async (req, res) => {
-  req.session.cookie.expires = new Date().toUTCString();
-  req.session.destroy();
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).render("error", {
+        error: "Could not log out. Please try again.",
+      });
+    }
+    res.clearCookie("AuthenticationState");
 
-  return res.redirect("/");
+    return res.redirect("/homepage");
+  });
 });
 
 router.route("/:username").get(async (req, res) => {
