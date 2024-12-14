@@ -18,6 +18,8 @@
 <div class="snipDiv">
   <!--Form should be populated with snippet name and code-->
   <ul id="errorUl"></ul>
+  <div class="consoles">
+    <div class="snipForm">
   <form id="snippetEditor" action='/snippets' method="POST">
     <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
     {{#if owner}}
@@ -28,6 +30,24 @@
     {{/if}}
     <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
   </form>
+  </div>
+  <div class="snipRegs">
+  <table class="regTable">
+    <tr><td>R0: 1</td> <td>R1: 1</td></tr> 
+    <tr><td>R2: 1</td><td>R3: 1 </td> </tr>
+    <tr><td>R4: 1</td> <td>R5: 1</td></tr>
+    <tr><td>R6: 1</td> <td>R7: 1</td> </tr>
+    <tr><td>R8: 1</td><td>R9: 1</td> </tr>
+    <tr><td>R10: 1</td> <td>R11: 1</td></tr>
+    <tr><td>R12: 1</td> <td>R13: 1</td> </tr>
+    <tr><td>R14: 1</td><td>R15: 1</td> </tr>
+    </table>
+    <table>
+    <tr><td>Remainder: 1</td></tr>
+    <tr> <td>Instruction Pointer: 1</td></tr>
+  </table>
+  </div>
+  </div>
   <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
   <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
   <button id="resetLine" type="submit" class="btn btn-primary">Reset</button>
