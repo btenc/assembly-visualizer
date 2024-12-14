@@ -1,7 +1,7 @@
 {{!-- User dashboard after login page, listing snippets or making new ones --}}
 <title>{{username}}'s Profile</title>
 {{#> navbar }}{{/navbar}}
-<body>
+<section class="profile">
   <h1><a href="/">{{username}}</a>'s Profile</h1>
   <p>Member since {{dateRegistered}}</p>
   <h2>Snippets:</h2>
@@ -22,4 +22,4 @@
   {{else}}
   <p>This user hasn't made any snippets yet!</p>
   {{/if}}
-</body>
+</section>
