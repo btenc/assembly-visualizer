@@ -149,7 +149,7 @@ router.route("/login").post(async (req, res) => {
   req.session.userId = searchUser.userId;
   req.session.username = user;
 
-  return res.redirect('private/' + searchUser.userId);
+  return res.redirect('/users/' + user);
 });
 
 router.route('/logout').post(async (req, res) => {
@@ -161,15 +161,12 @@ router.route('/logout').post(async (req, res) => {
 router.route('/:username').get(async (req, res) => {
   const username = req.params.username;
 
-  // need to pass in username, array of snippets
   try {
     const user = await userMethods.getUserByUsername(username)
   } catch (e) {
     return res.redirect('pages/home');
   }
 
-
-  // need to pass in username, array of snippets
   try {
     res.render('pages/dashboard', {username: username, snippets: user.snippetId});
     return res.status(200);
