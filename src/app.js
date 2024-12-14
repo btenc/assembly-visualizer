@@ -5,7 +5,7 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import middleware from "./middleware.js";
-import fs from 'fs';
+import fs from "fs";
 
 app.use(
   session({
@@ -37,11 +37,10 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.set("views", path.join(path.resolve(), "src/views"));
 const hbs = exphbs.create({
   defaultLayout: "main",
-  partialsDir: path.join(path.resolve(), "src/views/partials"), // Specify where partials are located
+  partialsDir: "partials/",
 });
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
-
 
 // EXAMPLE HOW TO APPLY MIDDLEWARE
 // app.use(middleware.requestLoggerAndDefaultRedirectMW);
@@ -51,12 +50,12 @@ app.set("view engine", "handlebars");
 // app.use("/administrator", middleware.administratorRedirects);
 // app.use("/signoutuser", middleware.signOutUserRedirects);
 
-app.use('/', middleware.loggedInUsersRedirect);
-app.use('/users/login', middleware.loggedInUsersRedirect);
-app.use('/users/signup', middleware.loggedInUsersRedirect);
-app.use('/users/logout', middleware.loggedOutUsersRedirect);
-app.use('/private', middleware.loggedOutUsersRedirect);
-app.use('/snippets', middleware.denySnippetModification);
+app.use("/", middleware.loggedInUsersRedirect);
+app.use("/users/login", middleware.loggedInUsersRedirect);
+app.use("/users/signup", middleware.loggedInUsersRedirect);
+app.use("/users/logout", middleware.loggedOutUsersRedirect);
+app.use("/private", middleware.loggedOutUsersRedirect);
+app.use("/snippets", middleware.denySnippetModification);
 
 configRoutes(app);
 
