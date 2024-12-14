@@ -470,6 +470,7 @@ function NOP() {
 
 function HLT(AsmInterpreterService) {
   AsmInterpreterService.programFinished = true;
+  AsmInterpreterService.haltFlag = true;
 }
 
 //instructions organized by type
