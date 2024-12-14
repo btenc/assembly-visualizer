@@ -1,27 +1,14 @@
-import { checkLineSyntax } from "../../modules/asm/parseASM";
+import AsmInterpreterService from "../../modules/asmInterpreterService";
 
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
 let stringCheck = (string) => {
-  //String Type
   if (typeof string !== "string") errors.push("Email must be a string");
-  //Empty String
   string = string.trim();
   if (string.length === 0)
     errors.push("Email cannot be an empty string or just spaces");
 };
-
-// //TODO: Create New Snip button
-// let newSnipForm = document.getElementById('newSnip-form');
-// if (newSnipForm) {
-//   newSnipForm.addEventListener("submit", (event) => {
-//     event.preventDefault();
-//     snipName.value = 'New Assembly Snippet';
-//     snipBody.value = '# This is the body of my new assembly snippet!';
-//     userId.value = 'SomeGuy11';
-//   })
-// }
 
 //TODO: Signup Form Validation
 let signUpForm = document.getElementById("signup-form");
@@ -113,116 +100,143 @@ if (loginForm) {
   });
 }
 
+import AsmInterpreterService from "../../modules/asmInterpreterService.js";
+
+// Initialize the AsmInterpreterService
+const asmService = new AsmInterpreterService();
+
+// DOM elements for snippet loading and interpretation
 let snippetEditor = document.getElementById("snippetEditor");
 let snippetNameField = document.getElementById("snippetName");
 let snippetBodyField = document.getElementById("snippetBody");
-
-// Variables for snippet stepping
-let currentLineIndex = 0;
-let snippetLines = [];
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
 let asmOutputDiv = document.getElementById("asm_output");
 let errorOutputDiv = document.getElementById("error_output");
 
-function loadSnippetLines() {
-  let bodyText = snippetBodyField.value || "";
-  snippetLines = bodyText.split("\n");
-  currentLineIndex = 0;
+function loadSnippetIntoService() {
+  asmService.clearProgram();
+  const snippet = snippetBodyField.value || "";
+  asmService.loadProgram(snippet);
+  asmService.resetIP();
+  displayState();
 }
 
-function interpretLine(line) {
-  return checkLineSyntax(line);
+function displayState() {
+  // Retrieve the state from asmService
+  const state = asmService.getState();
+
+  // Clear previous outputs
+  errorOutputDiv.innerHTML = "";
+  asmOutputDiv.innerHTML = "";
+
+  if (state.errors.length > 0) {
+    // Display errors
+    errorOutputDiv.innerHTML = state.errors.join("<br>");
+  } else {
+    // If no errors, display the current instruction pointer and instructions
+    const ip = state.instructionPointer;
+    const programLength = state.loadedProgram.length;
+
+    if (programLength === 0) {
+      asmOutputDiv.innerHTML = "No instructions loaded.";
+      return;
+    }
+
+    if (ip <= programLength) {
+      // Show current instruction
+      const currentInstruction = state.loadedProgram[ip - 1];
+      if (currentInstruction === null) {
+        asmOutputDiv.innerHTML = `Line ${ip}: Empty line.`;
+      } else {
+        asmOutputDiv.innerHTML = `Line ${ip}: ${
+          currentInstruction.instruction
+        } ${currentInstruction.arguments.join(", ")}`;
+      }
+    }
+
+    if (state.programFinished) {
+      asmOutputDiv.innerHTML += "<br>All instructions have been interpreted.";
+    }
+  }
+}
+
+function runStep() {
+  loadSnippetIntoService();
+  asmService.interpretStep();
+  displayState();
+}
+
+function runAll() {
+  loadSnippetIntoService();
+  asmService.interpretAll();
+  displayState();
+}
+
+function resetInterpretation() {
+  asmService.clearAllRegisters();
+  asmService.clearProgram();
+  loadSnippetIntoService();
+}
+
+if (runStepButton) {
+  runStepButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (asmService.getLoadedProgramLength() === 0) {
+      loadSnippetIntoService();
+    }
+    runStep();
+  });
+}
+
+if (runAllButton) {
+  runAllButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (asmService.getLoadedProgramLength() === 0) {
+      loadSnippetIntoService();
+    }
+    runAll();
+  });
+}
+
+if (resetLineButton) {
+  resetLineButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    resetInterpretation();
+  });
 }
 
 if (snippetEditor) {
   let snipName = document.getElementById("snipName");
   let snipBody = document.getElementById("snipBody");
 
-  if (snipName.innerHTML !== "") {
+  if (snipName && snipName.innerText.trim() !== "") {
     snippetNameField.value = snipName.innerText;
+  }
+  if (snipBody && snipBody.innerText.trim() !== "") {
     snippetBodyField.value = snipBody.innerText;
   }
 
-  function runStep() {
-    if (currentLineIndex < snippetLines.length) {
-      let line = snippetLines[currentLineIndex];
-      let result = interpretLine(line);
-
-      // Update the ASM output
-      asmOutputDiv.innerHTML = result;
-
-      currentLineIndex++;
-    } else {
-      // No more lines
-      asmOutputDiv.innerHTML = "All lines interpreted.";
-    }
-  }
-
-  // Run all remaining lines
-  function runAll() {
-    while (currentLineIndex < snippetLines.length) {
-      runStep();
-    }
-  }
-
-  function resetInterpretation() {
-    currentLineIndex = 0;
-    asmOutputDiv.innerHTML = "ASM output:";
-    errorOutputDiv.innerHTML = "Errors:";
-    loadSnippetLines();
-  }
-
-  // Attach event listeners to interpret buttons
-  if (runStepButton) {
-    runStepButton.addEventListener("click", (event) => {
-      event.preventDefault(); // Prevent form submission
-      if (snippetLines.length === 0) loadSnippetLines();
-      runStep();
-    });
-  }
-
-  if (runAllButton) {
-    runAllButton.addEventListener("click", (event) => {
-      event.preventDefault(); // Prevent form submission
-      if (snippetLines.length === 0) loadSnippetLines();
-      runAll();
-    });
-  }
-
-  if (resetLineButton) {
-    resetLineButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      resetInterpretation();
-    });
-  }
-
-  //TODO: Save to database form validation
-  let myUL = document.getElementById("errorUl");
-  if (snippetEditor) {
-    errors = [];
-    snippetEditor.addEventListener("submit", (event) => {
-      // This will validate upon saving changes or interpreting (if those trigger submit events)
-      myUL.innerHTML = "";
-      if (!snippetBodyField.value)
-        errors.push(`Snippet Body must be provided!`);
-      if (!snippetNameField.value)
-        errors.push(`Snippet Name must be provided!`);
-      if (errors.length > 0) {
-        event.preventDefault();
-        for (let i = 0; i < errors.length; i++) {
-          let myLi = document.createElement("li");
-          myLi.classList.add("error");
-          myLi.innerHTML = errors[i];
-          myUL.appendChild(myLi);
-        }
-      }
-    });
-  }
+  loadSnippetIntoService();
 }
 
-//TODO: Append snippets to snippet lists
-//get passed username of user
-//check user entry in database to check if snippets in snippets array
-//if yes, append articles of snippets name and date
+let myUL = document.getElementById("errorUl");
+if (snippetEditor) {
+  let errors = [];
+  snippetEditor.addEventListener("submit", (event) => {
+    myUL.innerHTML = "";
+    errors = [];
+    if (!snippetBodyField.value) errors.push(`Snippet Body must be provided!`);
+    if (!snippetNameField.value) errors.push(`Snippet Name must be provided!`);
+    if (errors.length > 0) {
+      event.preventDefault();
+      for (let i = 0; i < errors.length; i++) {
+        let myLi = document.createElement("li");
+        myLi.classList.add("error");
+        myLi.innerHTML = errors[i];
+        myUL.appendChild(myLi);
+      }
+    }
+  });
+}
