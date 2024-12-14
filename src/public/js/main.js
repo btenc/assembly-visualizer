@@ -103,20 +103,10 @@ if (loginForm) {
 // Initialize the AsmInterpreterService
 const asmService = new AsmInterpreterService();
 
-const program = `
-  MOV R0, 5
-  DEC R0
-  HLT
-`;
-
-asmService.loadProgram(program);
-asmService.resetIP();
-
-asmService.interpretAll();
-console.log(asmService.getState());
-
 // DOM elements for snippet loading and interpretation
 let snippetEditor = document.getElementById("snippetEditor");
+let snippetNameField = document.getElementById("snippetName");
+let snippetBodyField = document.getElementById("snippetBody");
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
@@ -132,18 +122,47 @@ function loadSnippetIntoService() {
 }
 
 function displayState() {
-  // Retrieve the state from asmService
   const state = asmService.getState();
 
   // Clear previous outputs
   errorOutputDiv.innerHTML = "";
   asmOutputDiv.innerHTML = "";
 
-  if (state.errors.length > 0) {
-    // Display errors
+  // Update registers if we have them
+  // Assuming `state` includes a `registers` object with keys like R0, R1, etc.
+  if (state.registers) {
+    document.getElementById("reg0").innerText = `R0: ${state.registers.R0}`;
+    document.getElementById("reg1").innerText = `R1: ${state.registers.R1}`;
+    document.getElementById("reg2").innerText = `R2: ${state.registers.R2}`;
+    document.getElementById("reg3").innerText = `R3: ${state.registers.R3}`;
+    document.getElementById("reg4").innerText = `R4: ${state.registers.R4}`;
+    document.getElementById("reg5").innerText = `R5: ${state.registers.R5}`;
+    document.getElementById("reg6").innerText = `R6: ${state.registers.R6}`;
+    document.getElementById("reg7").innerText = `R7: ${state.registers.R7}`;
+    document.getElementById("reg8").innerText = `R8: ${state.registers.R8}`;
+    document.getElementById("reg9").innerText = `R9: ${state.registers.R9}`;
+    document.getElementById("reg10").innerText = `R10: ${state.registers.R10}`;
+    document.getElementById("reg11").innerText = `R11: ${state.registers.R11}`;
+    document.getElementById("reg12").innerText = `R12: ${state.registers.R12}`;
+    document.getElementById("reg13").innerText = `R13: ${state.registers.R13}`;
+    document.getElementById("reg14").innerText = `R14: ${state.registers.R14}`;
+    document.getElementById("reg15").innerText = `R15: ${state.registers.R15}`;
+  }
+
+  if (typeof state.remainder !== "undefined") {
+    document.getElementById(
+      "remainder"
+    ).innerText = `Remainder: ${state.remainder}`;
+  }
+  if (typeof state.instructionPointer !== "undefined") {
+    document.getElementById(
+      "ip"
+    ).innerText = `Instruction Pointer: ${state.instructionPointer}`;
+  }
+
+  if (state.errors && state.errors.length > 0) {
     errorOutputDiv.innerHTML = state.errors.join("<br>");
   } else {
-    // If no errors, display the current instruction pointer and instructions
     const ip = state.instructionPointer;
     const programLength = state.loadedProgram.length;
 
@@ -153,7 +172,6 @@ function displayState() {
     }
 
     if (ip <= programLength) {
-      // Show current instruction
       const currentInstruction = state.loadedProgram[ip - 1];
       if (currentInstruction === null) {
         asmOutputDiv.innerHTML = `Line ${ip}: Empty line.`;
