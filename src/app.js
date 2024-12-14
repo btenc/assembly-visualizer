@@ -47,21 +47,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 
 app.use(rewriteUnsupportedBrowserMethods);
 
-// Example how to apply more middleware if needed:
-// app.use(middleware.requestLoggerAndDefaultRedirectMW);
-// app.use("/signinuser", middleware.signInUserRedirects);
-// app.use("/signupuser", middleware.signUpUserRedirects);
-// app.use("/user", middleware.userRedirects);
-// app.use("/administrator", middleware.administratorRedirects);
-// app.use("/signoutuser", middleware.signOutUserRedirects);
-
-// app.use("/homepage", middleware.loggedInUsersRedirect);
-app.use("/users/login", middleware.loggedInUsersRedirect);
-app.use("/users/signup", middleware.loggedInUsersRedirect);
-app.use("/users/logout", middleware.loggedOutUsersRedirect);
-// app.use("/snippets", middleware.denySnippetModification);
-app.use(middleware.tellMeMoreTellMeMore);
-
 /*
 
 First take / and any URL and redirect to the homepage
@@ -71,6 +56,39 @@ Then for signup, if logged in then redirect to /users/req.session.username
 Then for logout, if logged in then redirect to homepage
 
 */
+
+const isLoggedIn = (req) => {
+  if (req.session.userId) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+app.use((req, res, next) => {
+  if (req.path === "/") {
+    return res.redirect("/homepage");
+  }
+
+  const publicRoutes = ["/homepage", "/users/login", "/users/signup"];
+  if (publicRoutes.includes(req.path)) {
+    if (isLoggedIn(req)) {
+      return res.redirect(`/users/${req.session.username}`);
+    }
+    return next();
+  }
+
+  if (req.path === "/users/logout") {
+    if (isLoggedIn(req)) {
+      return next();
+    }
+    return res.redirect("/homepage");
+  }
+
+  next();
+});
+
+// app.use(middleware.tellMeMoreTellMeMore());
 
 configRoutes(app);
 
