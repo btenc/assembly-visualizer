@@ -75,15 +75,32 @@ router
   .route("/:snippetID")
   .get(async (req, res) => {
     // Gets snippet ID depending on if they are allowed to access the snippet
-    try {
-      res.render("snippets", {
-        username: req.session.username, // TODO: UPDATE TO OWNERS USERNAME
-        snipName: snip.snipName,
-        snipBody: snip.snipBody,
-        dateCreated: snip.dateCreated,
-        dateLastEdited: snip.dateLastEdited,
-      });
+    // get the owner of the snippet
 
+    const snip = await snippetMethods.getSnippetById(req.params.snippetID);
+    const snipOwnerId = snip.userId;
+    const snipOwnerUsername = await userMethods.getUserById(snipOwnerId).username;
+    try {
+
+      if (req.session.userId === snipOwnerId){
+        res.render("snippets", {
+          username: req.session.username,
+          snipName: snip.snipName,
+          snipBody: snip.snipBody,
+          dateCreated: snip.dateCreated,
+          dateLastEdited: snip.dateLastEdited,
+          owner: true
+        });
+      } else {
+        res.render("snippets", {
+          username: req.session.username, 
+          ownerUsername: snipOwnerUsername,
+          snipName: snip.snipName,
+          snipBody: snip.snipBody,
+          dateCreated: snip.dateCreated,
+          dateLastEdited: snip.dateLastEdited,
+        });
+      }
       return res.status(200);
     } catch (e) {
       res.render("snippets", { errors: [e] });
