@@ -100,6 +100,28 @@ if (loginForm) {
   });
 }
 
+let nameCreatorSection = document.getElementById("name-creator");
+if (nameCreatorSection) {
+  let createForm = nameCreatorSection.querySelector("#create-form");
+
+  createForm.addEventListener("submit", (event) => {
+    const name = createForm.querySelector("#nameInput").value.trim();
+
+    if (!name) {
+      event.preventDefault();
+      const resultDiv = nameCreatorSection.querySelector("#result");
+      resultDiv.textContent = "Name cannot be empty.";
+      return;
+    }
+
+    let bodyField = document.createElement("input");
+    bodyField.type = "hidden";
+    bodyField.name = "body";
+    bodyField.value = "";
+
+    createForm.appendChild(bodyField);
+  });
+}
 // Initialize the AsmInterpreterService
 const asmService = new AsmInterpreterService();
 
@@ -213,6 +235,7 @@ function resetInterpretation() {
 
 if (runStepButton) {
   runStepButton.addEventListener("click", "DOMContentLoaded", (event) => {
+    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -222,6 +245,7 @@ if (runStepButton) {
 
 if (runAllButton) {
   runAllButton.addEventListener("click", "DOMContentLoaded", (event) => {
+    event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
     }
@@ -231,6 +255,7 @@ if (runAllButton) {
 
 if (resetLineButton) {
   resetLineButton.addEventListener("click", "DOMContentLoaded", (event) => {
+    event.preventDefault();
     resetInterpretation();
   });
 }
