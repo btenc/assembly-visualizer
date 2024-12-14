@@ -1,3 +1,5 @@
+import { checkLineSyntax } from "../../modules/asm/parseASM";
+
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
@@ -131,7 +133,7 @@ function loadSnippetLines() {
 }
 
 function interpretLine(line) {
-  return "Interpreted: " + line;
+  return checkLineSyntax(line);
 }
 
 if (snippetEditor) {
@@ -148,7 +150,7 @@ if (snippetEditor) {
       let line = snippetLines[currentLineIndex];
       let result = interpretLine(line);
 
-      // Update the ASM output (append or overwrite as you wish)
+      // Update the ASM output
       asmOutputDiv.innerHTML = result;
 
       currentLineIndex++;

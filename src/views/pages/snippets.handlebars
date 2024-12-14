@@ -21,12 +21,12 @@
   <form id="snippetEditor" action='/snippets' method="POST">
     <input size="50" type="text" id="snippetName" name="snippetName" placeholder="Snippet Name">
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
-    <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
-    <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
-    <button id="resetLine" type="submit" class="btn btn-primary">Reset</button>
     <p>Created by {{username}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
     <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
   </form>
+  <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
+  <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
+  <button id="resetLine" type="submit" class="btn btn-primary">Reset</button>
   <div class="consoles">
     <div id="error_output" class="consoleDiv">Errors: {{asmErrors}}</div>
     <div id="asm_output" class="consoleDiv">ASM output: {{asmOutput}}</div>
