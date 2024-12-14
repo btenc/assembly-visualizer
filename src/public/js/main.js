@@ -126,27 +126,27 @@ if (snippetEditor) {
   }
 }
 
-//TODO: Run button
+//TODO: Intrepret All button
 if (snippetEditor) {
   snippetEditor.addEventListener("submit", (event) => { })
 }
 
 //TODO: Save to database form validation
 if (snippetEditor) {
+  console.log('snippet editor exists');
   errors = [];
   snippetEditor.addEventListener("submit", (event) => {
-    if (!snippetBodyField) errors.push(`Snippet Body must be provided!`);
-    if (!snippetNameField) errors.push(`Snippet Name must be provided!`);
+    if (!snippetBodyField.value) errors.push(`Snippet Body must be provided!`);
+    if (!snippetNameField.value) errors.push(`Snippet Name must be provided!`);
     if (errors.length > 0) {
-      let myUL = document.createElement("ul");
       event.preventDefault();
+      let myUL = document.getElementById("errorUl");
       for (let i = 0; i < errors.length; i++) {
         let myLi = document.createElement("li");
         myLi.classList.add("error");
         myLi.innerHTML = errors[i];
         myUL.appendChild(myLi);
       }
-      snippetEditor.appendChild(myUL);
     }
   });
 }
