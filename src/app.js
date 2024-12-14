@@ -54,7 +54,8 @@ app.use(rewriteUnsupportedBrowserMethods);
 // app.use("/user", middleware.userRedirects);
 // app.use("/administrator", middleware.administratorRedirects);
 // app.use("/signoutuser", middleware.signOutUserRedirects);
-app.use("/", middleware.loggedInUsersRedirect);
+
+// app.use("/homepage", middleware.loggedInUsersRedirect);
 app.use("/users/login", middleware.loggedInUsersRedirect);
 app.use("/users/signup", middleware.loggedInUsersRedirect);
 app.use("/users/logout", middleware.loggedOutUsersRedirect);

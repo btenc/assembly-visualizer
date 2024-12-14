@@ -6,4 +6,14 @@
         <button type="submit">Create</button>
     </form>
     <div id="result" class="result"></div>
+
+    {{#if errors}}
+  <ul class="error" id="errorUl">
+    {{#each errors}}
+    <li>
+      {{this}}
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
 </section>

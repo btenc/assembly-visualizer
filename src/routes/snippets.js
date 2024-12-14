@@ -7,24 +7,28 @@ import validation from "../modules/utils/validations.js";
 router
   .route("/")
   .get(async (req, res) => {
-    if (req.session.username) {
-      res.render("pages/snippets", {
-        username: req.session.username,
-        owner: true,
-      });
-    } else {
-      res.render("pages/snippets");
-    }
+    res.render('pages/create');
 
     return res.status(200);
   })
 
   // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },
   .post(async (req, res) => {
-    const snippetData = req.body;
+    // create a new snippet in the db
+    const snipName = req.body;
 
-    console.log(snippetData);
-    return res.status(200);
+    const now = new Date();
+    const dateCreated = now.toLocaleDateString("en-US"); 
+
+    try {
+      const newSnip = await snippetMethods.addSnippet(snipName.nameInput, "MOV R1, 1", req.session.userId, dateCreated);  
+    } catch (e) {
+      res.render('create', {errors: [e]});
+      return res.status(400);
+    }
+
+    // use that information to go to that snippets page
+    return res.redirect('/snippets/' + newSnip.snipId);
   });
 
 router
@@ -65,6 +69,54 @@ router
   })
   .patch(async (req, res) => {
     // Update snippet body for given ID
+    const snippetData = req.body;
+
+    // check if there is any data in req.body
+    if (!snippetData || Object.keys(snippetData).length === 0) {
+      return res.status(400).json({
+        error: "There are no fields in the request body, needed for a snippet",
+      });
+    }
+
+    // we only need these from the req body, check if they are in req.body
+    const requiredFields = ["snippetName", "snippetBody"];
+    for (let field of requiredFields) {
+      if (!Object.keys(snippetData).includes(field)) {
+        return res.status(400).json({ error: `Missing ${field} field` });
+      }
+    }
+
+    if (!req.session.userId){
+      console.log(req.session)
+      return res.redirect('/users/login');
+    } 
+    snippetData.userId = req.session.userId;
+
+    // now check if they are valid
+    try {
+      const snipName = validation.checkStr(snippetData.snipName);
+      const snipBody = validation.checkStr(snippetData.snipBody);
+      const userId = validation.checkStr(snippetData.userId);
+
+      // if all snippetData exists and is valid, then we can make the data and create the snippet
+
+      // now lets create the date that we pass into addSnippet
+      const now = new Date();
+      const dateLastEdit = now.toLocaleDateString("en-US"); // MM/DD/YYYY format required for data handling
+
+      // then add this and we're done
+      const newSnippet = await snippetMethods.updateSnippet(
+        snipName,
+        snipBody,
+        userId,
+        dateUpdated
+      );
+
+      res.status(200).json(newSnippet);
+    } catch (e) {
+      console.error("POST /snippets error:", e);
+      return res.status(400).json({ error: e.toString() });
+    }
   })
   .delete(async (req, res) => {
     if (!req.body.userId)
