@@ -3,11 +3,13 @@
 {{#> navbar }}{{/navbar}}
 <body>
   <h1><a href="/">{{username}}</a>'s Profile</h1>
+  <p>Member since {{dateRegistered}}</p>
+  <h2>Snippets:</h2>
   {{#if snippets}}
   <div id="snippet-list">
     {{#each snippets.length}}
     <article>
-      <h2><a href="/snippets">{{snipName}}</a></h2>
+      <h2><a href="/snippets/{{snipId}}">{{snipName}}</a></h2>
       <p>Date Last Edited: {{dateLastEdit}}</p>
       <p>Date Created: {{dateCreated}}</p>
       <!--pass in a check with person accessing page and who's profile this is-->
@@ -17,5 +19,7 @@
     </article>
     {{/each}}
   </div>
+  {{else}}
+  <p>This user hasn't made any snippets yet!</p>
   {{/if}}
 </body>
