@@ -2,15 +2,18 @@ import { Router } from "express";
 const router = Router();
 import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
-import validation from "../modules/utils/validations.js"
+import validation from "../modules/utils/validations.js";
 
-router.route("/")
-  .get(async (req, res) => { 
-
-    if (req.session.username){
-      res.render('pages/snippets', {username: req.session.username, owner: true});
+router
+  .route("/")
+  .get(async (req, res) => {
+    if (req.session.username) {
+      res.render("pages/snippets", {
+        username: req.session.username,
+        owner: true,
+      });
     } else {
-      res.render('pages/snippets');
+      res.render("pages/snippets");
     }
 
     return res.status(200);
@@ -20,55 +23,54 @@ router.route("/")
   .post(async (req, res) => {
     const snippetData = req.body;
 
-  // check if there is any data in req.body
-  if (!snippetData || Object.keys(snippetData).length === 0) {
-    return res.status(400).json({
-      error: "There are no fields in the request body, needed for a snippet",
-    });
-  }
-
-  // we only need these from the req body, check if they are in req.body
-  const requiredFields = ['snippetName', 'snippetBody'];
-  for (let field of requiredFields) {
-    if (!(Object.keys(snippetData).includes(field))) {
-      return res.status(400).json({ error: `Missing ${field} field` });
+    // check if there is any data in req.body
+    if (!snippetData || Object.keys(snippetData).length === 0) {
+      return res.status(400).json({
+        error: "There are no fields in the request body, needed for a snippet",
+      });
     }
-  }
 
+    // we only need these from the req body, check if they are in req.body
+    const requiredFields = ["snippetName", "snippetBody"];
+    for (let field of requiredFields) {
+      if (!Object.keys(snippetData).includes(field)) {
+        return res.status(400).json({ error: `Missing ${field} field` });
+      }
+    }
 
-  // now check if they are valid
-  try {
-    const snipName = validation.checkStr(snippetData.snipName);
-    const snipBody = validation.checkStr(snippetData.snipBody);
-    const userId = validation.checkStr(snippetData.userId);
+    // now check if they are valid
+    try {
+      const snipName = validation.checkStr(snippetData.snipName);
+      const snipBody = validation.checkStr(snippetData.snipBody);
+      const userId = validation.checkStr(snippetData.userId);
 
-    // if all snippetData exists and is valid, then we can make the data and create the snippet
+      // if all snippetData exists and is valid, then we can make the data and create the snippet
 
-    // now lets create the date that we pass into addSnippet
-    const now = new Date();
-    const dateCreation = now.toLocaleDateString("en-US"); // MM/DD/YYYY format required for data handling
+      // now lets create the date that we pass into addSnippet
+      const now = new Date();
+      const dateCreation = now.toLocaleDateString("en-US"); // MM/DD/YYYY format required for data handling
 
-    // then add this and we're done
-    const newSnippet = await snippetMethods.addSnippet(
-      snipName,
-      snipBody,
-      userId,
-      dateCreation
-    );
+      // then add this and we're done
+      const newSnippet = await snippetMethods.addSnippet(
+        snipName,
+        snipBody,
+        userId,
+        dateCreation
+      );
 
-    res.status(200).json(newSnippet);
-  } catch (e) {
-    console.error("POST /snippets error:", e);
-    return res.status(400).json({ error: e.toString() });
-  }
-});
+      res.status(200).json(newSnippet);
+    } catch (e) {
+      console.error("POST /snippets error:", e);
+      return res.status(400).json({ error: e.toString() });
+    }
+  });
 
 router
   .route("/:snippetID")
   .get(async (req, res) => {
     // Gets snippet ID depending on if they are allowed to access the snippet
     try {
-      res.render('snippets', {
+      res.render("snippets", {
         username: req.session.username, // TODO: UPDATE TO OWNERS USERNAME
         snipName: snip.snipName,
         snipBody: snip.snipBody,
@@ -86,7 +88,14 @@ router
     // Update snippet body for given ID
   })
   .delete(async (req, res) => {
-    // Removes the snippet and snippetID from the database
+    if (!req.body.userId)
+      res.status(400).render("snippets", { error: "400, userId not found" });
+    try {
+      let removed = snippetMethods.removeSnippet(req.body.userId);
+      return res.status(200);
+    } catch (e) {
+      res.status(400).render("snippets", { error: "400, userId not found" });
+    }
   });
 
 export default router;
