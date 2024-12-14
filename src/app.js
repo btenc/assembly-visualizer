@@ -70,7 +70,7 @@ app.use("/users/login", middleware.loggedInUsersRedirect);
 app.use("/users/signup", middleware.loggedInUsersRedirect);
 app.use("/users/logout", middleware.loggedOutUsersRedirect);
 app.use("/private", middleware.loggedOutUsersRedirect);
-app.use("/snippets", middleware.denySnippetModification);
+// app.use("/snippets", middleware.denySnippetModification);
 
 configRoutes(app);
 
