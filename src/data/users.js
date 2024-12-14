@@ -1,7 +1,7 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
-import { checkID } from "/helpers.js";
+import { checkId } from "./helpers.js";
 
 let exportedMethods = {
   async getAllUsers() {

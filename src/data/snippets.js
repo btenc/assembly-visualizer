@@ -1,7 +1,7 @@
 import { snippets } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
-import { checkId } from "../helpers.js";
+import { checkId } from "./helpers.js";
 
 let exportedMethods = {
   async getAllSnippets() {
