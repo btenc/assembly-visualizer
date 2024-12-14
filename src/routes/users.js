@@ -65,6 +65,34 @@ router.route("/signup").post(async (req, res) => {
   // 1 specials char
   // 1 caps
 
+  const checkPassword = (password) => {
+    if (password.length < 8){
+      throw "Password must be at least 8 characters long"
+      }
+  
+      if (password.toLowerCase() === password){
+      throw "Password must include at least one uppercase letter"
+      }
+  
+      let matches = password.match(/\d+/g)
+      if (matches == null){
+      throw "Password must include at least one number"
+      }
+  
+      let resStr = password.replace(/[A-Za-z]/g, '');
+      resStr = resStr.replace(/[0-9]/g, '');
+  
+      if (resStr.length === 0){
+          throw "password must incldue a special character!"
+      }  
+  }
+
+  try {
+     checkPassword(pass);
+  } catch (e) {
+    res.render("pages/signup", { errors: [e] });
+    return res.status(400);
+  }
 
   // check that the passwords match
   if (pass !== confirmPass) {
