@@ -10,6 +10,7 @@ class AsmInterpreterService {
     this.registers = new Registers(); //can i pass this into registers?
     this.loadedProgram = [];
     this.programFinished = false;
+    this.haltFlag = false;
     this.errors = [];
   }
 
@@ -54,6 +55,7 @@ class AsmInterpreterService {
     this.loadedProgram = [];
     this.programFinished = false;
     this.errors = [];
+    this.haltFlag = false;
   }
 
   //General Setters
@@ -81,7 +83,8 @@ class AsmInterpreterService {
 
   checkProgramFinished() {
     if (
-      this.registers.getInstructionPointer() > this.getLoadedProgramLength()
+      this.registers.getInstructionPointer() > this.getLoadedProgramLength() ||
+      this.haltFlag === true
     ) {
       this.programFinished = true;
       return true;
