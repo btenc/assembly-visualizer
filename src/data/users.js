@@ -1,6 +1,7 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
+import { checkID } from "/helpers.js";
 
 let exportedMethods = {
   async getAllUsers() {
@@ -9,7 +10,7 @@ let exportedMethods = {
     return userList;
   },
   async getUserById(id) {
-    id = validation.checkId(id);
+    id = checkId(id);
     const userCollection = await users();
     const user = await userCollection.findOne({ _id: new ObjectId(id) });
     if (!user) throw "Error: User not found";
@@ -52,7 +53,7 @@ let exportedMethods = {
     return user;
   },
   async removeUser(id) {
-    id = validation.checkId(id);
+    id = checkId(id);
     const userCollection = await users();
     const deletionInfo = await userCollection.findOneAndDelete({
       _id: new ObjectId(id),
@@ -62,7 +63,7 @@ let exportedMethods = {
     return { ...deletionInfo, deleted: true };
   },
   async updateUserPut(id, email, username, password, snippetId, friendId) {
-    id = validation.checkId(id);
+    id = checkId(id);
     email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
@@ -91,7 +92,7 @@ let exportedMethods = {
   },
 
   async updateUsername(id, username) {
-    id = validation.checkId(id);
+    id = checkId(id);
     username = validation.checkStr(username);
 
     const userCollection = await users();
@@ -107,7 +108,7 @@ let exportedMethods = {
   },
 
   async updatePassword(id, password) {
-    id = validation.checkId(id);
+    id = checkId(id);
     password = validation.checkStr(password);
 
     const userCollection = await users();

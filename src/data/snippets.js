@@ -1,6 +1,7 @@
 import { snippets } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
+import { checkId } from "../helpers.js";
 
 let exportedMethods = {
   async getAllSnippets() {
@@ -10,7 +11,7 @@ let exportedMethods = {
   },
 
   async getSnippetById(id) {
-    id = validation.checkId(id);
+    id = checkId(id);
     const snippetCollection = await snippets();
     const snippet = await snippetCollection.findOne({ _id: new ObjectId(id) });
     if (!snippet) throw "Error: Snippet not found";
@@ -21,7 +22,7 @@ let exportedMethods = {
     snipName = validation.checkStr(snipName);
     snipBody = validation.checkArray(snipBody);
     snipBody.forEach((line) => validation.checkStr(line));
-    userId = validation.checkId(userId);
+    userId = checkId(userId);
     dateCreation = validation.checkDate(dateCreation);
     dateLastEdit = dateCreation;
 
@@ -40,7 +41,7 @@ let exportedMethods = {
   },
 
   async removeSnippet(id) {
-    id = validation.checkId(id);
+    id = checkId(id);
     const snippetCollection = await snippets();
     const deletionInfo = await snippetCollection.findOneAndDelete({
       _id: new ObjectId(id),
@@ -50,7 +51,7 @@ let exportedMethods = {
   },
 
   async updateSnippet(id, snipName, snipBody, dateLastEdit) {
-    id = validation.checkId(id);
+    id = checkId(id);
     snipName = validation.checkStr(snipName, { min: 1, max: 30 });
     snipBody = validation.checkArray(snipBody, { min: 1 });
     snipBody.forEach((line) => validation.checkStr(line));
@@ -74,7 +75,7 @@ let exportedMethods = {
   },
 
   async getSnippetsByUser(userId) {
-    userId = validation.checkId(userId);
+    userId = checkId(userId);
     const snippetCollection = await snippets();
     const userSnippets = await snippetCollection
       .find({ userId: new ObjectId(userId) })
