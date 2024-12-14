@@ -79,6 +79,15 @@ td{
 
 a{
   color:rgb(242, 49, 249);
+  text-decoration: none;
+}
+
+a:hover{
+  color:rgb(176, 37, 181);
+}
+
+p{
+  padding-top: 0px;
 }
 
 body {
