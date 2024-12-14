@@ -1,7 +1,7 @@
 import { users } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
-
+//Test Push
 let exportedMethods = {
   async getAllUsers() {
     const userCollection = await users();
@@ -61,20 +61,11 @@ let exportedMethods = {
 
     return { ...deletionInfo, deleted: true };
   },
-  async updateUserPut(
-    id,
-    email,
-    username,
-    password,
-    dateRegistered,
-    snippetId,
-    friendId
-  ) {
+  async updateUserPut(id, email, username, password, snippetId, friendId) {
     id = validation.checkId(id);
     email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
-    dateRegistered = validation.checkDate(dateRegistered);
     snippetId = validation.checkArray(snippetId);
     snippetId.forEach((sub_id) => validation.checkId(sub_id));
     friendId = validation.checkArray(friendId);
@@ -84,7 +75,6 @@ let exportedMethods = {
       email: email,
       username: username,
       password: password,
-      dateRegistered: dateRegistered,
       snippetId: snippetId,
       friendId: friendId,
     };
