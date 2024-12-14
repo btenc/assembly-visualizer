@@ -16,9 +16,9 @@ router.route("/")
     return res.status(200);
   })
 
-  // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },  
+  // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },
   .post(async (req, res) => {
-  const snippetData = req.body;
+    const snippetData = req.body;
 
   // check if there is any data in req.body
   if (!snippetData || Object.keys(snippetData).length === 0) {
@@ -73,15 +73,14 @@ router
         snipName: snip.snipName,
         snipBody: snip.snipBody,
         dateCreated: snip.dateCreated,
-        dateLastEdited: snip.dateLastEdited
-      })
+        dateLastEdited: snip.dateLastEdited,
+      });
 
       return res.status(200);
     } catch (e) {
-      res.render('snippets', {errors: [e]})
+      res.render("snippets", { errors: [e] });
       return res.status(400);
     }
-
   })
   .patch(async (req, res) => {
     // Update snippet body for given ID
