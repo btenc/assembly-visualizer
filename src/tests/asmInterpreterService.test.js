@@ -386,8 +386,8 @@ E
 HLT
 HLT R1
 NOP R1, R2, 3`);
-    console.log(state.errors);
-    // console.log(state.loadedProgram);
+    //console.log(state.errors);
+    // console.log(state);
     expect(state.errors.length).toBe(7);
   });
 });

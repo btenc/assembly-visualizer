@@ -68,7 +68,6 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
   const args = currentStatementObj.arguments;
 
   if (!INSTRUCTION_LIST.includes(instruction)) {
-    //console.log(instruction);
     throw (
       "Error: " +
       instruction +
