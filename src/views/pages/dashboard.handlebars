@@ -1,6 +1,6 @@
 {{!-- User dashboard after login page, listing snippets or making new ones --}}
 <title>{{username}}'s Profile</title>
-{{> (navbar)}}
+{{#> navbar }}{{/navbar}}
 <body>
   <h1><a href="/">{{username}}</a>'s Profile</h1>
   {{#if snippets}}

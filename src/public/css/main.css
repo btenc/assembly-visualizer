@@ -5,6 +5,30 @@ use normalize.css reset */
   color: red;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
 .snipDiv{
   width:99%;
 }
@@ -18,30 +42,6 @@ use normalize.css reset */
   border: 1px solid #000000;
   background-color:gray;
   color: white;
-}
-
-.nav-ul {
-  color:aliceblue;
-  display: inline;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar {
-  border-bottom: #000000;
-}
-
-.nav-li {
-  display: inline;
-  float: right;
-
-  
-}
-
-.nav-a {
-  display: inline;
-  background-color: #dddddd;
 }
 
 h1 {

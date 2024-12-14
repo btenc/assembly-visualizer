@@ -132,15 +132,16 @@ if (snippetEditor) {
 }
 
 //TODO: Save to database form validation
+let myUL = document.getElementById("errorUl");
 if (snippetEditor) {
   console.log('snippet editor exists');
   errors = [];
   snippetEditor.addEventListener("submit", (event) => {
+    myUl.innerHTML = '';
     if (!snippetBodyField.value) errors.push(`Snippet Body must be provided!`);
     if (!snippetNameField.value) errors.push(`Snippet Name must be provided!`);
     if (errors.length > 0) {
       event.preventDefault();
-      let myUL = document.getElementById("errorUl");
       for (let i = 0; i < errors.length; i++) {
         let myLi = document.createElement("li");
         myLi.classList.add("error");
