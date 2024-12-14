@@ -23,14 +23,14 @@
     {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
-    <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
-    <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
     {{#if ownerUsername}}
     <p>Created by {{ownerUsername}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
     {{/if}}
     <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
   </form>
-  </div>
+  <button id="runStepButton" type="submit" class="btn btn-primary">Interpret Step</button> 
+  <button id="runAllButton" type="submit" class="btn btn-primary">Interpret All</button> 
+  <button id="resetLine" type="submit" class="btn btn-primary">Reset</button>
   <div class="consoles">
     <div id="error_output" class="consoleDiv">Errors: {{asmErrors}}</div>
     <div id="asm_output" class="consoleDiv">ASM output: {{asmOutput}}</div>

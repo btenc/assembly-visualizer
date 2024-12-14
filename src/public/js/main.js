@@ -1,3 +1,5 @@
+import { checkLineSyntax } from "../../modules/asm/parseASM";
+
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
@@ -115,48 +117,112 @@ let snippetEditor = document.getElementById("snippetEditor");
 let snippetNameField = document.getElementById("snippetName");
 let snippetBodyField = document.getElementById("snippetBody");
 
-//TODO: Pre-fill out the snippets page
+// Variables for snippet stepping
+let currentLineIndex = 0;
+let snippetLines = [];
+let runStepButton = document.getElementById("runStepButton");
+let runAllButton = document.getElementById("runAllButton");
+let resetLineButton = document.getElementById("resetLine");
+let asmOutputDiv = document.getElementById("asm_output");
+let errorOutputDiv = document.getElementById("error_output");
+
+function loadSnippetLines() {
+  let bodyText = snippetBodyField.value || "";
+  snippetLines = bodyText.split("\n");
+  currentLineIndex = 0;
+}
+
+function interpretLine(line) {
+  return checkLineSyntax(line);
+}
+
 if (snippetEditor) {
   let snipName = document.getElementById("snipName");
   let snipBody = document.getElementById("snipBody");
-  
-  if (snipName.innerHTML !== '') {
+
+  if (snipName.innerHTML !== "") {
     snippetNameField.value = snipName.innerText;
     snippetBodyField.value = snipBody.innerText;
   }
-}
 
-//TODO: Intrepret All button
-if (snippetEditor) {
-  snippetEditor.addEventListener("submit", (event) => { })
-}
+  function runStep() {
+    if (currentLineIndex < snippetLines.length) {
+      let line = snippetLines[currentLineIndex];
+      let result = interpretLine(line);
 
-//TODO: Save to database form validation
-let myUL = document.getElementById("errorUl");
-if (snippetEditor) {
-  console.log('snippet editor exists');
-  errors = [];
-  snippetEditor.addEventListener("submit", (event) => {
-    myUl.innerHTML = '';
-    if (!snippetBodyField.value) errors.push(`Snippet Body must be provided!`);
-    if (!snippetNameField.value) errors.push(`Snippet Name must be provided!`);
-    if (errors.length > 0) {
-      event.preventDefault();
-      for (let i = 0; i < errors.length; i++) {
-        let myLi = document.createElement("li");
-        myLi.classList.add("error");
-        myLi.innerHTML = errors[i];
-        myUL.appendChild(myLi);
-      }
+      // Update the ASM output
+      asmOutputDiv.innerHTML = result;
+
+      currentLineIndex++;
+    } else {
+      // No more lines
+      asmOutputDiv.innerHTML = "All lines interpreted.";
     }
-  });
+  }
+
+  // Run all remaining lines
+  function runAll() {
+    while (currentLineIndex < snippetLines.length) {
+      runStep();
+    }
+  }
+
+  function resetInterpretation() {
+    currentLineIndex = 0;
+    asmOutputDiv.innerHTML = "ASM output:";
+    errorOutputDiv.innerHTML = "Errors:";
+    loadSnippetLines();
+  }
+
+  // Attach event listeners to interpret buttons
+  if (runStepButton) {
+    runStepButton.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent form submission
+      if (snippetLines.length === 0) loadSnippetLines();
+      runStep();
+    });
+  }
+
+  if (runAllButton) {
+    runAllButton.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent form submission
+      if (snippetLines.length === 0) loadSnippetLines();
+      runAll();
+    });
+  }
+
+  if (resetLineButton) {
+    resetLineButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      resetInterpretation();
+    });
+  }
+
+  //TODO: Save to database form validation
+  let myUL = document.getElementById("errorUl");
+  if (snippetEditor) {
+    errors = [];
+    snippetEditor.addEventListener("submit", (event) => {
+      // This will validate upon saving changes or interpreting (if those trigger submit events)
+      myUL.innerHTML = "";
+      if (!snippetBodyField.value)
+        errors.push(`Snippet Body must be provided!`);
+      if (!snippetNameField.value)
+        errors.push(`Snippet Name must be provided!`);
+      if (errors.length > 0) {
+        event.preventDefault();
+        for (let i = 0; i < errors.length; i++) {
+          let myLi = document.createElement("li");
+          myLi.classList.add("error");
+          myLi.innerHTML = errors[i];
+          myUL.appendChild(myLi);
+        }
+      }
+    });
+  }
 }
-
-
-
 
 //TODO: Append snippets to snippet lists
 //get passed username of user
 //check user entry in database to check if snippets in snippets array
 //if yes, append articles of snippets name and date
-
