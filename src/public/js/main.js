@@ -13,6 +13,10 @@ let stringCheck = (string) => {
 //TODO: Signup Form Validation
 let signUpForm = document.getElementById("signup-form");
 if (signUpForm) {
+  let username = document.getElementById("username");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password");
+  let confirmPassword = document.getElementById("confirmPassword");
   signInForm.addEventListener("submit", (event) => {
     errors = [];
     if (!username.value) {
