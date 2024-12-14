@@ -103,6 +103,18 @@ if (loginForm) {
 // Initialize the AsmInterpreterService
 const asmService = new AsmInterpreterService();
 
+const program = `
+  MOV R0, 5
+  DEC R0
+  HLT
+`;
+
+asmService.loadProgram(program);
+asmService.resetIP();
+
+asmService.interpretAll();
+console.log(asmService.getState());
+
 // DOM elements for snippet loading and interpretation
 let snippetEditor = document.getElementById("snippetEditor");
 let runStepButton = document.getElementById("runStepButton");
