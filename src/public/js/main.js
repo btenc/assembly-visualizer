@@ -1,4 +1,4 @@
-import AsmInterpreterService from "../../modules/asmInterpreterService";
+import AsmInterpreterService from "../../modules/asmInterpreterService.js";
 
 //public JS files will be used for DOM manipulation.
 let errors = [];
