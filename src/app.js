@@ -32,7 +32,7 @@ app.use(
     secret: "Secrets are my favorite",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: false }, // CHANGE B4 SHIPPING
   })
 );
 

@@ -4,6 +4,7 @@ import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
 import xss from "xss";
 import req from "express/lib/request.js";
+import { ConnectionClosedEvent } from "mongodb";
 const router = Router();
 
 // get the new acct page
@@ -58,6 +59,12 @@ router.route("/signup").post(async (req, res) => {
   if (mm < 10) mm = "0" + mm;
 
   const date = mm + "/" + dd + "/" + yyyy;
+
+  // confirm that the password matches specs!
+  // pass at least 8 characters
+  // 1 specials char
+  // 1 caps
+
 
   // check that the passwords match
   if (pass !== confirmPass) {
