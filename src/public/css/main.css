@@ -50,8 +50,8 @@ h1 {
 
 .consoleDiv{
   display: inline-block;
-  background-color: gray;
-  width: 45%;
+  background-color: rgb(57, 57, 57);
+  width: 49%;
   border: 1px solid #000000;
   padding: 5px;
 }
