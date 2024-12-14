@@ -304,3 +304,88 @@ body {
   margin-bottom: 1rem;
   text-align: center;
 }
+
+.snipDiv {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.consoles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.snipForm {
+  flex: 1 1 60%;
+  min-width: 300px;
+}
+
+.snipForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+#snippetName {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+}
+
+.snippetBody {
+  padding: 10px;
+  font-family: "Courier New", Courier, monospace;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-height: 250px;
+  resize: vertical;
+  background-color: #333;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.snipRegs {
+  flex: 1 1 30%;
+  min-width: 200px;
+  background-color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.regTable {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.regTable td {
+  border: 1px solid #444;
+  padding: 8px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  vertical-align: middle;
+  color: #fff;
+  background-color: #555;
+}
+
+.consoleDiv {
+  flex: 1 1 45%;
+  background: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow: auto;
+  min-height: 100px;
+  color: #fff;
+}
