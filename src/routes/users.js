@@ -146,7 +146,7 @@ router.route("/login").post(async (req, res) => {
   }
   
   // Create the login token
-  req.session.userId = searchUser.userId;
+  req.session.userId = searchUser._id.toString();
   req.session.username = user;
 
   return res.redirect('/users/' + user);
