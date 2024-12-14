@@ -1,4 +1,3 @@
-import privateRoutes from "./private.js";
 import snippetRoutes from "./snippets.js";
 import userRoutes from "./users.js";
 
