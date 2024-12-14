@@ -2,10 +2,18 @@ import { Router } from "express";
 const router = Router();
 import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
+import validation from "../modules/utils/validations.js"
 
 router.route("/")
   .get(async (req, res) => { 
-    res.render('pages/snippets');
+
+    if (req.session.username){
+      res.render('pages/snippets', {username: req.session.username, owner: true});
+    } else {
+      res.render('pages/snippets');
+    }
+
+    return res.status(200);
   })
 
   // Creates a new snippet {snippetName: name, snipBod: code, userUID: id },  
@@ -20,12 +28,13 @@ router.route("/")
   }
 
   // we only need these from the req body, check if they are in req.body
-  const requiredFields = [snipName, snipBody, userId];
+  const requiredFields = ['snippetName', 'snippetBody'];
   for (let field of requiredFields) {
-    if (!(field in teamData)) {
+    if (!(Object.keys(snippetData).includes(field))) {
       return res.status(400).json({ error: `Missing ${field} field` });
     }
   }
+
 
   // now check if they are valid
   try {
@@ -60,7 +69,7 @@ router
     // Gets snippet ID depending on if they are allowed to access the snippet
     try {
       res.render('snippets', {
-        username: req.session.username,
+        username: req.session.username, // TODO: UPDATE TO OWNERS USERNAME
         snipName: snip.snipName,
         snipBody: snip.snipBody,
         dateCreated: snip.dateCreated,
