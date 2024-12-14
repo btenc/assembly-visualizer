@@ -1,5 +1,9 @@
 //EXAMPLE MIDDLEWARE
 
+import e from "express";
+import req from "express/lib/request";
+import res from "express/lib/response";
+
 // async function requestLoggerAndDefaultRedirectMW(req, res, next) {
 //     let auth;
 //     if (req.session.user) {
@@ -105,6 +109,21 @@
 //   };
 
 // if a non-logged in user tries to post, patch or delete a snippet, it will redirect them to the login.
+const tellMeMoreTellMeMore = async (req, res, next) => {
+    let outStr = '';
+    outStr += req.method.toUpperCase() + ' '
+    outStr += req.originalUrl + ' '
+    
+    if (req.session.userId){
+        outStr += '[Authenticated]'
+    } else {
+        outStr += '[Normie]'
+    }
+
+    console.log(outStr)
+    next();
+}
+
 const denySnippetModification = async (req, res, next) => {
     const method = req.method;
 
@@ -122,7 +141,7 @@ const loggedInUsersRedirect = async (req, res, next) => {
         if (req.path === '/login') {
             return next();
         }
-        
+
         return res.redirect('/users/' + req.session.username)
     }
     
@@ -139,6 +158,7 @@ const loggedOutUsersRedirect = async (req, res, next) => {
 }
 
 const middleware = {
+    tellMeMoreTellMeMore,
     denySnippetModification,
     loggedInUsersRedirect,
     loggedOutUsersRedirect
