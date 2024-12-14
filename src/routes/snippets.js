@@ -38,6 +38,12 @@ router
       }
     }
 
+    if (!req.session.userId){
+      console.log(req.session)
+      return res.redirect('/users/login')
+    } 
+    snippetData.userId = req.session.userId;
+
     // now check if they are valid
     try {
       const snipName = validation.checkStr(snippetData.snipName);
