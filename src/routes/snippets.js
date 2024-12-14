@@ -20,10 +20,11 @@ router
     const now = new Date();
     const dateCreated = now.toLocaleDateString("en-US"); 
 
+    let newSnip = {};
     try {
-      const newSnip = await snippetMethods.addSnippet(snipName.nameInput, "MOV R1, 1", req.session.userId, dateCreated);  
+      newSnip = await snippetMethods.addSnippet(snipName.name, [], req.session.userId, dateCreated);  
     } catch (e) {
-      res.render('create', {errors: [e]});
+      res.render('pages/create', {errors: [e]});
       return res.status(400);
     }
 
@@ -63,7 +64,7 @@ router
       }
       return res.status(200);
     } catch (e) {
-      res.render("snippets", { errors: [e] });
+      res.render("pages/snippets", { errors: [e] });
       return res.status(400);
     }
   })
@@ -109,7 +110,7 @@ router
         snipName,
         snipBody,
         userId,
-        dateUpdated
+        dateLastEdit
       );
 
       res.status(200).json(newSnippet);

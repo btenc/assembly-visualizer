@@ -24,7 +24,7 @@ let exportedMethods = {
     snipBody.forEach((line) => validation.checkStr(line));
     userId = checkId(userId);
     dateCreation = validation.checkDate(dateCreation);
-    dateLastEdit = dateCreation;
+    let dateLastEdit = dateCreation;
 
     const newSnippet = {
       snipName,
