@@ -5,7 +5,27 @@ import configRoutes from "./routes/index.js";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import middleware from "./middleware.js";
-import fs from "fs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const staticDir = express.static(__dirname + "/public");
+
+app.set("views", path.join(path.resolve(), "src/views"));
+
+const handlebarsInstance = exphbs.create({
+  defaultLayout: "main",
+  helpers: {
+    asJSON: (obj, spacing) => {
+      if (typeof spacing === "number")
+        return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
+      return new Handlebars.SafeString(JSON.stringify(obj));
+    },
+  },
+  partialsDir: [path.join(path.resolve(), "src/views/partials")],
+});
 
 app.use(
   session({
@@ -34,12 +54,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
-app.set("views", path.join(path.resolve(), "src/views"));
-const hbs = exphbs.create({
-  defaultLayout: "main",
-  partialsDir: "partials/",
-});
-app.engine("handlebars", hbs.engine);
+app.engine("handlebars", handlebarsInstance.engine);
 app.set("view engine", "handlebars");
 
 // EXAMPLE HOW TO APPLY MIDDLEWARE
