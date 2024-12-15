@@ -125,6 +125,7 @@ const asmService = new AsmInterpreterService();
 let snippetEditor = document.getElementById("snippetEditor");
 let snippetNameField = document.getElementById("snippetName");
 let snippetBodyField = document.getElementById("snippetBody");
+const lineNumbers = document.getElementById("lineNumbers");
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
@@ -280,6 +281,40 @@ if (snippetEditor) {
 
   loadSnippetIntoService();
 }
+
+function updateLineNumbers() {
+  if (!snippetBodyField || !lineNumbers) return;
+
+  const lines = snippetBodyField.value.split("\n");
+  const lineCount = lines.length;
+
+  lineNumbers.innerHTML = "";
+
+  for (let i = 1; i <= lineCount; i++) {
+    const lineNumber = document.createElement("div");
+    lineNumber.innerText = i;
+    lineNumbers.appendChild(lineNumber);
+  }
+}
+
+function adjustTextareaHeight() {
+  snippetBodyField.style.height = "auto";
+  snippetBodyField.style.height = `${snippetBodyField.scrollHeight}px`;
+}
+
+function syncScroll() {
+  lineNumbers.scrollTop = snippetBodyField.scrollTop;
+}
+
+if (snippetBodyField) {
+  snippetBodyField.addEventListener("input", updateLineNumbers);
+  snippetBodyField.addEventListener("scroll", syncScroll);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  adjustTextareaHeight();
+  updateLineNumbers();
+});
 
 let myUL = document.getElementById("errorUl");
 if (snippetEditor) {
