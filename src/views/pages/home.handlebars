@@ -1,10 +1,10 @@
 {{!-- home page before login... maybe wont use. --}}
 <title>Homepage</title>
 {{#> navbar }}{{/navbar}}
-{{#if res.session.user}}
-  {{#> navbar }}{{/navbar}}
-{{/if}}
 <section class="welcome">
+  {{#if loggedOut}}
+  <p class="signedUpNotif">Successfully logged out</p>
+  {{/if}}
   <h1>Welcome to AsmVis</h1>
   <div class="buttons">
     {{#if res.session.user}}

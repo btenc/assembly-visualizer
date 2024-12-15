@@ -18,18 +18,22 @@
 <div class="snipDiv">
   <!--Form should be populated with snippet name and code-->
   <ul id="errorUl2"></ul>
-  {{#if owner}}
-  {{else}}
-    <p class="warning">Please log in to save your snippet</p>
-  {{/if}}
   <div class="consoles">
     <div class="snipForm">
+      {{#if guest}}
+      <p id="snippetName">Guest Snippet</p>
+      {{else}}
       <p id="snippetName">{{snipName}}</p>
+    {{/if}}
   <form id="snippetEditor" action='/snippets/{{snippetId}}' method="POST">
     {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
+    {{#if guest}}
+    <p class="warning">No changes will be saved unless you make an account</p>
+    {{else}}
     <p>Created by <a href="/users/{{ownerUsername}}">{{ownerUsername}}</a> on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
+    {{/if}}
     <div class="snippet-container">
       <div class="line-numbers" id="lineNumbers"></div>
       <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
@@ -58,8 +62,8 @@
   <button id="resetLine" type="button" class="btn btn-primary">Reset</button>
   <button id="loadProgram" type="button" class="btn btn-primary">Load Program</button>
   <div class="consoles">
-    <div id="error_output" class="consoleDiv">Errors: {{asmErrors}}</div>
-    <div id="asm_output" class="consoleDiv">ASM output: {{asmOutput}}</div>
+    <div id="error_output" class="consoleDiv">{{asmErrors}}</div>
+    <div id="asm_output" class="consoleDiv">{{asmOutput}}</div>
   </div>
 
 </body>
