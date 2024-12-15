@@ -3,6 +3,7 @@ const router = Router();
 import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
 import validation from "../modules/utils/validations.js";
+import { ObjectId } from "mongodb";
 
 router
   .route("/")
@@ -26,10 +27,10 @@ router
     } catch (e) {
       res.render('pages/create', {errors: [e]});
       return res.status(400);
-    }
+    } 
 
     // use that information to go to that snippets page
-    return res.redirect('/snippets/' + newSnip.snipId);
+    return res.redirect('/snippets/' + newSnip._id);
   });
 
 router
@@ -37,7 +38,6 @@ router
   .get(async (req, res) => {
     // Gets snippet ID depending on if they are allowed to access the snippet
     // get the owner of the snippet
-
     try {
       const snip = await snippetMethods.getSnippetById(req.params.snippetID);
       const snipOwnerId = snip.userId;
