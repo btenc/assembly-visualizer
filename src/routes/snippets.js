@@ -25,7 +25,7 @@ router
     try {
       newSnip = await snippetMethods.addSnippet(
         snipName.name,
-        [],
+        ['MOV R0, 0'],
         req.session.userId,
         dateCreated
       );
@@ -49,13 +49,16 @@ router
       const snipOwner = await userMethods.getUserById(snipOwnerId);
       const snipOwnerUsername = snipOwner.username;
 
+      let formatedBody = snip.snipBody.join('\n');
+
       if (req.session.userId === snipOwnerId.toString()) {
         res.render("pages/snippets", {
           username: req.session.username,
           snipName: snip.snipName,
-          snipBody: snip.snipBody,
+          snipBody: formatedBody,
           dateCreated: snip.dateCreation,
           dateLastEdited: snip.dateLastEdit,
+          snippetId: req.params.snippetID,
           owner: true,
         });
       } else {
@@ -63,8 +66,9 @@ router
           username: req.session.username,
           ownerUsername: snipOwnerUsername,
           snipName: snip.snipName,
-          snipBody: snip.snipBody,
+          snipBody: formatedBody,
           dateCreated: snip.dateCreation,
+          snippetId: req.params.snippetID,
           dateLastEdited: snip.dateLastEdit,
         });
       }
@@ -97,11 +101,8 @@ router
 
     // now check if they are valid
     try {
-      const snipName = validation.checkStr(snippetData.snipName);
-      const snipBody = validation.checkStr(snippetData.snipBody);
-      const userId = validation.checkStr(snippetData.userId);
-
-      // if all snippetData exists and is valid, then we can make the data and create the snippet
+      const snipName = validation.checkStr(snippetData.snippetName);
+      const snipId = validation.checkStr(req.params.snippetID);
 
       // now lets create the date that we pass into addSnippet
       const now = new Date();
@@ -109,15 +110,15 @@ router
 
       // then add this and we're done
       const newSnippet = await snippetMethods.updateSnippet(
+        snipId,
         snipName,
-        snipBody,
-        userId,
+        snippetData.snippetBody,
         dateLastEdit
       );
 
       res.status(200).json(newSnippet);
     } catch (e) {
-      console.error("POST /snippets error:", e);
+      console.error("PATCH /snippets error:", e);
       return res.status(400).json({ error: e.toString() });
     }
   })

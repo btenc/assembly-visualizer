@@ -3,6 +3,7 @@ import AsmInterpreterService from "/modules/asmInterpreterService.js";
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
+
 let stringCheck = (string, value) => {
   if (typeof string !== "string") errors.push(`${value} must be a string`);
   string = string.trim();
@@ -298,20 +299,41 @@ if (snippetEditor) {
 
 let myUL = document.getElementById("errorUl");
 if (snippetEditor) {
-  let errors = [];
-  snippetEditor.addEventListener("submit", (event) => {
+  snippetEditor.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  /* let errors = [];
+  
     myUL.innerHTML = "";
     errors = [];
     if (!snippetBodyField.value) errors.push(`Snippet Body must be provided!`);
     if (!snippetNameField.value) errors.push(`Snippet Name must be provided!`);
     if (errors.length > 0) {
-      event.preventDefault();
       for (let i = 0; i < errors.length; i++) {
         let myLi = document.createElement("li");
         myLi.classList.add("error");
         myLi.innerHTML = errors[i];
         myUL.appendChild(myLi);
       }
-    }
+    } */
+
+    const currentUrl = window.location.href;
+    const snippetId = currentUrl.split('/')[4];
+
+    let snippetBody = document.getElementById("snippetBody").value;
+    const snippetBodyArr = snippetBody.split('\n');
+    console.log(snippetBodyArr)
+    const snippetName = document.getElementById("snippetName").innerHTML;
+
+    const reqBody = { snippetBody: snippetBodyArr, snippetName: snippetName }
+
+    console.log(reqBody)
+
+    const response = await fetch(`/snippets/${snippetId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody)
+    });
   });
 }
