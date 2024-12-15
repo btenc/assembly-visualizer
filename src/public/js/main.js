@@ -280,12 +280,12 @@ if (resetLineButton) {
 }
 
 if (snippetEditor) {
-  let snipName = document.getElementById("snipName");
+  // let snipName = document.getElementById("snipName");
   let snipBody = document.getElementById("snipBody");
 
-  if (snipName && snipName.innerText.trim() !== "") {
-    snippetNameField.value = snipName.innerText;
-  }
+  // if (snipName && snipName.innerText.trim() !== "") {
+  //   snippetNameField.value = snipName.innerText;
+  // }
   if (snipBody && snipBody.innerText.trim() !== "") {
     snippetBodyField.value = snipBody.innerText;
   }
