@@ -20,7 +20,7 @@ if (signUpForm) {
   let confirmPassword = document.getElementById("confirmPassword");
   signUpForm.addEventListener("submit", (event) => {
     errUL.hidden = true;
-    errUl.innerHTML = '';
+    errUl.innerHTML = "";
     errors = [];
     if (!username.value) {
       errors.push("Username must be provided");
@@ -31,11 +31,15 @@ if (signUpForm) {
       if (username.value.length < 6 || username.value.length > 24)
         errors.push("Username should be 6-24 characters long");
       let spaceFinder = username.value;
-      spaceFinder = spaceFinder.replace(/[ ]/g, '');
+      spaceFinder = spaceFinder.replace(/[ ]/g, "");
       if (spaceFinder.length !== username.value.length) {
         errors.push(`Username must not have any spaces`);
       }
-      if (username.value === "logout" || username.value === "signup" || username.value === 'signin') {
+      if (
+        username.value === "logout" ||
+        username.value === "signup" ||
+        username.value === "signin"
+      ) {
         errors.push(`Username is invalid, please pick another username`);
       }
     }
@@ -60,9 +64,9 @@ if (signUpForm) {
       //Valid Password
       if (password.value.length < 6 || password.value.length > 24)
         errors.push("Password should be 6-24 characters");
-    }     
+    }
     let spaceFinder = password.value;
-    spaceFinder = spaceFinder.replace(/[ ]/g, '');
+    spaceFinder = spaceFinder.replace(/[ ]/g, "");
     if (spaceFinder.length !== password.value.length) {
       errors.push(`Password must not have any spaces`);
     }
@@ -320,19 +324,14 @@ function adjustTextareaHeight() {
   snippetBodyField.style.height = `${snippetBodyField.scrollHeight}px`;
 }
 
-function syncScroll() {
-  lineNumbers.scrollTop = snippetBodyField.scrollTop;
-}
-
 if (snippetBodyField) {
-  snippetBodyField.addEventListener("input", updateLineNumbers);
-  snippetBodyField.addEventListener("scroll", syncScroll);
-}
-
-window.addEventListener("DOMContentLoaded", () => {
+  snippetBodyField.addEventListener("input", () => {
+    adjustTextareaHeight();
+    updateLineNumbers();
+  });
   adjustTextareaHeight();
   updateLineNumbers();
-});
+}
 
 let myUL = document.getElementById("errorUl");
 if (snippetEditor) {
