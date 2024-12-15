@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 router
   .route("/")
   .get(async (req, res) => {
-    res.render('pages/create');
+    res.render("pages/create");
 
     return res.status(200);
   })
@@ -19,18 +19,23 @@ router
     const snipName = req.body;
 
     const now = new Date();
-    const dateCreated = now.toLocaleDateString("en-US"); 
+    const dateCreated = now.toLocaleDateString("en-US");
 
     let newSnip = {};
     try {
-      newSnip = await snippetMethods.addSnippet(snipName.name, [], req.session.userId, dateCreated);  
+      newSnip = await snippetMethods.addSnippet(
+        snipName.name,
+        [],
+        req.session.userId,
+        dateCreated
+      );
     } catch (e) {
-      res.render('pages/create', {errors: [e]});
+      res.render("pages/create", { errors: [e] });
       return res.status(400);
-    } 
+    }
 
     // use that information to go to that snippets page
-    return res.redirect('/snippets/' + newSnip._id);
+    return res.redirect("/snippets/" + newSnip._id);
   });
 
 router
@@ -41,20 +46,21 @@ router
     try {
       const snip = await snippetMethods.getSnippetById(req.params.snippetID);
       const snipOwnerId = snip.userId;
-      const snipOwnerUsername = await userMethods.getUserById(snipOwnerId).username;
+      const snipOwner = await userMethods.getUserById(snipOwnerId);
+      const snipOwnerUsername = snipOwner.username;
 
-      if (req.session.userId === snipOwnerId){
-        res.render("snippets", {
+      if (req.session.userId === snipOwnerId) {
+        res.render("pages/snippets", {
           username: req.session.username,
           snipName: snip.snipName,
           snipBody: snip.snipBody,
           dateCreated: snip.dateCreated,
           dateLastEdited: snip.dateLastEdited,
-          owner: true
+          owner: true,
         });
       } else {
-        res.render("snippets", {
-          username: req.session.username, 
+        res.render("pages/snippets", {
+          username: req.session.username,
           ownerUsername: snipOwnerUsername,
           snipName: snip.snipName,
           snipBody: snip.snipBody,
@@ -117,12 +123,16 @@ router
   })
   .delete(async (req, res) => {
     if (!req.body.userId)
-      res.status(400).render("snippets", { error: "400, userId not found" });
+      res
+        .status(400)
+        .render("pages/snippets", { error: "400, userId not found" });
     try {
       let removed = snippetMethods.removeSnippet(req.body.userId);
       return res.status(200);
     } catch (e) {
-      res.status(400).render("snippets", { error: "400, userId not found" });
+      res
+        .status(400)
+        .render("pages/snippets", { error: "400, userId not found" });
     }
   });
 

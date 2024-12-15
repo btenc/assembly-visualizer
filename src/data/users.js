@@ -10,6 +10,8 @@ let exportedMethods = {
     return userList;
   },
   async getUserById(id) {
+    console.log(id);
+    id = id.toString();
     id = checkId(id);
     const userCollection = await users();
     const user = await userCollection.findOne({ _id: new ObjectId(id) });
