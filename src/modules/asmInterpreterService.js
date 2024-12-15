@@ -7,7 +7,7 @@ const MAX_INSTRUCTION = 5000;
 
 class AsmInterpreterService {
   constructor() {
-    this.registers = new Registers(); //can i pass this into registers?
+    this.registers = new Registers(this); //can i pass this into registers?
     this.loadedProgram = [];
     this.programFinished = false;
     this.haltFlag = false;

@@ -16,6 +16,8 @@
 - OR
 - XOR
 - NOT
+- HLT
+- NOP
 
 ## What is it?
 

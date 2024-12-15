@@ -21,7 +21,7 @@ if (signUpForm) {
   let confirmPassword = document.getElementById("confirmPassword");
   signUpForm.addEventListener("submit", (event) => {
     errUL.hidden = true;
-    errUl.innerHTML = '';
+    errUl.innerHTML = "";
     errors = [];
     if (!username.value) {
       errors.push("Username must be provided");
@@ -32,11 +32,15 @@ if (signUpForm) {
       if (username.value.length < 6 || username.value.length > 24)
         errors.push("Username should be 6-24 characters long");
       let spaceFinder = username.value;
-      spaceFinder = spaceFinder.replace(/[ ]/g, '');
+      spaceFinder = spaceFinder.replace(/[ ]/g, "");
       if (spaceFinder.length !== username.value.length) {
         errors.push(`Username must not have any spaces`);
       }
-      if (username.value === "logout" || username.value === "signup" || username.value === 'signin') {
+      if (
+        username.value === "logout" ||
+        username.value === "signup" ||
+        username.value === "signin"
+      ) {
         errors.push(`Username is invalid, please pick another username`);
       }
     }
@@ -45,6 +49,7 @@ if (signUpForm) {
     } else {
       //String Check
       stringCheck(email.value, "Email");
+
       //Valid Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.value)) {
@@ -60,12 +65,11 @@ if (signUpForm) {
       //Valid Password
       if (password.value.length < 6 || password.value.length > 24)
         errors.push("Password should be 6-24 characters");
-      
-      let spaceFinder = password.value;
-      spaceFinder = spaceFinder.replace(/[ ]/g, '');
-      if (spaceFinder.length !== password.value.length) {
-        errors.push(`Password must not have any spaces`);
-      }
+    }
+    let spaceFinder = password.value;
+    spaceFinder = spaceFinder.replace(/[ ]/g, "");
+    if (spaceFinder.length !== password.value.length) {
+      errors.push(`Password must not have any spaces`);
     }
     if (!confirmPassword.value) {
       errors.push("Password must be confirmed");
@@ -98,7 +102,7 @@ if (loginForm) {
     if (!username.value) {
       errors.push("Username must be provided");
     } else {
-      stringCheck(username.value);
+      stringCheck(username.value, "Username");
       username.value = username.value.toLowerCase();
       username.value = username.value.trim();
     }
@@ -128,15 +132,6 @@ if (nameCreatorSection) {
   let createForm = nameCreatorSection.querySelector("#create-form");
 
   createForm.addEventListener("submit", (event) => {
-    const name = createForm.querySelector("#nameInput").value.trim();
-
-    if (!name) {
-      event.preventDefault();
-      const resultDiv = nameCreatorSection.querySelector("#result");
-      resultDiv.textContent = "Name cannot be empty.";
-      return;
-    }
-
     let bodyField = document.createElement("input");
     bodyField.type = "hidden";
     bodyField.name = "body";
@@ -153,18 +148,25 @@ const asmService = new AsmInterpreterService();
 let snippetEditor = document.getElementById("snippetEditor");
 let snippetNameField = document.getElementById("snippetName");
 let snippetBodyField = document.getElementById("snippetBody");
+const lineNumbers = document.getElementById("lineNumbers");
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
 let asmOutputDiv = document.getElementById("asm_output");
 let errorOutputDiv = document.getElementById("error_output");
+let loadProgramButton = document.getElementById("loadProgram");
 
 function loadSnippetIntoService() {
   asmService.clearProgram();
-  const snippet = snippetBodyField.value || "";
+  const snippet = snippetBodyField?.value.trim(); // Ensure field exists and value is trimmed
+  if (!snippet) {
+    asmOutputDiv.innerHTML =
+      "No instructions to load. Please provide a snippet.";
+    return;
+  }
   asmService.loadProgram(snippet);
   asmService.resetIP();
-  displayState();
+  displayState(); // Ensure UI reflects the loaded program
 }
 
 function displayState() {
@@ -253,7 +255,6 @@ function resetInterpretation() {
   asmService.clearAllRegisters();
   asmService.clearProgram();
   asmService.resetIP();
-  loadSnippetIntoService();
 }
 
 if (runStepButton) {
@@ -283,18 +284,54 @@ if (resetLineButton) {
   });
 }
 
+if (loadProgramButton) {
+  loadProgramButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    loadSnippetIntoService();
+  });
+}
+
 if (snippetEditor) {
-  // let snipName = document.getElementById("snipName");
+  let snipName = document.getElementById("snipName");
   let snipBody = document.getElementById("snipBody");
 
-  // if (snipName && snipName.innerText.trim() !== "") {
-  //   snippetNameField.value = snipName.innerText;
-  // }
+  if (snipName && snipName.innerText.trim() !== "") {
+    snippetNameField.value = snipName.innerText;
+  }
   if (snipBody && snipBody.innerText.trim() !== "") {
     snippetBodyField.value = snipBody.innerText;
   }
 
   loadSnippetIntoService();
+}
+
+function updateLineNumbers() {
+  if (!snippetBodyField || !lineNumbers) return;
+
+  const lines = snippetBodyField.value.split("\n");
+  const lineCount = lines.length;
+
+  lineNumbers.innerHTML = "";
+
+  for (let i = 1; i <= lineCount; i++) {
+    const lineNumber = document.createElement("div");
+    lineNumber.innerText = i;
+    lineNumbers.appendChild(lineNumber);
+  }
+}
+
+function adjustTextareaHeight() {
+  snippetBodyField.style.height = "auto";
+  snippetBodyField.style.height = `${snippetBodyField.scrollHeight}px`;
+}
+
+if (snippetBodyField) {
+  snippetBodyField.addEventListener("input", () => {
+    adjustTextareaHeight();
+    updateLineNumbers();
+  });
+  adjustTextareaHeight();
+  updateLineNumbers();
 }
 
 let myUL = document.getElementById("errorUl");

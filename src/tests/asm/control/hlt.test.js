@@ -15,7 +15,7 @@ describe("HLT Instruction Tests", () => {
 
     asmInterpreter.interpretStep();
     const stateAfterHLT = asmInterpreter.getState();
-    console.log(stateAfterHLT);
+    //console.log(stateAfterHLT);
     expect(stateAfterHLT.programFinished).toBe(true);
     expect(stateAfterHLT.registers.R0).toBe(5);
     expect(stateAfterHLT.instructionPointer).toBe(3);

@@ -7,17 +7,23 @@
   <h2>Snippets:</h2>
   {{#if snippets}}
   <div id="snippet-list">
-    {{#each snippets.length}}
-    <article>
-      <h2><a href="/snippets/{{snipId}}">{{snipName}}</a></h2>
-      <p>Date Last Edited: {{dateLastEdit}}</p>
-      <p>Date Created: {{dateCreated}}</p>
-      <!--Pass in a check with person accessing page and who's profile this is-->
-      {{#if owner}}
-      <a href="/snippets/{{snipId}}" method="DELETE">Delete Snippet</a>
-      {{/if}}
-    </article>
-    {{/each}}
+    {{#if owner}}
+      {{#each snippets}}
+      <article class="snipList">
+        <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
+        <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
+        <!--Pass in a check with person accessing page and who's profile this is-->
+        <form action="/snippets/{{'_id'}}" method="DELETE" id="delete-button" class="delete-button"><button type="submit">Delete Snippet</button></form>
+      </article>
+      {{/each}}
+    {{else}}
+      {{#each snippets}}
+      <article class="snipList">
+        <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
+        <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
+      </article>
+      {{/each}}
+    {{/if}}
   </div>
   {{else}}
   <p>This user hasn't made any snippets yet!</p>

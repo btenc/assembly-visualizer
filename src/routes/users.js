@@ -2,6 +2,8 @@ import e, { Router } from "express";
 import userMethods from "../data/users.js";
 import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
+import snipMethods from '../data/snippets.js';
+import { ObjectId } from "mongodb";
 import xss from "xss";
 import req from "express/lib/request.js";
 import { ConnectionClosedEvent } from "mongodb";
@@ -192,7 +194,8 @@ router.route("/login").post(async (req, res) => {
 });
 
 router.route("/logout").post(async (req, res) => {
-  req.session.destroy((err) => {
+  req.session.destroy
+  ((err) => {
     if (err) {
       return res.status(500).render("error", {
         error: "Could not log out. Please try again.",
@@ -214,11 +217,23 @@ router.route("/:username").get(async (req, res) => {
     return res.redirect("pages/home");
   }
 
+  let snipArr = [];
+  for (var snipId in user.snippetId) {
+    let snip = await snipMethods.getSnippetById(user.snippetId[snipId].toString());
+    snipArr.push(snip);
+  }
+
+  let owner = false;
+  if (req.session.username === username) {
+    owner = true;
+  }
+
   try {
     res.render("pages/dashboard", {
       username: username,
-      snippets: user.snippetId,
+      snippets: snipArr,
       dateRegistered: user.dateRegistered,
+      owner: owner,
     });
     return res.status(200);
   } catch (e) {

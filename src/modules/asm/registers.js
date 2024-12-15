@@ -12,7 +12,7 @@ const MAX_NUM = 32767;
 const MIN_NUM = -32768;
 
 class Registers {
-  constructor() {
+  constructor(asmInterpreterService) {
     this.regData = {
       R0: 0,
       R1: 0,
@@ -34,6 +34,7 @@ class Registers {
 
     this.IP = 1;
     this.REM = 0;
+    this.asmInterpreterService = asmInterpreterService;
   }
 
   //Register Methods
@@ -45,7 +46,17 @@ class Registers {
   set(register, value) {
     register = asmValidate.registerCheck(this, register);
     validations.checkINT(value);
-    this.regData[register] = value;
+    if (value > MAX_NUM) {
+      this.asmInterpreterService.errors.push(
+        `Error: register ${register} has reached MAX_NUM!`
+      );
+    } else if (value < MIN_NUM) {
+      this.asmInterpreterService.errors.push(
+        `Error: register ${register} has reached MIN_NUM!`
+      );
+    } else {
+      this.regData[register] = value;
+    }
   }
 
   getInstructionPointer() {
