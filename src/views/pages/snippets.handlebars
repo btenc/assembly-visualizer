@@ -29,9 +29,7 @@
     {{#if owner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
-    {{#if owner}}
-    <p>Created by {{ownerUsername}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
-    {{/if}}
+    <p>Created by <a href="/users/{{ownerUsername}}">{{ownerUsername}}</a> on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
     <div class="snippet-container">
       <div class="line-numbers" id="lineNumbers"></div>
       <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
