@@ -35,18 +35,21 @@ if (signUpForm) {
       if (spaceFinder.length !== username.value.length) {
         errors.push(`Username must not have any spaces`);
       }
+      if (username.value === "logout" || username.value === "signup" || username.value === 'signin') {
+        errors.push(`Username is invalid, please pick another username`);
+      }
     }
     if (!email.value) {
       errors.push("Email must be provided");
     } else {
       //String Check
       stringCheck(email.value, "Email");
-
       //Valid Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.value)) {
         errors.push("Invalid email address");
       }
+      email.value = email.value.toLowerCase();
     }
     if (!password.value) {
       errors.push("Password must be provided");

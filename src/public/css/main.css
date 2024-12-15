@@ -116,6 +116,10 @@ td{
   padding: 3px;
 }
 
+.nav-li-right{
+  float: right;
+}
+
 a{
   color:rgb(242, 49, 249);
   text-decoration: none;
