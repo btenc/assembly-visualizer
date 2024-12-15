@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 router
   .route("/")
   .get(async (req, res) => {
-    res.render("pages/create");
+    res.render("pages/create", {username: req.session.username});
 
     return res.status(200);
   })
@@ -54,8 +54,8 @@ router
           username: req.session.username,
           snipName: snip.snipName,
           snipBody: snip.snipBody,
-          dateCreated: snip.dateCreated,
-          dateLastEdited: snip.dateLastEdited,
+          dateCreated: snip.dateCreation,
+          dateLastEdited: snip.dateLastEdit,
           owner: true,
         });
       } else {
@@ -64,8 +64,8 @@ router
           ownerUsername: snipOwnerUsername,
           snipName: snip.snipName,
           snipBody: snip.snipBody,
-          dateCreated: snip.dateCreated,
-          dateLastEdited: snip.dateLastEdited,
+          dateCreated: snip.dateCreation,
+          dateLastEdited: snip.dateLastEdit,
         });
       }
       return res.status(200);
