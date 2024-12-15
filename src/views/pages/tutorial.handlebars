@@ -2,21 +2,154 @@
 <title>Tutorial Page</title>
 {{#> navbar }}{{/navbar}}
 <section id="tutorial">
-  <h1>Assembly Commands Documentation</h1>
+  <h1>ASM Vis Documentation</h1>
 
   <h2>Available Commands</h2>
-  <ul>
-    <li>MOV: Moves a value into a register.</li>
-    <li>ADD: Adds values from registers or constants.</li>
-    <li>MUL: Multiplies values from registers or constants.</li>
-    <li>DIV: Divides values, storing the result in the destination register and the remainder in the REM register.</li>
-    <li>INC: Increments the value in a register by 1.</li>
-    <li>DEC: Decrements the value in a register by 1.</li>
-    <li>MOD: Calculates the modulus of two values.</li>
-    <li>NEG: Negates the value in a register.</li>
-    <li>AND: Performs a bitwise AND operation between two values.</li>
-    <li>OR: Performs a bitwise OR operation between two values.</li>
-    <li>XOR: Performs a bitwise XOR operation between two values.</li>
-    <li>NOT: Performs a bitwise NOT operation on a value.</li>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Parameters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>MOV</td>
+        <td>Moves a value into a register.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>ADD</td>
+        <td>Adds values from registers or constants.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>MUL</td>
+        <td>Multiplies values from registers or constants.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>DIV</td>
+        <td>Divides values, storing the result in the destination register and the remainder in the REM register.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>INC</td>
+        <td>Increments the value in a register by 1.</td>
+        <td><code>register</code></td>
+      </tr>
+      <tr>
+        <td>DEC</td>
+        <td>Decrements the value in a register by 1.</td>
+        <td><code>register</code></td>
+      </tr>
+      <tr>
+        <td>MOD</td>
+        <td>Calculates the modulus of two values.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>NEG</td>
+        <td>Negates the value in a register.</td>
+        <td><code>register</code></td>
+      </tr>
+      <tr>
+        <td>AND</td>
+        <td>Performs a bitwise AND operation between two values.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>OR</td>
+        <td>Performs a bitwise OR operation between two values.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>XOR</td>
+        <td>Performs a bitwise XOR operation between two values.</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>NOT</td>
+        <td>Performs a bitwise NOT operation on a value.</td>
+        <td><code>register</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Register Descriptions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Register</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>R0</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R1</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R2</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R3</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R4</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R5</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R6</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R7</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R8</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R9</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R10</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R11</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R12</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R13</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R14</td>
+        <td>General-purpose register</td>
+      </tr>
+      <tr>
+        <td>R15</td>
+        <td>General-purpose register</td>
+      </tr>
+    </tbody>
+  </table>
 </section>
