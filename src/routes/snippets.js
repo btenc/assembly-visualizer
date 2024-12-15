@@ -58,6 +58,7 @@ router
       if (req.session.userId === snipOwnerId.toString()) {
         res.render("pages/snippets", {
           username: req.session.username,
+          ownerUsername: req.session.username,
           snipName: snip.snipName,
           snipBody: formatedBody,
           dateCreated: snip.dateCreation,
@@ -127,17 +128,17 @@ router
     }
   })
   .delete(async (req, res) => {
-    if (!req.body.userId)
+    if (!req.params.snippetID)
       res
         .status(400)
-        .render("pages/snippets", { error: "400, userId not found" });
+        .render("pages/snippets", { error: "400, snippetID not found" });
     try {
-      let removed = snippetMethods.removeSnippet(req.body.userId);
+      let removed = await snippetMethods.removeSnippet(req.params.snippetID);
       return res.status(200);
     } catch (e) {
       res
         .status(400)
-        .render("pages/snippets", { error: "400, userId not found" });
+        .render("pages/snippets", { error: "400, snippetID not found" });
     }
   });
 
