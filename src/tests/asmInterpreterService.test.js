@@ -390,4 +390,48 @@ NOP R1, R2, 3`);
     // console.log(state);
     expect(state.errors.length).toBe(7);
   });
+
+  test("Interpret full program but then set MAX_INT", () => {
+    const programSnippet = `
+      MOV R0, 5
+
+      ADD R0, 10
+      MOV R1, R0
+      MOV R10, 50000
+      MOV R10, 10
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(15);
+    expect(state.registers.R1).toBe(15);
+    expect(state.instructionPointer).toBe(6);
+    expect(state.programFinished).toBe(false);
+    expect(state.registers.R10).toBe(0);
+    expect(state.errors.length).toBe(1);
+  });
+
+  test("Interpret full program but then set MIN_INT", () => {
+    const programSnippet = `
+      MOV R0, 5
+
+      ADD R0, 10
+      MOV R1, R0
+      MOV R10, -50000
+      MOV R10, 10
+    `;
+    asmInterpreter.loadProgram(programSnippet);
+    asmInterpreter.resetIP();
+
+    asmInterpreter.interpretAll();
+    const state = asmInterpreter.getState();
+    expect(state.registers.R0).toBe(15);
+    expect(state.registers.R1).toBe(15);
+    expect(state.instructionPointer).toBe(6);
+    expect(state.programFinished).toBe(false);
+    expect(state.registers.R10).toBe(0);
+    expect(state.errors.length).toBe(1);
+  });
 });
