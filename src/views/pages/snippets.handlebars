@@ -22,10 +22,10 @@
     <div class="snipForm">
       <p id="snippetName">{{snipName}}</p>
   <form id="snippetEditor" action='/snippets' method="PATCH">
-    {{#if owner}}
+    {{#if ownerUsername}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
-    {{#if ownerUsername}}
+    {{#if owner}}
     <p>Created by {{ownerUsername}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
     {{/if}}
     <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
