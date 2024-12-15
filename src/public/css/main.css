@@ -433,3 +433,43 @@ body {
 h1{
   text-align: center;
 }
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  background-color: #333;
+}
+
+ul li {
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+ul li a:hover {
+  background-color: #111;
+}
+
+/* Section: Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #333;
+}
+
+table th, table td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+  color: #fff;
+}
+
+table th {
+  background-color: #555;
+  color: #fff;
+}

@@ -18,6 +18,12 @@
 - NOT
 - HLT
 - NOP
+- JZ
+- JNZ
+- JLT
+- JGT
+- JET
+- JMP
 
 ## What is it?
 
