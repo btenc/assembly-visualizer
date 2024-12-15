@@ -2,7 +2,7 @@
 <title>Tutorial Page</title>
 {{#> navbar }}{{/navbar}}
 <section id="tutorial">
-  <h1>Assembly Commands Documentation</h1>
+  <h1>AsmVis16 Instruction Set Documentation</h1>
 
   <h2>Available Commands</h2>
   <table>
@@ -31,7 +31,10 @@
       </tr>
       <tr>
         <td>DIV</td>
-        <td>Divides values, storing the result in the destination register and the remainder in the REM register.</td>
+        <td>
+          Divides values, storing the result in the destination register and the
+          remainder in the REM register.
+        </td>
         <td><code>destination_register, source_value_or_register</code></td>
       </tr>
       <tr>
@@ -86,28 +89,28 @@
       </tr>
       <tr>
         <td>JZ</td>
-        <td>Jumps to a specified address if the zero flag is set.</td>
-        <td><code>address</code></td>
+        <td>Jumps to the destination if the register is zero</td>
+        <td><code>register, destination</code></td>
       </tr>
       <tr>
         <td>JNZ</td>
-        <td>Jumps to a specified address if the zero flag is not set.</td>
-        <td><code>address</code></td>
+        <td>Jumps to the destination if the register is not zero</td>
+        <td><code>register, destination</code></td>
       </tr>
       <tr>
         <td>JLT</td>
-        <td>Jumps to a specified address if the less-than flag is set.</td>
-        <td><code>address</code></td>
+        <td>Jumps to the destination if register1 is less than register 2</td>
+        <td><code>register1, register2, destination</code></td>
       </tr>
       <tr>
         <td>JGT</td>
-        <td>Jumps to a specified address if the greater-than flag is set.</td>
-        <td><code>address</code></td>
+        <td>Jumps to the destination if register1 is greater than register2</td>
+        <td><code>register1, register2, destination</code></td>
       </tr>
       <tr>
         <td>JET</td>
-        <td>Jumps to a specified address if the equal-to flag is set.</td>
-        <td><code>address</code></td>
+        <td>Jumps to the destination if register1 equal to register 2</td>
+        <td><code>register1, register2, destination</code></td>
       </tr>
       <tr>
         <td>JMP</td>
@@ -190,6 +193,14 @@
         <td>R15</td>
         <td>General-purpose register</td>
       </tr>
+        <td>Remainder</td>
+        <td>If a remainder was calculated, resulting remainder is stored here</td>
+      </tr>
+        <td>Instruction Pointer</td>
+        <td>Current targeted line by interpreter</td>
+      </tr>
+      
+      
     </tbody>
   </table>
 
