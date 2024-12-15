@@ -193,7 +193,7 @@ router.route("/login").post(async (req, res) => {
   return res.redirect("/users/" + user);
 });
 
-router.route("/logout").post(async (req, res) => {
+router.route("/logout").get(async (req, res) => {
   req.session.destroy
   ((err) => {
     if (err) {
@@ -203,7 +203,7 @@ router.route("/logout").post(async (req, res) => {
     }
     res.clearCookie("AuthenticationState");
 
-    return res.redirect("/homepage");
+    return res.render("pages/home", {loggedOut: true});
   });
 });
 

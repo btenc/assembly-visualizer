@@ -8,7 +8,11 @@ import { ObjectId } from "mongodb";
 router
   .route("/")
   .get(async (req, res) => {
-    res.render("pages/create", { username: req.session.username });
+    if (req.session.username) {
+      res.render("pages/create", { username: req.session.username });
+    } else {
+      res.render("pages/snippets", {guest: true});
+    }
 
     return res.status(200);
   })
