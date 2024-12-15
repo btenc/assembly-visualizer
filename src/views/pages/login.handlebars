@@ -12,9 +12,9 @@
   </ul>
   {{/if}}
   {{#if signedUp}}
-  <p>Signed up, please log in!</p>
+  <p class="signedUpNotif">Signed up successfully, please log in!</p>
   {{/if}}
-<form action="/users/login" method="POST" class="login-form">
+<form action="/users/login" method="POST" id="login-form" class="login-form">
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" id="username" name="username" placeholder="Enter your username" required>

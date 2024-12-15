@@ -18,6 +18,10 @@
 <div class="snipDiv">
   <!--Form should be populated with snippet name and code-->
   <ul id="errorUl2"></ul>
+  {{#if owner}}
+  {{else}}
+    <p class="warning">Please log in to save your snippet</p>
+  {{/if}}
   <div class="consoles">
     <div class="snipForm">
       <p id="snippetName">{{snipName}}</p>

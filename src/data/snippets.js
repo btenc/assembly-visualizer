@@ -1,4 +1,6 @@
 import { snippets } from "../config/mongoCollections.js";
+import { users } from "../config/mongoCollections.js";
+import userFuncs from './users.js';
 import { ObjectId } from "mongodb";
 import validation from "../modules/utils/validations.js";
 import { checkId } from "./helpers.js";
@@ -37,6 +39,15 @@ let exportedMethods = {
     const snippetCollection = await snippets();
     const insertInfo = await snippetCollection.insertOne(newSnippet);
     if (!insertInfo.insertedId) throw "Error: Insert failed!";
+    const user = await userFuncs.getUserById(userId);
+    user.snippetId.push(insertInfo.insertedId);
+    const userCollection = await users();
+    const updateInfo = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(userId) },
+      { $set: { snippetId: user.snippetId } },
+      { returnDocument: "after" }
+    );
+    
     return await this.getSnippetById(insertInfo.insertedId.toString());
   },
 

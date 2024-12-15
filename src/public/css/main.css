@@ -116,6 +116,10 @@ td{
   padding: 3px;
 }
 
+.nav-li-right{
+  float: right;
+}
+
 a{
   color:rgb(242, 49, 249);
   text-decoration: none;
@@ -188,6 +192,16 @@ body {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+}
+
+.signedUpNotif {
+  color: #007bff;
+  background: #d5d5f9;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  padding: 1rem;
+  max-width: 400px;
+  margin: 1rem auto;
 }
 
 .login-form {
@@ -329,6 +343,10 @@ body {
   flex-direction: column;
 }
 
+.warning{
+  margin:1px;
+}
+
 #snippetName {
   margin-bottom: 15px;
   padding: 10px;
@@ -388,4 +406,8 @@ body {
   overflow: auto;
   min-height: 100px;
   color: #fff;
+}
+
+h1{
+  text-align: center;
 }

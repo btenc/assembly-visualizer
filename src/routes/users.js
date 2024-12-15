@@ -218,6 +218,7 @@ router.route("/:username").get(async (req, res) => {
     res.render("pages/dashboard", {
       username: username,
       snippets: user.snippetId,
+      dateRegistered: user.dateRegistered,
     });
     return res.status(200);
   } catch (e) {

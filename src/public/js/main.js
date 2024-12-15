@@ -3,49 +3,68 @@ import AsmInterpreterService from "/modules/asmInterpreterService.js";
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
-let stringCheck = (string) => {
-  if (typeof string !== "string") errors.push("Email must be a string");
+let stringCheck = (string, value) => {
+  if (typeof string !== "string") errors.push(`${value} must be a string`);
   string = string.trim();
   if (string.length === 0)
-    errors.push("Email cannot be an empty string or just spaces");
+    errors.push(`${value} cannot be an empty string or just spaces`);
 };
 
-//TODO: Signup Form Validation
+//Signup Form Validation
 let signUpForm = document.getElementById("signup-form");
 if (signUpForm) {
+  let errUL = document.getElementById("errUl");
   let username = document.getElementById("username");
   let email = document.getElementById("email");
   let password = document.getElementById("password");
   let confirmPassword = document.getElementById("confirmPassword");
-  signInForm.addEventListener("submit", (event) => {
+  signUpForm.addEventListener("submit", (event) => {
+    errUL.hidden = true;
+    errUl.innerHTML = '';
     errors = [];
     if (!username.value) {
       errors.push("Username must be provided");
     } else {
-      username.value = username.toLowerCase();
-      if (username.value < 6 || username.value > 24)
-        errors.push("Username should be 6-24 characters");
+      stringCheck(username.value, "Username");
+      username.value = username.value.toLowerCase();
+      username.value = username.value.trim();
+      if (username.value.length < 6 || username.value.length > 24)
+        errors.push("Username should be 6-24 characters long");
+      let spaceFinder = username.value;
+      spaceFinder = spaceFinder.replace(/[ ]/g, '');
+      if (spaceFinder.length !== username.value.length) {
+        errors.push(`Username must not have any spaces`);
+      }
+      if (username.value === "logout" || username.value === "signup" || username.value === 'signin') {
+        errors.push(`Username is invalid, please pick another username`);
+      }
     }
     if (!email.value) {
       errors.push("Email must be provided");
     } else {
       //String Check
-      stringCheck(email.value);
-
+      stringCheck(email.value, "Email");
       //Valid Email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email.value)) {
         errors.push("Invalid email address");
       }
+      email.value = email.value.toLowerCase();
     }
     if (!password.value) {
       errors.push("Password must be provided");
     } else {
-      stringCheck(password.value);
+      stringCheck(password.value, "Password");
 
       //Valid Password
-      if (password.value < 6 || password.value > 24)
+      if (password.value.length < 6 || password.value.length > 24)
         errors.push("Password should be 6-24 characters");
+      
+      let spaceFinder = password.value;
+      spaceFinder = spaceFinder.replace(/[ ]/g, '');
+      if (spaceFinder.length !== password.value.length) {
+        errors.push(`Password must not have any spaces`);
+      }
     }
     if (!confirmPassword.value) {
       errors.push("Password must be confirmed");
@@ -55,31 +74,32 @@ if (signUpForm) {
         errors.push("Passwords must match");
     }
     if (errors.length > 0) {
-      let myUL = document.createElement("ul");
-
       event.preventDefault();
+      errUL.hidden = false;
       for (let i = 0; i < errors.length; i++) {
-        let myLi = document.createElement("li");
-        myLi.classList.add("error");
-        myLi.innerHTML = errors[i];
-        myUL.appendChild(myLi);
+        let errLi = document.createElement("li");
+        errLi.innerHTML = errors[i];
+        errUL.appendChild(errLi);
       }
-      signUpForm.appendChild(myUL);
     }
   });
 }
 
-//TODO: Login Form Validation
+//Login Form Validation
 let loginForm = document.getElementById("login-form");
 if (loginForm) {
   loginForm.addEventListener("submit", (event) => {
     errors = [];
-    event.preventDefault();
+    let errUl = document.createElement("errUl");
+    errUl.hidden = true;
+    let username = document.getElementById(`username`);
+    let password = document.getElementById(`password`);
     if (!username.value) {
       errors.push("Username must be provided");
     } else {
-      username.value = stringCheck(username.value);
+      stringCheck(username.value);
       username.value = username.value.toLowerCase();
+      username.value = username.value.trim();
     }
     if (!password.value) {
       errors.push("Password must be provided");
@@ -90,16 +110,14 @@ if (loginForm) {
         errors.push("Password should be 6-24 characters");
     }
     if (errors.length > 0) {
-      let myUL = document.createElement("ul");
-
       event.preventDefault();
+      errUl.hidden = false;
       for (let i = 0; i < errors.length; i++) {
-        let myLi = document.createElement("li");
-        myLi.classList.add("error");
-        myLi.innerHTML = errors[i];
-        myUL.appendChild(myLi);
+        let errLi = document.createElement("li");
+        errLi.classList.add("error");
+        errLi.innerHTML = errors[i];
+        errUL.appendChild(myLi);
       }
-      signUpForm.appendChild(myUL);
     }
   });
 }
@@ -265,12 +283,12 @@ if (resetLineButton) {
 }
 
 if (snippetEditor) {
-  let snipName = document.getElementById("snipName");
+  // let snipName = document.getElementById("snipName");
   let snipBody = document.getElementById("snipBody");
 
-  if (snipName && snipName.innerText.trim() !== "") {
-    snippetNameField.value = snipName.innerText;
-  }
+  // if (snipName && snipName.innerText.trim() !== "") {
+  //   snippetNameField.value = snipName.innerText;
+  // }
   if (snipBody && snipBody.innerText.trim() !== "") {
     snippetBodyField.value = snipBody.innerText;
   }
