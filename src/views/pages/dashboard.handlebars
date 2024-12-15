@@ -13,7 +13,7 @@
         <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
         <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
         <!--Pass in a check with person accessing page and who's profile this is-->
-        <a href="/snippets/{{'_id'}}" method="DELETE">Delete Snippet</a>
+        <form action="/snippets/{{'_id'}}" method="DELETE" id="delete-button" class="delete-button"><button type="submit">Delete Snippet</button></form>
       </article>
       {{/each}}
     {{else}}
