@@ -49,7 +49,7 @@ router
       const snipOwner = await userMethods.getUserById(snipOwnerId);
       const snipOwnerUsername = snipOwner.username;
 
-      if (req.session.userId === snipOwnerId) {
+      if (req.session.userId === snipOwnerId.toString()) {
         res.render("pages/snippets", {
           username: req.session.username,
           snipName: snip.snipName,
