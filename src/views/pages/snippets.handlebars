@@ -32,7 +32,10 @@
     {{#if owner}}
     <p>Created by {{ownerUsername}} on {{dateCreated}}, Last edited on {{dateLastEdited}}</p>
     {{/if}}
-    <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
+    <div class="snippet-container">
+      <div class="line-numbers" id="lineNumbers"></div>
+      <textarea class="snippetBody" id="snippetBody" name="snippetBody" placeholder="Snippet Body"></textarea>
+    </div>  
   </form>
   </div>
   <div class="snipRegs">
