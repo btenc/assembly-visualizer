@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 app.use("/public", express.static("src/public"));
+app.use("/modules", express.static("src/modules"));
 
 app.set("views", "src/views");
 

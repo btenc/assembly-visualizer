@@ -1,4 +1,4 @@
-import AsmInterpreterService from "../../modules/asmInterpreterService.js";
+import AsmInterpreterService from "/modules/asmInterpreterService.js";
 
 //public JS files will be used for DOM manipulation.
 let errors = [];
@@ -238,7 +238,7 @@ function resetInterpretation() {
 }
 
 if (runStepButton) {
-  runStepButton.addEventListener("click", "DOMContentLoaded", (event) => {
+  runStepButton.addEventListener("click", (event) => {
     event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
@@ -248,7 +248,7 @@ if (runStepButton) {
 }
 
 if (runAllButton) {
-  runAllButton.addEventListener("click", "DOMContentLoaded", (event) => {
+  runAllButton.addEventListener("click", (event) => {
     event.preventDefault();
     if (asmService.getLoadedProgramLength() === 0) {
       loadSnippetIntoService();
@@ -258,7 +258,7 @@ if (runAllButton) {
 }
 
 if (resetLineButton) {
-  resetLineButton.addEventListener("click", "DOMContentLoaded", (event) => {
+  resetLineButton.addEventListener("click", (event) => {
     event.preventDefault();
     resetInterpretation();
   });
