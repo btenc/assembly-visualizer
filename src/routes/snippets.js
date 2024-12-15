@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 router
   .route("/")
   .get(async (req, res) => {
-    res.render("pages/create", {username: req.session.username});
+    res.render("pages/create", { username: req.session.username });
 
     return res.status(200);
   })
@@ -37,6 +37,10 @@ router
     // use that information to go to that snippets page
     return res.redirect("/snippets/" + newSnip._id);
   });
+
+router.route("/tutorial").get(async (req, res) => {
+  res.render("pages/tutorial");
+});
 
 router
   .route("/:snippetID")
