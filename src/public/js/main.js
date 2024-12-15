@@ -78,7 +78,7 @@ if (loginForm) {
     if (!username.value) {
       errors.push("Username must be provided");
     } else {
-      username.value = stringCheck(username.value);
+      stringCheck(username.value);
       username.value = username.value.toLowerCase();
     }
     if (!password.value) {
