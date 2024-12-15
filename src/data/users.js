@@ -10,7 +10,7 @@ let exportedMethods = {
     return userList;
   },
   async getUserById(id) {
-    console.log(id);
+    //console.log(id);
     id = id.toString();
     id = checkId(id);
     const userCollection = await users();
