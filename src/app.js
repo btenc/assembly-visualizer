@@ -45,8 +45,9 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   }
   next();
 };
+app.use(middleware.tellMeMoreTellMeMore);
 
-app.use(rewriteUnsupportedBrowserMethods);
+// app.use(rewriteUnsupportedBrowserMethods);
 
 /*
 
@@ -89,7 +90,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(middleware.tellMeMoreTellMeMore());
 
 configRoutes(app);
 
