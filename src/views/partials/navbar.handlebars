@@ -4,13 +4,14 @@
   <li class="nav-left"><a id="nav-a" href="/homepage">ASM Vis</a></li>
   <!-- if user logged in-->
   {{#if username}}
-  <li class="nav-li"><a id="nav-a" href="/users/">Hello, {{username}}</a></li>
   <li class="nav-li"><a href="/snippets">New Snippet</a></li>
-  <li class="nav-li"><a id="nav-a" href="/users/login">Log Out</a></li>
+  <li class="nav-li-right"><a id="nav-a" href="/users/logout">Log Out</a></li>
+  <li class="nav-li-right"><a id="nav-a" href="/users/">Hello, {{username}}</a></li>
   {{else}}
   <!-- if user not logged in-->
-  <li class="nav-li"><a id="nav-a" href="/users/signup">Sign Up</a></li>
-  <li class="nav-li"><a id="nav-a" href="/users/login">Log In</a></li>
+  <li class="nav-li-right"><a id="nav-a" href="/users/signup">Sign Up</a></li>
+  <li class="nav-li-right"><a id="nav-a" href="/users/login">Log In</a></li>
   {{/if}}
+  <li class="nav-li"><a id="nav-a" href="snippets/tutorial">Tutorials</a></li>
   </ul>
 </div>
