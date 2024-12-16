@@ -22,6 +22,8 @@ router
     // create a new snippet in the db
     const snipName = req.body;
 
+    snipName.name = xss(snipName.name);
+
     const now = new Date();
     const dateCreated = now.toLocaleDateString("en-US");
 

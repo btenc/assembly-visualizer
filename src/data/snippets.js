@@ -81,7 +81,7 @@ let exportedMethods = {
       { returnDocument: "after" }
     );
 
-    if (!updateInfo.value) throw "Error: Update failed";
+    if (!updateInfo) throw "Error: Update failed";
     return updateInfo.value;
   },
 
