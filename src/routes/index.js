@@ -1,12 +1,14 @@
 import snippetRoutes from "./snippets.js";
 import userRoutes from "./users.js";
-import snippetMethods from '../data/snippets.js';
-import userMethods from '../data/users.js';
+import snippetMethods from "../data/snippets.js";
+import userMethods from "../data/users.js";
 
 const constructorMethod = (app) => {
   // hompage <3
   // Impliment logic for different views if the user is signed in or not.
   app.use("/homepage", async (req, res) => {
+    let isLoggedIn = !req.session.username ? false : true;
+
     try {
       let snippets = [];
       snippets = await snippetMethods.getAllSnippets();
@@ -18,10 +20,14 @@ const constructorMethod = (app) => {
           snipBody: snippets[snip].snipBody,
           username: user.username,
           dateCreation: snippets[snip].dateCreation,
-          dateLastEdit: snippets[snip].dateLastEdit
-        }
+          dateLastEdit: snippets[snip].dateLastEdit,
+        };
       }
-      res.render("pages/home", {snippets: snippets});
+      res.render("pages/home", {
+        snippets: snippets,
+        isLoggedIn: isLoggedIn,
+        username: req.session.username,
+      });
     } catch (e) {
       return res.status(500).json(e);
     }
