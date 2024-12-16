@@ -24,14 +24,12 @@ let exportedMethods = {
     password,
     dateRegistered,
     snippetId,
-    friendId
   ) {
     email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     dateRegistered = validation.checkDate(dateRegistered);
     snippetId.forEach((sub_id) => checkId(sub_id));
-    friendId.forEach((sub_id) => checkId(sub_id));
 
     let newUser = {
       email: email,
@@ -39,7 +37,6 @@ let exportedMethods = {
       password: password,
       dateRegistered: dateRegistered,
       snippetId: snippetId,
-      friendId: friendId,
     };
 
     const userCollection = await users();
@@ -64,22 +61,19 @@ let exportedMethods = {
 
     return { ...deletionInfo, deleted: true };
   },
-  async updateUserPut(id, email, username, password, snippetId, friendId) {
+  async updateUserPut(id, email, username, password, snippetId) {
     id = checkId(id);
     email = validation.checkEmail(email);
     username = validation.checkStr(username);
     password = validation.checkStr(password);
     snippetId = validation.checkArray(snippetId);
     snippetId.forEach((sub_id) => checkId(sub_id));
-    friendId = validation.checkArray(friendId);
-    friendId.forEach((sub_id) => checkId(sub_id));
 
     const userUpdateInfo = {
       email: email,
       username: username,
       password: password,
       snippetId: snippetId,
-      friendId: friendId,
     };
     const userCollection = await users();
     const updateInfo = await userCollection.findOneAndReplace(
