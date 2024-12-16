@@ -52,7 +52,10 @@ router
   });
 
 router.route("/tutorial").get(async (req, res) => {
-  res.render("pages/tutorial");
+  res.render("pages/tutorial", {
+    isLoggedIn: !req.session.username ? false : true,
+    username: req.session.username,
+  });
 });
 
 router
