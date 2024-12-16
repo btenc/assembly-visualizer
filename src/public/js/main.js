@@ -81,12 +81,9 @@ if (signUpForm) {
     if (!password.value) {
       errors.push("Password must be provided");
     } else {
+      //Valid Password
       stringCheck(password.value, "Password");
       passwordCheck(password.value);
-
-      //Valid Password
-      if (password.value.length < 6 || password.value.length > 24)
-        errors.push("Password should be 6-24 characters");
     }
     let spaceFinder = password.value;
     spaceFinder = spaceFinder.replace(/[ ]/g, "");
