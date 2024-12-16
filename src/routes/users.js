@@ -95,7 +95,7 @@ router.route("/signup").post(async (req, res) => {
     resStr = resStr.replace(/[0-9]/g, "");
 
     if (resStr.length === 0) {
-      throw "password must incldue a special character!";
+      throw "Password must include a special character";
     }
   };
 
