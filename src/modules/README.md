@@ -6,6 +6,7 @@
 
 - MOV
 - ADD
+- SUB
 - MUL
 - DIV
 - INC
