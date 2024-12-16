@@ -3,7 +3,6 @@ import AsmInterpreterService from "/modules/asmInterpreterService.js";
 //public JS files will be used for DOM manipulation.
 let errors = [];
 
-
 let stringCheck = (string, value) => {
   if (typeof string !== "string") errors.push(`${value} must be a string`);
   string = string.trim();
@@ -148,7 +147,7 @@ const asmService = new AsmInterpreterService();
 let snippetEditor = document.getElementById("snippetEditor");
 let snippetNameField = document.getElementById("snippetName");
 let snippetBodyField = document.getElementById("snippetBody");
-const lineNumbers = document.getElementById("lineNumbers");
+let lineNumbers = document.getElementById("lineNumbers");
 let runStepButton = document.getElementById("runStepButton");
 let runAllButton = document.getElementById("runAllButton");
 let resetLineButton = document.getElementById("resetLine");
@@ -169,12 +168,27 @@ function loadSnippetIntoService() {
   displayState(); // Ensure UI reflects the loaded program
 }
 
+function updateButtonColors(errors) {
+  const buttons = [runStepButton, runAllButton];
+  const hasErrors = errors.length > 0;
+
+  buttons.forEach((button) => {
+    if (button) {
+      button.style.backgroundColor = hasErrors ? "red" : "green";
+      button.style.color = "white";
+    }
+  });
+}
+
 function displayState() {
   const state = asmService.getState();
 
   // Clear previous outputs
   errorOutputDiv.innerHTML = "";
   asmOutputDiv.innerHTML = "";
+
+  // Update the Green/Red Buttons
+  updateButtonColors(state.errors);
 
   // Update registers if we have them
   if (state.registers) {
@@ -255,6 +269,7 @@ function resetInterpretation() {
   asmService.clearAllRegisters();
   asmService.clearProgram();
   asmService.resetIP();
+  displayState();
 }
 
 if (runStepButton) {
@@ -287,6 +302,7 @@ if (resetLineButton) {
 if (loadProgramButton) {
   loadProgramButton.addEventListener("click", (event) => {
     event.preventDefault();
+    resetInterpretation();
     loadSnippetIntoService();
   });
 }
@@ -337,8 +353,8 @@ if (snippetBodyField) {
 let myUL = document.getElementById("errorUl");
 if (snippetEditor) {
   snippetEditor.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  /* let errors = [];
+    event.preventDefault();
+    /* let errors = [];
   
     myUL.innerHTML = "";
     errors = [];
@@ -354,23 +370,23 @@ if (snippetEditor) {
     } */
 
     const currentUrl = window.location.href;
-    const snippetId = currentUrl.split('/')[4];
+    const snippetId = currentUrl.split("/")[4];
 
     let snippetBody = document.getElementById("snippetBody").value;
-    const snippetBodyArr = snippetBody.split('\n');
-    console.log(snippetBodyArr)
+    const snippetBodyArr = snippetBody.split("\n");
+    console.log(snippetBodyArr);
     const snippetName = document.getElementById("snippetName").innerHTML;
 
-    const reqBody = { snippetBody: snippetBodyArr, snippetName: snippetName }
+    const reqBody = { snippetBody: snippetBodyArr, snippetName: snippetName };
 
-    console.log(reqBody)
+    console.log(reqBody);
 
     const response = await fetch(`/snippets/${snippetId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(reqBody)
+      body: JSON.stringify(reqBody),
     });
   });
 }
