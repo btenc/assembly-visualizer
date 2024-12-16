@@ -1,5 +1,7 @@
 // seed file
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
+import { users, snippets } from "../config/mongoCollections.js";
+import bcrypt from 'bcryptjs';
 
 const db = await dbConnection();
 await db.dropDatabase();
