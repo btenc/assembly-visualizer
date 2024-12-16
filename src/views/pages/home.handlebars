@@ -6,24 +6,25 @@
   <p class="signedUpNotif">Successfully logged out</p>
   {{/if}}
   <h1>Welcome to AsmVis</h1>
+  <h2>Assembly Made Easy!</h2>
   <div class="buttons">
-    {{#if username}}
-    {{else}}
+    {{#if username}} {{else}}
     <a href="snippets/" class="btn btn-primary">Use Interpreter</a>
     <a href="users/login" class="btn btn-primary">Log In</a>
     <a href="users/signup" class="btn btn-secondary">Sign Up</a>
     {{/if}}
   </div>
   <h3>Featured Snippets:</h3>
-  {{#if snippets}}
-  {{#each snippets}}
-      <article class="snipList">
-        <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
-        <p>Created by: <a href="/users/{{'username'}}">{{'username'}}</a></p>
-        <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
-      </article>
-  {{/each}}
-  {{else}}
+  {{#if snippets}} {{#each snippets}}
+  <article class="snipList">
+    <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
+    <p>Created by: <a href="/users/{{'username'}}">{{'username'}}</a></p>
+    <p>
+      Date Last Edited: {{'dateLastEdit'}} <br />
+      Date Created: {{'dateCreation'}}
+    </p>
+  </article>
+  {{/each}} {{else}}
   <p>No snippets have been made yet!</p>
   {{/if}}
 </section>

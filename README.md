@@ -1,8 +1,65 @@
 # AsmVis - Assembly Visualizer
 
-## Issues:
+## HOW TO RUN APPLICATION DEMO
 
-- Do we want a MAX_INT for the interpreter? -32,768 to +32,767 for 16 bit? (William)
+- Install NPM dependencies with `npm install`
+- Seed tha database with `npm run seed`
+- Start the web server with `npm run start`
+- Direct browser to `http://localhost:3000/`
+
+### HOW TO EXPLORE ASMVIS
+
+#### As a guest...
+
+- http://localhost:3000/homepage
+
+  - Use interpreter as a guest, view recent snippets from other users, or login / sign up from here!
+
+- http://localhost:3000/snippets/tutorial
+
+  - View AsmVis16 supported instruction set
+
+- http://localhost:3000/snippets
+
+  - Access the interpreter as a guest!
+
+#### While logged in...
+
+- http://localhost:3000/homepage
+
+  - View recent snippets from other users.
+
+- http://localhost:3000/snippets
+
+  - Create and name a new snippet
+
+- http://localhost:3000/users/YOUR_USERNAME
+
+  - View snippets you have created, or delete them.
+
+#### How to use the interpreter...
+
+- Using the `AsmVis16` supported instructions, create an assembly like program.
+
+Example: Calculate the factorial of 5 program.
+
+```asm
+MOV R0, 5
+MOV R1, 1
+MOV R2, 1
+JNZ R0, 6
+JMP 9
+MUL R1, R0
+DEC R0
+JMP 4
+MOV R3, R1
+```
+
+- Load the program, which will check for any syntax errors. Interpreting is disabled while there are errors!
+
+- "Run Step" Run the next step of the program.
+
+- "Run All" Interpret entire program until complete.
 
 ## PROJECT DESCRIPTION:
 
