@@ -112,7 +112,7 @@ router
     } catch (e) {
       // Even in the error case, we can pass isLoggedIn so the navbar doesn't break
       res.render("pages/snippets", {
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !req.session.username ? false : true,
         isOwner: false,
         username: req.session.username,
         errors: [e],
@@ -197,11 +197,13 @@ router
     try {
       let removed = await snippetMethods.removeSnippet(req.params.snippetID);
 
-      return res.status(200).json({message: "Snippet deleted successfully :^)"});
+      return res
+        .status(200)
+        .json({ message: "Snippet deleted successfully :^)" });
     } catch (e) {
       console.error("Error in deleting a snippet: ", e);
 
-      return res.status(400).json({errors: [e]})
+      return res.status(400).json({ errors: [e] });
     }
   });
 
