@@ -9,9 +9,13 @@ router
   .route("/")
   .get(async (req, res) => {
     if (req.session.username) {
-      res.render("pages/create", { username: req.session.username });
+      res.render("pages/create", {
+        username: req.session.username,
+        isLoggedIn: true,
+        guest: false,
+      });
     } else {
-      res.render("pages/snippets", { guest: true });
+      res.render("pages/snippets", { guest: true, isLoggedIn: false });
     }
 
     return res.status(200);
@@ -36,7 +40,10 @@ router
         dateCreated
       );
     } catch (e) {
-      res.render("pages/create", { errors: [e] });
+      res.render("pages/create", {
+        errors: [e],
+        isLoggedIn: !req.session.username ? false : true,
+      });
       return res.status(400);
     }
 
