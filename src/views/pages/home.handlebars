@@ -15,11 +15,15 @@
     {{/if}}
   </div>
   <h3>Featured Snippets:</h3>
+  {{#if snippets}}
   {{#each snippets}}
       <article class="snipList">
         <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
-        <p>Created by: <a href="/users/{{username}}">{{'username'}}</a></p>
+        <p>Created by: <a href="/users/{{'username'}}">{{'username'}}</a></p>
         <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
       </article>
   {{/each}}
+  {{else}}
+  <p>No snippets have been made yet!</p>
+  {{/if}}
 </section>
