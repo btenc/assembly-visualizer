@@ -72,7 +72,7 @@ app.use((req, res, next) => {
     return res.redirect("/homepage");
   }
 
-  const publicRoutes = ["/homepage", "/users/login", "/users/signup"];
+  const publicRoutes = ["/users/login", "/users/signup"];
   if (publicRoutes.includes(req.path)) {
     if (isLoggedIn(req)) {
       return res.redirect(`/users/${req.session.username}`);
@@ -89,7 +89,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
 
 configRoutes(app);
 
