@@ -39,7 +39,7 @@ class AsmInterpreterService {
 
   //Clear & Resetting Methods
   clearAllRegisters() {
-    this.registers = new Registers();
+    this.registers = new Registers(this);
   }
 
   resetIP() {
