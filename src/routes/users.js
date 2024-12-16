@@ -123,7 +123,7 @@ router.route("/signup").post(async (req, res) => {
   // hash the password
   let hashedPass = "";
   try {
-    const saltRounds = 1; // change back to 16
+    const saltRounds = 16; // change back to 16
     hashedPass = await bcrypt.hash(pass, saltRounds);
   } catch (e) {
     res.render("pages/signup", {
