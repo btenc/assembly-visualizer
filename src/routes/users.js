@@ -212,7 +212,8 @@ router.route("/logout").get(async (req, res) => {
     }
     res.clearCookie("AuthenticationState");
 
-    return res.render("pages/home", { loggedOut: true });
+    // this'll fix the problem of the redirect users/users/login
+    return res.redirect("/homepage?loggedOut=true");
   });
 });
 
