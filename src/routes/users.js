@@ -27,7 +27,7 @@ router.route("/signup").post(async (req, res) => {
   try {
     pass = validations.checkStr(pass);
     user = validations.checkStr(user).toLowerCase();
-    email = validations.checkStr(email);
+    email = validations.checkStr(email).toLowerCase();
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
     res.render("pages/signup", { errors: [e] });
@@ -46,6 +46,19 @@ router.route("/signup").post(async (req, res) => {
       res.render("pages/signup", { errors: [e] });
       return res.status(401);
     }
+  }
+  try {
+    //check to see if the email is in use:
+    const users = await userMethods.getAllUsers();
+    for (var userObj in users) {
+      if (email === users[userObj].email.toLowerCase()) {
+        res.render("pages/signup", { errors: ["Email already in use!"] });
+        return res.status(401);
+      }
+    }
+  } catch (e) {
+    res.render("pages/signup", { errors: [e] });
+    return res.status(401);
   }
 
   // get the current date.
