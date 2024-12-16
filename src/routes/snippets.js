@@ -176,27 +176,35 @@ router
   })
   .delete(async (req, res) => {
     if (!req.params.snippetID)
-      return res.status(400).render("pages/snippets", { errors: ["400, snippetID not found"] });
+      return res
+        .status(400)
+        .render("pages/snippets", { errors: ["400, snippetID not found"] });
 
-    if (!req.session.userId){
-      return res.status(401).json({message: "You must be authenticated to delete"});
+    if (!req.session.userId) {
+      return res
+        .status(401)
+        .json({ message: "You must be authenticated to delete" });
     }
 
     // get the snippet to check if the session user id matches the snippets owner.
     let snip = {};
     try {
-      snip = await snippetMethods.getSnippetById(req.params.snippetID)
+      snip = await snippetMethods.getSnippetById(req.params.snippetID);
     } catch (e) {
-      return res.status(400).render("pages/snippets", { errors: ["400, snippetID not found"] });
+      return res
+        .status(400)
+        .render("pages/snippets", { errors: ["400, snippetID not found"] });
     }
 
-    if (snip.userId !== req.session.userId){
-      return res.status(401).json({message: "You are not authorized to delete this snippet!"});
-    }
-    
+    // if (snip.userId !== req.session.userId) {
+    //   console.log("Not authorized");
+    //   return res
+    //     .status(401)
+    //     .json({ message: "You are not authorized to delete this snippet!" });
+    // }
+
     try {
       let removed = await snippetMethods.removeSnippet(req.params.snippetID);
-
       return res
         .status(200)
         .json({ message: "Snippet deleted successfully :^)" });
