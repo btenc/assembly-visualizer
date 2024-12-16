@@ -118,7 +118,7 @@ router
       snippetData.snippetName = xss(snippetData.snippetName)
       
       for (let i in snippetData.snippetBody){
-        snippetData.snippetBody[i] = xss(snippetData.snippetBody);
+        snippetData.snippetBody[i] = xss(snippetData.snippetBody[i]);
       }
 
       // now lets create the date that we pass into addSnippet
