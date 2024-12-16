@@ -59,16 +59,23 @@ router
       const snipOwner = await userMethods.getUserById(snipOwnerId);
       const snipOwnerUsername = snipOwner.username;
 
-      for (let i in snip.snipBody){
-        if (snip.snipBody[i] === 'EMPTY'){
-          snip.snipBody[i] = '';
+      for (let i in snip.snipBody) {
+        if (snip.snipBody[i] === "EMPTY") {
+          snip.snipBody[i] = "";
         }
       }
-
       let formatedBody = snip.snipBody.join("\n");
 
-      if (req.session.userId === snipOwnerId.toString()) {
+      let isLoggedIn = !req.session.username ? false : true;
+
+      let isOwner = req.session.userId === snipOwnerId.toString();
+
+      // rendering depends on if the person is an owner or not
+      if (isOwner) {
+        // User is the owner
         res.render("pages/snippets", {
+          isLoggedIn: isLoggedIn,
+          isOwner: isOwner,
           username: req.session.username,
           ownerUsername: req.session.username,
           snipName: snip.snipName,
@@ -76,22 +83,30 @@ router
           dateCreated: snip.dateCreation,
           dateLastEdited: snip.dateLastEdit,
           snippetId: req.params.snippetID,
-          owner: true,
         });
       } else {
+        // Not the owner or not logged in
         res.render("pages/snippets", {
+          isLoggedIn: isLoggedIn,
+          isOwner: isOwner,
           username: req.session.username,
           ownerUsername: snipOwnerUsername,
           snipName: snip.snipName,
           snipBody: formatedBody,
           dateCreated: snip.dateCreation,
-          snippetId: req.params.snippetID,
           dateLastEdited: snip.dateLastEdit,
+          snippetId: req.params.snippetID,
         });
       }
       return res.status(200);
     } catch (e) {
-      res.render("pages/snippets", { errors: [e] });
+      // Even in the error case, we can pass isLoggedIn so the navbar doesn't break
+      res.render("pages/snippets", {
+        isLoggedIn: isLoggedIn,
+        isOwner: false,
+        username: req.session.username,
+        errors: [e],
+      });
       return res.status(400);
     }
   })
@@ -121,13 +136,13 @@ router
       const snipName = validation.checkStr(snippetData.snippetName);
       const snipId = validation.checkStr(req.params.snippetID);
 
-      snippetData.snippetName = xss(snippetData.snippetName)
-      
-      for (let i in snippetData.snippetBody){
+      snippetData.snippetName = xss(snippetData.snippetName);
+
+      for (let i in snippetData.snippetBody) {
         snippetData.snippetBody[i] = xss(snippetData.snippetBody[i]);
 
-        if (snippetData.snippetBody[i] === ''){
-          snippetData.snippetBody[i] = 'EMPTY'
+        if (snippetData.snippetBody[i] === "") {
+          snippetData.snippetBody[i] = "EMPTY";
         }
       }
 
