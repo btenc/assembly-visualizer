@@ -1,13 +1,13 @@
 {{!-- User dashboard after login page, listing snippets or making new ones --}}
-<title>{{username}}'s Profile</title>
+<title>{{owner}}'s Profile</title>
 {{#> navbar }}{{/navbar}}
 <section class="profile">
-  <h1><a href="/">{{username}}</a>'s Profile</h1>
+  <h1><a href="/">{{owner}}</a>'s Profile</h1>
   <p>Member since {{dateRegistered}}</p>
   <h2>Snippets:</h2>
   {{#if snippets}}
   <div id="snippet-list">
-    {{#if owner}}
+    {{#if isOwner}}
       {{#each snippets}}
       <article class="snipList">
         <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>

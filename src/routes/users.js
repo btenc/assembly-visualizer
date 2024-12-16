@@ -2,7 +2,7 @@ import { Router } from "express";
 import userMethods from "../data/users.js";
 import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
-import snipMethods from '../data/snippets.js';
+import snipMethods from "../data/snippets.js";
 import xss from "xss";
 const router = Router();
 
@@ -204,8 +204,7 @@ router.route("/login").post(async (req, res) => {
 });
 
 router.route("/logout").get(async (req, res) => {
-  req.session.destroy
-  ((err) => {
+  req.session.destroy((err) => {
     if (err) {
       return res.status(500).render("error", {
         error: "Could not log out. Please try again.",
@@ -213,7 +212,7 @@ router.route("/logout").get(async (req, res) => {
     }
     res.clearCookie("AuthenticationState");
 
-    return res.render("pages/home", {loggedOut: true});
+    return res.render("pages/home", { loggedOut: true });
   });
 });
 
@@ -229,21 +228,32 @@ router.route("/:username").get(async (req, res) => {
 
   let snipArr = [];
   for (var snipId in user.snippetId) {
-    let snip = await snipMethods.getSnippetById(user.snippetId[snipId].toString());
+    let snip = await snipMethods.getSnippetById(
+      user.snippetId[snipId].toString()
+    );
     snipArr.push(snip);
   }
 
-  let owner = false;
+  let isOwner = false;
   if (req.session.username === username) {
-    owner = true;
+    isOwner = true;
+  }
+
+  let isLoggedIn;
+  if (!req.session.username) {
+    isLoggedIn = false;
+  } else {
+    isLoggedIn = true;
   }
 
   try {
     res.render("pages/dashboard", {
-      username: username,
+      isLoggedIn: isLoggedIn,
+      username: req.session.username,
       snippets: snipArr,
       dateRegistered: user.dateRegistered,
-      owner: owner,
+      isOwner: isOwner,
+      owner: req.params.username,
     });
     return res.status(200);
   } catch (e) {
