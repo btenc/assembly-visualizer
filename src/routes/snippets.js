@@ -59,6 +59,12 @@ router
       const snipOwner = await userMethods.getUserById(snipOwnerId);
       const snipOwnerUsername = snipOwner.username;
 
+      for (let i in snip.snipBody){
+        if (snip.snipBody[i] === 'EMPTY'){
+          snip.snipBody[i] = '';
+        }
+      }
+
       let formatedBody = snip.snipBody.join("\n");
 
       if (req.session.userId === snipOwnerId.toString()) {
@@ -119,6 +125,10 @@ router
       
       for (let i in snippetData.snippetBody){
         snippetData.snippetBody[i] = xss(snippetData.snippetBody[i]);
+
+        if (snippetData.snippetBody[i] === ''){
+          snippetData.snippetBody[i] = 'EMPTY'
+        }
       }
 
       // now lets create the date that we pass into addSnippet
