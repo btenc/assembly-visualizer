@@ -6,7 +6,7 @@
     {{#if isLoggedIn}}
       <li class="nav-li"><a href="/snippets">New Snippet</a></li>
       <li class="nav-li-right"><a id="nav-a" href="/users/logout">Log Out</a></li>
-      <li class="nav-li-right"><a id="nav-a" href="/users/">Hello,
+      <li class="nav-li-right"><a id="nav-a" href="/users/{{username}}">Hello,
           {{username}}</a></li>
     {{else}}
       <!-- if user not logged in-->
