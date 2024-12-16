@@ -21,19 +21,24 @@
       </tr>
       <tr>
         <td>ADD</td>
-        <td>Adds values from registers or constants.</td>
+        <td>Adds value from register or constant into the destination register</td>
+        <td><code>destination_register, source_value_or_register</code></td>
+      </tr>
+      <tr>
+        <td>SUB</td>
+        <td>Subtracts value from register or constant into the destination register</td>
         <td><code>destination_register, source_value_or_register</code></td>
       </tr>
       <tr>
         <td>MUL</td>
-        <td>Multiplies values from registers or constants.</td>
+        <td>Multiplies value from register or constant into the destination register</td>
         <td><code>destination_register, source_value_or_register</code></td>
       </tr>
       <tr>
         <td>DIV</td>
         <td>
-          Divides values, storing the result in the destination register and the
-          remainder in the REM register.
+          Divides value from register or constant into the destination register and the
+          remainder (if any) in the REM register.
         </td>
         <td><code>destination_register, source_value_or_register</code></td>
       </tr>
@@ -49,7 +54,7 @@
       </tr>
       <tr>
         <td>MOD</td>
-        <td>Calculates the modulus of two values.</td>
+        <td>Calculates the modulus of two values into the destination register</td>
         <td><code>destination_register, source_value_or_register</code></td>
       </tr>
       <tr>
@@ -109,7 +114,7 @@
       </tr>
       <tr>
         <td>JET</td>
-        <td>Jumps to the destination if register1 equal to register 2</td>
+        <td>Jumps to the destination if register1 equal to register2</td>
         <td><code>register1, register2, destination</code></td>
       </tr>
       <tr>

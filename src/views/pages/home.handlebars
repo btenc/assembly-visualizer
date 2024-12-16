@@ -7,17 +7,19 @@
   {{/if}}
   <h1>Welcome to AsmVis</h1>
   <div class="buttons">
-    {{#if res.session.user}}
+    {{#if username}}
     {{else}}
     <a href="snippets/" class="btn btn-primary">Use Interpreter</a>
     <a href="users/login" class="btn btn-primary">Log In</a>
     <a href="users/signup" class="btn btn-secondary">Sign Up</a>
     {{/if}}
   </div>
-  {{#each snippet}}
-  <article>
-    <a href="/snippets/{{this.snipId}}"><h2>{{this.snipName}}</h2></a>
-    <p>Created by {{this.userId}}, Last edited at {{this.dateLastEdit}}</p>
-  </article>
+  <h3>Featured Snippets:</h3>
+  {{#each snippets}}
+      <article class="snipList">
+        <h2><a href="/snippets/{{'_id'}}">{{'snipName'}}</a></h2>
+        <p>Created by: <a href="/users/{{username}}">{{'username'}}</a></p>
+        <p>Date Last Edited: {{'dateLastEdit'}} <br> Date Created: {{'dateCreation'}}</p>
+      </article>
   {{/each}}
 </section>

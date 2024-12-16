@@ -26,7 +26,7 @@
       <p id="snippetName">{{snipName}}</p>
     {{/if}}
   <form id="snippetEditor" action='/snippets/{{snippetId}}' method="POST">
-    {{#if owner}}
+    {{#if isOwner}}
     <button id="saveButton" type="submit" class="btn btn-primary">Save Changes</button>
     {{/if}}
     {{#if guest}}

@@ -18,11 +18,18 @@ function instructionRouter(
     case "ADD":
       asmInstructions.ADD(AsmInterpreterService.registers, args);
       break;
+    case "SUB":
+      asmInstructions.SUB(AsmInterpreterService.registers, args);
+      break;
     case "MUL":
       asmInstructions.MUL(AsmInterpreterService.registers, args);
       break;
     case "DIV":
-      asmInstructions.DIV(AsmInterpreterService.registers, args);
+      try {
+        asmInstructions.DIV(AsmInterpreterService.registers, args);
+      } catch (e) {
+        AsmInterpreterService.errors.push(e);
+      }
       break;
     case "INC":
       asmInstructions.INC(AsmInterpreterService.registers, args);

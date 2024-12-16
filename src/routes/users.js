@@ -2,7 +2,7 @@ import { Router } from "express";
 import userMethods from "../data/users.js";
 import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
-import snipMethods from '../data/snippets.js';
+import snipMethods from "../data/snippets.js";
 import xss from "xss";
 const router = Router();
 
@@ -27,7 +27,7 @@ router.route("/signup").post(async (req, res) => {
   try {
     pass = validations.checkStr(pass);
     user = validations.checkStr(user).toLowerCase();
-    email = validations.checkStr(email);
+    email = validations.checkStr(email).toLowerCase();
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
     res.render("pages/signup", { errors: [e] });
@@ -46,6 +46,19 @@ router.route("/signup").post(async (req, res) => {
       res.render("pages/signup", { errors: [e] });
       return res.status(401);
     }
+  }
+  try {
+    //check to see if the email is in use:
+    const users = await userMethods.getAllUsers();
+    for (var userObj in users) {
+      if (email === users[userObj].email.toLowerCase()) {
+        res.render("pages/signup", { errors: ["Email already in use!"] });
+        return res.status(401);
+      }
+    }
+  } catch (e) {
+    res.render("pages/signup", { errors: [e] });
+    return res.status(401);
   }
 
   // get the current date.
@@ -82,7 +95,7 @@ router.route("/signup").post(async (req, res) => {
     resStr = resStr.replace(/[0-9]/g, "");
 
     if (resStr.length === 0) {
-      throw "password must incldue a special character!";
+      throw "Password must include a special character";
     }
   };
 
@@ -191,8 +204,7 @@ router.route("/login").post(async (req, res) => {
 });
 
 router.route("/logout").get(async (req, res) => {
-  req.session.destroy
-  ((err) => {
+  req.session.destroy((err) => {
     if (err) {
       return res.status(500).render("error", {
         error: "Could not log out. Please try again.",
@@ -200,7 +212,8 @@ router.route("/logout").get(async (req, res) => {
     }
     res.clearCookie("AuthenticationState");
 
-    return res.render("pages/home", {loggedOut: true});
+    // this'll fix the problem of the redirect users/users/login
+    return res.redirect("/homepage?loggedOut=true");
   });
 });
 
@@ -216,21 +229,32 @@ router.route("/:username").get(async (req, res) => {
 
   let snipArr = [];
   for (var snipId in user.snippetId) {
-    let snip = await snipMethods.getSnippetById(user.snippetId[snipId].toString());
+    let snip = await snipMethods.getSnippetById(
+      user.snippetId[snipId].toString()
+    );
     snipArr.push(snip);
   }
 
-  let owner = false;
+  let isOwner = false;
   if (req.session.username === username) {
-    owner = true;
+    isOwner = true;
+  }
+
+  let isLoggedIn;
+  if (!req.session.username) {
+    isLoggedIn = false;
+  } else {
+    isLoggedIn = true;
   }
 
   try {
     res.render("pages/dashboard", {
-      username: username,
+      isLoggedIn: isLoggedIn,
+      username: req.session.username,
       snippets: snipArr,
       dateRegistered: user.dateRegistered,
-      owner: owner,
+      isOwner: isOwner,
+      owner: req.params.username,
     });
     return res.status(200);
   } catch (e) {

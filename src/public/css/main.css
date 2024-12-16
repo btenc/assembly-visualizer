@@ -15,6 +15,7 @@
 
 .btn:hover {
   opacity: 0.9;
+  transform: scale(1.1);
 }
 
 .btn-secondary {
@@ -274,7 +275,7 @@ body {
 
 /* User Dashboard Styling */
 .profile {
-  max-width: 600px;
+  max-width: 70%;
   margin: 2rem auto;
   background: #222;
   padding: 2rem;
@@ -448,7 +449,7 @@ ul {
 
 ul li {
   padding: 10px;
-  border-bottom: 1px solid #444;
+  /* border-bottom: 1px solid #444; */
 }
 
 ul li a {

@@ -10,6 +10,28 @@ let stringCheck = (string, value) => {
     errors.push(`${value} cannot be an empty string or just spaces`);
 };
 
+let passwordCheck = (password) => {
+  if (password.length < 8) {
+    errors.push("Password must be at least 8 characters long");
+  }
+
+  if (password.toLowerCase() === password) {
+    errors.push("Password must include at least one uppercase letter");
+  }
+
+  let matches = password.match(/\d+/g);
+  if (matches == null) {
+    errors.push("Password must include at least one number");
+  }
+
+  let resStr = password.replace(/[A-Za-z]/g, "");
+  resStr = resStr.replace(/[0-9]/g, "");
+
+  if (resStr.length === 0) {
+    errors.push("Password must include a special character");
+  }
+};
+
 //Signup Form Validation
 let signUpForm = document.getElementById("signup-form");
 if (signUpForm) {
@@ -59,11 +81,9 @@ if (signUpForm) {
     if (!password.value) {
       errors.push("Password must be provided");
     } else {
-      stringCheck(password.value, "Password");
-
       //Valid Password
-      if (password.value.length < 6 || password.value.length > 24)
-        errors.push("Password should be 6-24 characters");
+      stringCheck(password.value, "Password");
+      passwordCheck(password.value);
     }
     let spaceFinder = password.value;
     spaceFinder = spaceFinder.replace(/[ ]/g, "");

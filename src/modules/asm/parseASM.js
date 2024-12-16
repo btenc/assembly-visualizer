@@ -118,6 +118,9 @@ function checkLineSyntax(currentStatementObj, registers, programLength, line) {
     } catch (e) {
       throw "On line " + line + ": " + e;
     }
+    if (instruction === "DIV" && args[1] === "0") {
+      throw "On line " + line + ": divisor value is zero!";
+    }
   } else if (instructionCategories.jumpArgs.includes(instruction)) {
     if (instruction === "JZ" || instruction === "JNZ") {
       if (args.length !== 2) {
