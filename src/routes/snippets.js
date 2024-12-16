@@ -3,7 +3,7 @@ const router = Router();
 import userMethods from "../data/users.js";
 import snippetMethods from "../data/snippets.js";
 import validation from "../modules/utils/validations.js";
-import { ObjectId } from "mongodb";
+import xss from "xss";
 
 router
   .route("/")
@@ -114,6 +114,12 @@ router
     try {
       const snipName = validation.checkStr(snippetData.snippetName);
       const snipId = validation.checkStr(req.params.snippetID);
+
+      snippetData.snippetName = xss(snippetData.snippetName)
+      
+      for (let i in snippetData.snippetBody){
+        snippetData.snippetBody[i] = xss(snippetData.snippetBody);
+      }
 
       // now lets create the date that we pass into addSnippet
       const now = new Date();

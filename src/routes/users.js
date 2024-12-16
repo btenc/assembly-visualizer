@@ -1,12 +1,9 @@
-import e, { Router } from "express";
+import { Router } from "express";
 import userMethods from "../data/users.js";
 import validations from "../modules/utils/validations.js";
 import bcrypt from "bcryptjs";
 import snipMethods from '../data/snippets.js';
-import { ObjectId } from "mongodb";
 import xss from "xss";
-import req from "express/lib/request.js";
-import { ConnectionClosedEvent } from "mongodb";
 const router = Router();
 
 // get the new acct page

@@ -82,7 +82,7 @@ let exportedMethods = {
     );
 
     if (!updateInfo) throw "Error: Update failed";
-    return updateInfo.value;
+    return updateInfo;
   },
 
   async getSnippetsByUser(userId) {
