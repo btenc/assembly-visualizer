@@ -20,21 +20,25 @@ const userSeedData = [
     email: "admin@example.com",
     username: "admin",
     password: hashedAdminPassword,
+    dateRegistered: "12/10/2024"
   },
   {
     email: "user1@example.com",
     username: "user1",
     password: hashedUserPassword,
+    dateRegistered: "12/11/2024"
   },
   {
     email: "user2@example.com",
     username: "user2",
     password: hashedUserPassword,
+    dateRegistered: "12/12/2024"
   },
   {
     email: "user3@example.com",
     username: "user3",
     password: hashedUserPassword,
+    dateRegistered: "12/13/2024"
   },
 ];
 
