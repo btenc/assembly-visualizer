@@ -57,7 +57,16 @@ let exportedMethods = {
     const deletionInfo = await snippetCollection.findOneAndDelete({
       _id: new ObjectId(id),
     });
-    if (!deletionInfo.value) throw "Error: Could not delete snippet";
+    if (!deletionInfo) throw "Error: Could not delete snippet";
+
+    // also need to delete the snippet from the user!
+    let user = await userFuncs.getUserById(deletionInfo.userId);
+
+    user.snippetId = user.snippetId.filter(existingId => existingId != id);
+    user.snippetId = user.snippetId.map((elem) => elem = elem.toString());
+
+    let updatedUser = await userFuncs.updateUserPut(user._id.toString(), user.email, user.username, user.password, user.snippetId, user.friendId);
+    
     return { ...deletionInfo.value, deleted: true };
   },
 

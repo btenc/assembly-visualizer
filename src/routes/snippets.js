@@ -151,16 +151,16 @@ router
   })
   .delete(async (req, res) => {
     if (!req.params.snippetID)
-      res
-        .status(400)
-        .render("pages/snippets", { error: "400, snippetID not found" });
+      return res.status(400).render("pages/snippets", { errors: ["400, snippetID not found"] });
+    
     try {
       let removed = await snippetMethods.removeSnippet(req.params.snippetID);
-      return res.status(200);
+
+      return res.status(200).json({message: "Snippet deleted successfully :^)"});
     } catch (e) {
-      res
-        .status(400)
-        .render("pages/snippets", { error: "400, snippetID not found" });
+      console.error("Error in deleting a snippet: ", e);
+
+      return res.status(400).json({errors: [e]})
     }
   });
 

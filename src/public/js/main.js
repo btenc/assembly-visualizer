@@ -374,14 +374,11 @@ if (snippetEditor) {
 
     let snippetBody = document.getElementById("snippetBody").value;
     const snippetBodyArr = snippetBody.split("\n");
-    console.log(snippetBodyArr);
     const snippetName = document.getElementById("snippetName").innerHTML;
 
     const reqBody = { snippetBody: snippetBodyArr, snippetName: snippetName };
-
-    console.log(reqBody);
-
-    const response = await fetch(`/snippets/${snippetId}`, {
+    
+    const response = await fetch('/snippets/' + snippetId, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -390,3 +387,32 @@ if (snippetEditor) {
     });
   });
 }
+
+let deleteButton = document.querySelectorAll('.delete-button');
+
+if (deleteButton) {
+  deleteButton.forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      try {
+        const response = await fetch(event.target.action, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok){
+          window.location.reload();
+        } else {
+          console.error("Failed to delete the snippet.");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+      })
+  });
+}
+
