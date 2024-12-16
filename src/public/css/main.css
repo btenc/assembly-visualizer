@@ -448,7 +448,7 @@ ul {
 
 ul li {
   padding: 10px;
-  border-bottom: 1px solid #444;
+  /* border-bottom: 1px solid #444; */
 }
 
 ul li a {
