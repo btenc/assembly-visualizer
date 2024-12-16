@@ -11,7 +11,7 @@ router
     if (req.session.username) {
       res.render("pages/create", { username: req.session.username });
     } else {
-      res.render("pages/snippets", {guest: true});
+      res.render("pages/snippets", { guest: true });
     }
 
     return res.status(200);
@@ -29,7 +29,7 @@ router
     try {
       newSnip = await snippetMethods.addSnippet(
         snipName.name,
-        ['MOV R0, 0'],
+        ["MOV R0, 0"],
         req.session.userId,
         dateCreated
       );
@@ -57,7 +57,7 @@ router
       const snipOwner = await userMethods.getUserById(snipOwnerId);
       const snipOwnerUsername = snipOwner.username;
 
-      let formatedBody = snip.snipBody.join('\n');
+      let formatedBody = snip.snipBody.join("\n");
 
       if (req.session.userId === snipOwnerId.toString()) {
         res.render("pages/snippets", {
