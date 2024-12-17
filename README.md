@@ -5,7 +5,7 @@
 ## HOW TO RUN APPLICATION DEMO
 
 - Install NPM dependencies with `npm install`
-- Seed tha database with `npm run seed`
+- Seed the database with `npm run seed`
 - Start the web server with `npm run start`
 - Direct browser to `http://localhost:3000/`
 
@@ -15,7 +15,7 @@
 
 - http://localhost:3000/homepage
 
-  - Use interpreter as a guest, view recent snippets from other users, or login / sign up from here!
+  - Use interpreter as a guest, view snippets from other users, or login / sign up from here!
 
 - http://localhost:3000/snippets/tutorial
 
@@ -29,7 +29,7 @@
 
 - http://localhost:3000/homepage
 
-  - View recent snippets from other users.
+  - View snippets from other users.
 
 - http://localhost:3000/snippets
 
