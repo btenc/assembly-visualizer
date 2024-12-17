@@ -397,8 +397,8 @@ if (snippetEditor) {
     const snippetName = document.getElementById("snippetName").innerHTML;
 
     const reqBody = { snippetBody: snippetBodyArr, snippetName: snippetName };
-    
-    const response = await fetch('/snippets/' + snippetId, {
+
+    const response = await fetch("/snippets/" + snippetId, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -408,7 +408,7 @@ if (snippetEditor) {
   });
 }
 
-let deleteButton = document.querySelectorAll('.delete-button');
+let deleteButton = document.querySelectorAll(".delete-button");
 
 if (deleteButton) {
   deleteButton.forEach((form) => {
@@ -423,7 +423,7 @@ if (deleteButton) {
           },
         });
 
-        if (response.ok){
+        if (response.ok) {
           window.location.reload();
         } else {
           console.error("Failed to delete the snippet.");
@@ -431,8 +431,53 @@ if (deleteButton) {
       } catch (e) {
         console.log(e);
       }
-
-      })
+    });
   });
 }
 
+// ajax stuff, delete doesnt reload page
+document.addEventListener("DOMContentLoaded", () => {
+  let deleteSnippet = document.querySelectorAll(".delete-button");
+
+  deleteSnippet.forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      // action="/snippets/<snippetId>"
+      const action = form.getAttribute("action");
+      if (!action) return;
+
+      const snippetId = action.split("/").pop();
+      if (!snippetId) return alert("Snippet ID not found.");
+
+      const confirmed = confirm(
+        "Are you sure you want to delete this snippet?"
+      );
+      if (!confirmed) {
+        return; // end delete here
+      }
+
+      try {
+        // send delete to /snippets/<snippetId>
+        const response = await $.ajax({
+          url: `/snippets/${snippetId}`,
+          type: "DELETE",
+        });
+
+        if (!response.ok) {
+          // try to parse JSON for error
+          let errorMsg = "Error deleting snippet.";
+          try {
+            const errorData = response;
+            errorMsg = errorData.message || errorData.errors?.[0] || errorMsg;
+          } catch (e) {
+            // if fails use normal error msg
+          }
+          throw errorMsg;
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  });
+});
