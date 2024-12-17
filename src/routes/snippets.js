@@ -13,9 +13,10 @@ router
         username: req.session.username,
         isLoggedIn: true,
         guest: false,
+        title: "Create a Snippet"
       });
     } else {
-      res.render("pages/snippets", { guest: true, isLoggedIn: false });
+      res.render("pages/snippets", { guest: true, isLoggedIn: false, title: "Snippet Editor"});
     }
 
     return res.status(200);
@@ -43,6 +44,7 @@ router
       res.render("pages/create", {
         errors: [e],
         isLoggedIn: !req.session.username ? false : true,
+        title: "Create a Snippet"
       });
       return res.status(400);
     }
@@ -55,6 +57,7 @@ router.route("/tutorial").get(async (req, res) => {
   res.render("pages/tutorial", {
     isLoggedIn: !req.session.username ? false : true,
     username: req.session.username,
+    title: "ASMVis Tutorial"
   });
 });
 
@@ -93,6 +96,7 @@ router
           dateCreated: snip.dateCreation,
           dateLastEdited: snip.dateLastEdit,
           snippetId: req.params.snippetID,
+          title: snip.snipName,
         });
       } else {
         // Not the owner or not logged in
@@ -106,6 +110,7 @@ router
           dateCreated: snip.dateCreation,
           dateLastEdited: snip.dateLastEdit,
           snippetId: req.params.snippetID,
+          title: snip.snipName,
         });
       }
       return res.status(200);
@@ -116,6 +121,7 @@ router
         isOwner: false,
         username: req.session.username,
         errors: [e],
+        title: "Error",
       });
       return res.status(400);
     }
@@ -178,7 +184,7 @@ router
     if (!req.params.snippetID)
       return res
         .status(400)
-        .render("pages/snippets", { errors: ["400, snippetID not found"] });
+        .render("pages/snippets", { errors: ["400, snippetID not found"], title: "Error"});
 
     if (!req.session.userId) {
       return res
@@ -193,7 +199,7 @@ router
     } catch (e) {
       return res
         .status(400)
-        .render("pages/snippets", { errors: ["400, snippetID not found"] });
+        .render("pages/snippets", { errors: ["400, snippetID not found"], title: "Error" });
     }
 
     // if (snip.userId !== req.session.userId) {

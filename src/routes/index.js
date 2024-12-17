@@ -27,6 +27,7 @@ const constructorMethod = (app) => {
         snippets: snippets,
         isLoggedIn: isLoggedIn,
         username: req.session.username,
+        title: "Homepage",
       });
     } catch (e) {
       return res.status(500).json(e);

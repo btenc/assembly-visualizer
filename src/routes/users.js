@@ -9,7 +9,7 @@ const router = Router();
 // get the new acct page
 router.route("/signup").get((req, res) => {
   try {
-    res.render("pages/signup");
+    res.render("pages/signup", {title: "Sign Up"});
   } catch (e) {
     return res.status(500).json(e);
   }
@@ -30,7 +30,7 @@ router.route("/signup").post(async (req, res) => {
     email = validations.checkStr(email).toLowerCase();
     confirmPass = validations.checkStr(confirmPass);
   } catch (e) {
-    res.render("pages/signup", { errors: [e] });
+    res.render("pages/signup", { errors: [e], title: "Sign Up" });
     return res.status(401);
   }
 
@@ -38,12 +38,12 @@ router.route("/signup").post(async (req, res) => {
   try {
     const usernameInUse = await userMethods.getUserByUsername(user);
     if (usernameInUse) {
-      res.render("pages/signup", { errors: ["Username already in use!"] });
+      res.render("pages/signup", { errors: ["Username already in use!"], title: "Sign Up"  });
       return res.status(401);
     }
   } catch (e) {
     if (e !== "Error: User not found") {
-      res.render("pages/signup", { errors: [e] });
+      res.render("pages/signup", { errors: [e], title: "Sign Up"  });
       return res.status(401);
     }
   }
@@ -52,12 +52,12 @@ router.route("/signup").post(async (req, res) => {
     const users = await userMethods.getAllUsers();
     for (var userObj in users) {
       if (email === users[userObj].email.toLowerCase()) {
-        res.render("pages/signup", { errors: ["Email already in use!"] });
+        res.render("pages/signup", { errors: ["Email already in use!"], title: "Sign Up"  });
         return res.status(401);
       }
     }
   } catch (e) {
-    res.render("pages/signup", { errors: [e] });
+    res.render("pages/signup", { errors: [e], title: "Sign Up"  });
     return res.status(401);
   }
 
@@ -102,13 +102,13 @@ router.route("/signup").post(async (req, res) => {
   try {
     checkPassword(pass);
   } catch (e) {
-    res.render("pages/signup", { errors: [e] });
+    res.render("pages/signup", { errors: [e], title: "Sign Up"  });
     return res.status(400);
   }
 
   // check that the passwords match
   if (pass !== confirmPass) {
-    res.render("pages/signup", { errors: ["Passwords must match!"] });
+    res.render("pages/signup", { errors: ["Passwords must match!"], title: "Sign Up"  });
     return res.status(401);
   }
 
@@ -116,7 +116,7 @@ router.route("/signup").post(async (req, res) => {
   try {
     email = validations.checkEmail(email);
   } catch (e) {
-    res.render("pages/signup", { errors: [e] });
+    res.render("pages/signup", { errors: [e], title: "Sign Up"  });
     return res.status(400);
   }
 
@@ -127,7 +127,7 @@ router.route("/signup").post(async (req, res) => {
     hashedPass = await bcrypt.hash(pass, saltRounds);
   } catch (e) {
     res.render("pages/signup", {
-      errors: ["Error generating hash. Please try again."],
+      errors: ["Error generating hash. Please try again."], title: "Sign Up" 
     });
     return res.status(200);
   }
@@ -135,19 +135,19 @@ router.route("/signup").post(async (req, res) => {
   try {
     await userMethods.addUser(email, user, hashedPass, date, [], []);
   } catch (e) {
-    res.render("pages/signup", { errors: [e] });
+    res.render("pages/signup", { errors: [e], title: "Sign Up"  });
     return res.status(200);
   }
 
   // Don't really know the best way to do this, but its just gonna render this page ig.
   // TODO: Fix this garbage.
-  return res.render("pages/login", { signedUp: true });
+  return res.render("pages/login", { signedUp: true, title: "Log In"  });
 });
 
 // get the new acct page
 router.route("/login").get((req, res) => {
   try {
-    res.render("pages/login");
+    res.render("pages/login", {title: "Log In"});
   } catch (e) {
     return res.status(500).json(e);
   }
@@ -165,7 +165,7 @@ router.route("/login").post(async (req, res) => {
     user = validations.checkStr(user);
   } catch (e) {
     res.render("pages/login", {
-      errors: ["Must provide input for username/password"],
+      errors: ["Must provide input for username/password"], title: "Log In",
     });
     return res.status(401);
   }
@@ -175,7 +175,7 @@ router.route("/login").post(async (req, res) => {
   try {
     searchUser = await userMethods.getUserByUsername(user);
   } catch (e) {
-    res.render("pages/login", { errors: ["Username/Password do not match."] });
+    res.render("pages/login", { errors: ["Username/Password do not match."], title: "Log In" });
     return res.status(401);
   }
 
@@ -186,13 +186,13 @@ router.route("/login").post(async (req, res) => {
     passMatch = await bcrypt.compare(pass, searchUser.password);
   } catch (e) {
     res.render("pages/login", {
-      errors: ["Error comparing passwords, please try again"],
+      errors: ["Error comparing passwords, please try again"], title: "Log In",
     });
     return res.status(500);
   }
 
   if (!passMatch) {
-    res.render("pages/login", { errors: ["Username/Password do not match."] });
+    res.render("pages/login", { errors: ["Username/Password do not match."], title: "Log In" });
     return res.status(401);
   }
 
@@ -207,7 +207,7 @@ router.route("/logout").get(async (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).render("error", {
-        error: "Could not log out. Please try again.",
+        error: "Could not log out. Please try again.", title: "Log Out Error"
       });
     }
     res.clearCookie("AuthenticationState");
@@ -255,10 +255,11 @@ router.route("/:username").get(async (req, res) => {
       dateRegistered: user.dateRegistered,
       isOwner: isOwner,
       owner: req.params.username,
+      title: `${req.params.username}'s Profile` 
     });
     return res.status(200);
   } catch (e) {
-    res.render("error", { error: e });
+    res.render("error", { error: e, title: `Error`  });
     return res.status(404);
   }
 });
