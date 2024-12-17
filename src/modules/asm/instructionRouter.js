@@ -54,6 +54,7 @@ function instructionRouter(
       break;
     case "NOT":
       asmInstructions.NOT(AsmInterpreterService.registers, args);
+      break;
     case "JZ":
       asmInstructions.JZ(
         AsmInterpreterService.registers,
