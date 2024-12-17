@@ -23,7 +23,7 @@ const userSeedData = [
     username: "admin",
     password: hashedAdminPassword,
     dateRegistered: "12/10/2024",
-    snippetId: [new ObjectId("6760b290ab709b2409b3ed25")],
+    snippetId: [new ObjectId("6760b290ab709b2409b3ed29"), new ObjectId("6760b290ab709b2409b3ed32")],
   },
   {
     _id: new ObjectId("6760a2b457d9dca44d336349"),
@@ -31,7 +31,7 @@ const userSeedData = [
     username: "user1",
     password: hashedUserPassword,
     dateRegistered: "12/11/2024",
-    snippetId: [],
+    snippetId: [new ObjectId("6760b290ab709b2409b3ed33")],
   },
   {
     _id: new ObjectId("6760a2b457d9dca44d33634a"),
@@ -39,7 +39,7 @@ const userSeedData = [
     username: "user2",
     password: hashedUserPassword,
     dateRegistered: "12/12/2024",
-    snippetId: [],
+    snippetId: [new ObjectId("6760b290ab709b2409b3ed27"), new ObjectId("6760b290ab709b2409b3ed31"), new ObjectId("6760b290ab709b2409b3ed34")],
   },
   {
     _id: new ObjectId("6760a2b457d9dca44d33634b"),
@@ -47,27 +47,11 @@ const userSeedData = [
     username: "user3",
     password: hashedUserPassword,
     dateRegistered: "12/13/2024",
-    snippetId: [],
+    snippetId: [new ObjectId("6760b290ab709b2409b3ed28"), new ObjectId("6760b290ab709b2409b3ed35")],
   },
 ];
 
 const snippetSeedData = [
-  {
-    _id: new ObjectId("6760b290ab709b2409b3ed25"),
-    snipName: "Pythagorean Theorem ASM",
-    snipBody: [
-      "MOV R1, 3",
-      "MUL R1, R1",
-      "MOV R2, 4",
-      "MUL R2, R2",
-      "ADD R1, R2",
-      "MOV R0, R1",
-      "HLT",
-    ],
-    userId: new ObjectId("6760a2b457d9dca44d336348"),
-    dateCreation: "12/10/2024",
-    dateLastEdit: "12/13/2024",
-  },
   {
     _id: new ObjectId("6760b290ab709b2409b3ed27"),
     snipName: "Simple Division with Remainder",
@@ -153,8 +137,8 @@ const snippetSeedData = [
       "HLT",
     ],
     userId: new ObjectId("6760a2b457d9dca44d336348"),
-    dateCreation: "12/16/2024",
-    dateLastEdit: "12/16/2024",
+    dateCreation: "12/13/2024",
+    dateLastEdit: "12/14/2024",
   },
   {
     _id: new ObjectId("6760b290ab709b2409b3ed33"),
@@ -174,7 +158,7 @@ const snippetSeedData = [
       "HLT",
     ],
     userId: new ObjectId("6760a2b457d9dca44d336349"),
-    dateCreation: "12/16/2024",
+    dateCreation: "12/15/2024",
     dateLastEdit: "12/16/2024",
   },
   {
