@@ -2,6 +2,10 @@
 
 ## https://github.com/btenc/assembly-visualizer
 
+## VIDEO WALKTHROUGH
+
+[![ASM Vis CS546 Presentation](https://markdown-videos-api.jorgenkh.no/url?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DmwNniT5dkKI)](https://www.youtube.com/watch?v=mwNniT5dkKI)
+
 ## HOW TO RUN APPLICATION DEMO
 
 - Install NPM dependencies with `npm install`
